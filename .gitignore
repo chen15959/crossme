@@ -1,0 +1,12 @@
+#gitignore
+
+~gitignore
+
+src/build/Debug/*
+src/build/Release/*
+
+*.ncb
+*.suo
+*.vcproj.*.user
+
+*.sln
