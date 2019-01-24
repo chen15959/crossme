@@ -143,3 +143,8 @@ void Board::install(int row, int col, char value)
 
 
 
+void Board::point_change_callback(int row, int col, char value)
+{
+	//todo
+	
+}

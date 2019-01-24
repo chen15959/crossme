@@ -19,7 +19,7 @@ public:
 	//拷贝构造
 	Board(const Board &);
 	//析构
-	~Board();
+	virtual ~Board();
 	
 	//赋值运算符
 	Board & operator=(const Board &);
@@ -60,6 +60,9 @@ public:
 		return this->col_size;
 	}
 #endif
+	
+public:
+	void point_change_callback(int row, int col, char value);
 	
 private:
 	//列数

@@ -1,6 +1,6 @@
 #include "Point.hpp"
 
-//#include "Board.hpp"
+#include "Board.hpp"
 
 
 
@@ -56,8 +56,12 @@ Point & Point::operator=(const Point & rhs)
 int Point::setValue(char value)
 {
 	this->_value = value;
-	
-	//todo
-	return 0;
+    
+    if (this->_board)
+    {
+        this->_board->point_change_callback(this->_row, this->_col, this->_value);
+    }
+
+    return 0;
 }
 	

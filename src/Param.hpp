@@ -21,7 +21,7 @@ public:
 	//拷贝构造
 	Param(const Param & other);
 	//析构函数
-	~Param();
+	virtual ~Param();
 	
 	//赋值运算符
 	Param & operator=(const Param & rhs);

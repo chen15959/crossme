@@ -27,7 +27,7 @@ public:
 	//拷贝构造
 	Point(const Point & other);
 	//析构
-	~Point();
+	virtual ~Point();
 	
 	//赋值运算符重载
 	Point & operator=(const Point & rhs);
