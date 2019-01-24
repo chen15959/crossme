@@ -13,10 +13,6 @@
 //#include "Board.hpp"
 class Board;
 
-//一个Line上的参数
-typedef std::vector<Param > ParamsOfLine;
-//一组Line上的参数（所有行或所有列）
-typedef std::vector<ParamsOfLine > ParamsOfLines;
 
 
 

@@ -4,6 +4,8 @@
 #ifndef Param_hpp
 #define Param_hpp
 
+#include <vector>
+
 
 
 
@@ -48,11 +50,16 @@ public:
 	
 	
 private:
-    //类型，单色模式下长为A
+	//类型，单色模式下长为A
 	char _type;
-    //数量
+	//数量
 	int _size;
 };
 
+
+//一个Line上的参数
+typedef std::vector<Param > ParamsOfLine;
+//一组Line上的参数（所有行或所有列）
+typedef std::vector<ParamsOfLine > ParamsOfLines;
 
 #endif
