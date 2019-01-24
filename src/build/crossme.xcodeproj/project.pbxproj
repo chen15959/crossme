@@ -10,6 +10,7 @@
 		59199B7421F8B5FC00F0443B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59199B7321F8B5FC00F0443B /* main.cpp */; };
 		59451B6E21F8CE4D00351F75 /* io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B6D21F8CE4D00351F75 /* io.cpp */; };
 		59451B7121F8CF6D00351F75 /* Param.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7021F8CF6C00351F75 /* Param.cpp */; };
+		59451B7421F9BE6B00351F75 /* Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7221F9BE6A00351F75 /* Point.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		59451B6D21F8CE4D00351F75 /* io.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = io.cpp; path = ../io.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B6F21F8CF6C00351F75 /* Param.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Param.hpp; path = ../Param.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B7021F8CF6C00351F75 /* Param.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Param.cpp; path = ../Param.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		59451B7221F9BE6A00351F75 /* Point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Point.cpp; path = ../Point.cpp; sourceTree = "<group>"; };
+		59451B7321F9BE6A00351F75 /* Point.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Point.hpp; path = ../Point.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +50,8 @@
 		59199B5E21F87E6F00F0443B = {
 			isa = PBXGroup;
 			children = (
+				59451B7221F9BE6A00351F75 /* Point.cpp */,
+				59451B7321F9BE6A00351F75 /* Point.hpp */,
 				59451B7021F8CF6C00351F75 /* Param.cpp */,
 				59451B6F21F8CF6C00351F75 /* Param.hpp */,
 				59451B6D21F8CE4D00351F75 /* io.cpp */,
@@ -120,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59451B7421F9BE6B00351F75 /* Point.cpp in Sources */,
 				59451B6E21F8CE4D00351F75 /* io.cpp in Sources */,
 				59199B7421F8B5FC00F0443B /* main.cpp in Sources */,
 				59451B7121F8CF6D00351F75 /* Param.cpp in Sources */,
