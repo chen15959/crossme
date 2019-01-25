@@ -171,11 +171,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\inc.cpp"
+				RelativePath="..\Board.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\io.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Line.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Param.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Point.cpp"
 				>
 			</File>
 		</Filter>
@@ -185,7 +201,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\inc.hpp"
+				RelativePath="..\Board.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\io.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Line.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Param.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Point.hpp"
 				>
 			</File>
 		</Filter>
