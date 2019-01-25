@@ -41,8 +41,8 @@ public:
 
 public:
 	//走棋
-	//返回true代表走完了
-	//返回false代表没走完但走不下去了
+	//返回true代表能走的都已经走完了
+	//返回false代表发现逻辑冲突了
 	bool play();
 
 
@@ -53,10 +53,6 @@ private:
 public:
 	//获得特定位置的点的值
 	char getValue(int row, int col) const;
-#if 0
-	//忽略不做
-	int getPointRound(int row, int col) const;
-#endif
 	
 public:
 #if 0	
