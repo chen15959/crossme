@@ -64,11 +64,7 @@ void Line::copy(const Line & other)
 
 void Line::free()
 {
-#ifdef NEW_DELETE
 	delete [] this->_points;
-#else
-	::free(this->_points);
-#endif
 }
 
 

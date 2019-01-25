@@ -37,7 +37,19 @@ public:
 	
 	//强行设定某Point
 	void install(int row, int col, char value);
-		
+
+
+public:
+	//走棋
+	//返回true代表走完了
+	//返回false代表没走完但走不下去了
+	bool play();
+
+
+private:
+	//是否已经完成
+	bool isDone() const;
+
 public:
 	//获得特定位置的点的值
 	char getValue(int row, int col) const;

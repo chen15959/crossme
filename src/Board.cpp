@@ -101,6 +101,28 @@ void Board::free()
 
 
 
+//棋局是否已经走完
+bool Board::isDone() const
+{
+	for (int r = 0; r < this->_row_size; ++r)
+	{
+		for (int c = 0; c < this->_col_size; ++c)
+		{
+			if (this->_points[this->getIndex(r, c)]->getValue() == VAL_UNKNOWN)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+
+
+
+
+
 char Board::getValue(int row, int col) const
 {
 	assert(row >= 0 && row < this->_row_size);
