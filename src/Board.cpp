@@ -25,7 +25,7 @@ Board::Board(int col_size, int row_size)
 		{
 			Point * point = new Point(r, c, this);
 			
-			this->_points[this->getIndex(r, c)] = new Point(r, c, this);
+			this->_points[this->getIndex(r, c)] = point;
 		}
 	}
 	
@@ -131,16 +131,6 @@ char Board::getValue(int row, int col) const
 	return this->_points[this->getIndex(row, col)]->getValue();
 }
 
-#if 0
-int Board::getPointRound(int row, int col) const
-{
-	assert(row >= 0 && row < this->_row_size);
-	assert(col >= 0 && col < this->_col_size);
-	
-	return this->points[getIndex(row, col)]->getRound();
-}
-
-#endif
 
 
 

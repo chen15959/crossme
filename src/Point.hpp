@@ -61,18 +61,6 @@ public:
 	int setValue(char value);
 	
 	
-	//获得解谜索引
-	inline
-	int getRound() const {
-		return this->_round;
-	}
-	
-	//设置解谜索引
-	inline
-	void setRound(int v) {
-		this->_round = v;
-	}
-	
 	//该点是否已经确定
 	inline
 	bool isDone() const {
@@ -88,8 +76,6 @@ private:
 	int			_col;
 	//值
 	char		_value;
-	//解谜索引
-	int			_round;
 	//所属的board
 	Board *		_board;
 	
