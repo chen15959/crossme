@@ -17,8 +17,8 @@ Board::Board(int col_size, int row_size)
 	this->_row_size = row_size;
 	
 	//初始化Point空间
-	this->_points = (Point **)malloc(this->_col_size * this->_row_size * sizeof(Point *));
-	
+	this->_points = new Point*[this->_col_size * this->_row_size];
+
 	for (int r = 0; r < this->_row_size; ++r)
 	{
 		for (int c = 0; c < this->_col_size; ++c)
@@ -44,7 +44,9 @@ Board::Board(const Board & other)
 
 Board::~Board()
 {
+	this->free();
 }
+
 
 
 Board & Board::operator=(const Board & rhs)
@@ -67,7 +69,7 @@ void Board::copy(const Board & other)
 	this->_row_size = other._row_size;
 	
 	//复制Point空间
-	this->_points = (Point **)malloc(this->_col_size * this->_row_size * sizeof(Point *));
+	this->_points = new Point*[this->_col_size * this->_row_size];
 	
 	for (int r = 0; r < this->_row_size; ++r)
 	{
@@ -94,7 +96,7 @@ void Board::free()
 	}
 	
 	//销毁Point空间
-	::free(this->_points);
+	delete [] this->_points;
 }
 
 
@@ -135,6 +137,8 @@ void Board::install(const ParamsOfLines & col_params, const ParamsOfLines & row_
 {
 	//todo
 }
+
+
 
 //强行设定某Point
 void Board::install(int row, int col, char value)

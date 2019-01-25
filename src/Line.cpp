@@ -1,9 +1,9 @@
 #include "Line.hpp"
 
 #include <assert.h>
-#include <stdlib.h>
-#include <memory.h>
-#include <string.h>
+//#include <stdlib.h>
+//#include <memory.h>
+//#include <string.h>
 
 
 
@@ -14,19 +14,14 @@ Line::Line(int len)
 	
 	this->_length = len;
 
-	int mem_size = this->_length * sizeof(Point *);
-	this->_points = (Point **)malloc(mem_size);
-	memset(this->_points, 0, mem_size);
+	this->_points = new Point*[this->_length];
 }
 
 
 
 Line::Line(const Line & other)
 {
-	this->_length = other._length;
-	int mem_size = _length * sizeof(Point *);
-	this->_points = (Point **)malloc(mem_size);
-	memset(this->_points, 0, mem_size);
+	copy(other);
 }
 
 
@@ -35,7 +30,7 @@ Line::~Line()
 {
 	//所有的点从Board删除
 	//这里只要删除自己的Point存放区域就可以
-	free(this->_points);
+	free();
 }
 
 
@@ -44,23 +39,36 @@ Line & Line::operator=(const Line & rhs)
 {
 	if (&rhs != this)
 	{
-		if (this->_length < rhs._length)
-		{
-			free(this->_points);
-			
-			int mem_size = rhs._length * sizeof(Point *);
-			this->_points = (Point **)malloc(mem_size);
-			memset(this->_points, 0, mem_size);
-		}
-		else
-		{
-			memset(this->_points, 0, this->_length * sizeof(Point *));
-		}
-		
-		this->_length = rhs._length;
+		this->free();
+		this->copy(rhs);
 	}
 	
 	return *this;
+}
+
+
+
+void Line::copy(const Line & other)
+{
+	this->_length = other._length;
+
+	this->_points = new Point*[this->_length];
+
+	for (int i = 0; i < this->_length; ++i)
+	{
+		this->_points[i] = other._points[i];
+	}
+}
+
+
+
+void Line::free()
+{
+#ifdef NEW_DELETE
+	delete [] this->_points;
+#else
+	::free(this->_points);
+#endif
 }
 
 
@@ -102,14 +110,14 @@ bool Line::install(const std::vector<Param> & params)
 		}
 	}
 	
-	char * buffer = (char *)malloc(this->_length * sizeof(char));
+	char * buffer = new char[this->_length];
 
 #ifdef TODO
 	this->makePossibleTree(buffer, 0, params, 0);
 #endif
 
-	free(buffer);
-	
+	delete [] buffer;
+
 	return true;
 }
 

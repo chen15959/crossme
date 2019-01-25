@@ -35,6 +35,10 @@ public:
 	//赋值运算符
 	Line & operator=(const Line &);
 	
+private:
+	void copy(const Line &);
+	void free();
+
 
 public:
 	//获得一个行中的点
