@@ -23,9 +23,13 @@ Board::Board(int col_size, int row_size)
 	{
 		for (int c = 0; c < this->_col_size; ++c)
 		{
+			Point * point = new Point(r, c, this);
+			
 			this->_points[this->getIndex(r, c)] = new Point(r, c, this);
 		}
 	}
+	
+	
 }
 
 

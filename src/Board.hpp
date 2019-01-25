@@ -6,7 +6,7 @@
 
 #include "Param.hpp"
 #include "Point.hpp"
-//#include "Line.hpp"
+#include "Line.hpp"
 
 
 
@@ -66,13 +66,17 @@ public:
 	
 private:
 	//列数
-	int			_col_size;
+	int						_col_size;
 	//行数
-	int			_row_size;
+	int						_row_size;
 	
 	//所有Point
-	Point **	_points;
+	Point **				_points;
 
+	//所有行
+	std::vector<Line *>		_rows;
+	//所有列
+	std::vector<Line *>		_cols;
 		
 	//从行列号获得点的实际位置
 	inline
