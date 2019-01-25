@@ -15,7 +15,7 @@ class PossibleLine
 public:
 	//构造函数
 	//用数组初始化
-	PossibleLine(const char * data, int length);
+	PossibleLine(const char * data = NULL, int length = 0);
 	//拷贝构造
 	PossibleLine(const PossibleLine &);
 	//析构函数

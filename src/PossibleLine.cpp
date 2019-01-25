@@ -18,12 +18,19 @@
 
 PossibleLine::PossibleLine(const char * data, int length)
 {
-	assert(length > 0);
+	assert(length >= 0);
 
 	this->_length = length;
-
-	this->_data = new char[this->_length];
-	memcpy(this->_data, data, this->_length);
+	
+	if (this->_length > 0)
+	{
+		this->_data = new char[this->_length];
+		memcpy(this->_data, data, this->_length);
+	}
+	else
+	{
+		this->_data = NULL;
+	}
 }
 
 
@@ -54,18 +61,29 @@ PossibleLine & PossibleLine::operator=(const PossibleLine & rhs)
 }
 
 
+
 void PossibleLine::copy(const PossibleLine & other)
 {
 	this->_length = other._length;
 	
-	this->_data = new char[this->_length];
-	memcpy(this->_data, other._data, this->_length);
+	if (this->_length > 0)
+	{
+		this->_data = new char[this->_length];
+		memcpy(this->_data, other._data, this->_length);
+	}
+	else
+	{
+		this->_data = NULL;
+	}
 }
 
 
 void PossibleLine::free()
 {
-	delete [] this->_data;
+	if (this->_length > 0)
+	{
+		delete [] this->_data;
+	}
 }
 
 
