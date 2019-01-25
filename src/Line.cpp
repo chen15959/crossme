@@ -1,9 +1,6 @@
 #include "Line.hpp"
 
 #include <assert.h>
-//#include <stdlib.h>
-//#include <memory.h>
-//#include <string.h>
 
 
 
@@ -13,7 +10,6 @@ Line::Line(int len)
 	assert(len > 0);
 	
 	this->_length = len;
-
 	this->_points = new Point*[this->_length];
 }
 
@@ -28,8 +24,6 @@ Line::Line(const Line & other)
 
 Line::~Line()
 {
-	//所有的点从Board删除
-	//这里只要删除自己的Point存放区域就可以
 	free();
 }
 
@@ -64,6 +58,8 @@ void Line::copy(const Line & other)
 
 void Line::free()
 {
+	//所有的点从Board删除
+	//这里只要删除自己的Point存放区域就可以
 	delete [] this->_points;
 }
 

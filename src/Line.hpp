@@ -7,22 +7,17 @@
 
 #include "Point.hpp"
 #include "Param.hpp"
-
-//#include "PossibleLine.hpp"
+#include "PossibleLine.hpp"
 
 #include <vector>
 #include <map>
 #include <string>
 
 
-class Board;
-
-
 
 
 class Line
 {
-	friend class Board;
 public:
 	//构造函数
 	//行的长度
@@ -43,6 +38,9 @@ private:
 public:
 	//获得一个行中的点
 	const Point * getPoint(int pos) const;
+	//将点赋给行
+	//由Board调用
+	void setPoint(Point * point, int pos);
 
 	//获得行的长度
 	inline
@@ -55,20 +53,23 @@ public:
 	//通过参数建立全部可能性
 	bool install(const std::vector<Param> & params);
 
-#if 0
 	//是否已经完成全部分析
 	inline
 	bool isDone() const
 	{
-		return this->_possiblities.size() < 2;
+		return this->_possiblities.size() == 1;
 	}
-#endif
+
+	//是否产生逻辑错
+	inline
+	bool isError() const
+	{
+		return this->_possiblities.size() < 1;
+	}
+	
 	
 private:
-	//将点赋给行
-	//由Board调用
-	void setPoint(Point * point, int pos);
-	
+
 #ifdef TODO
 	//递归计算可能性树
 	void makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Param> & params, int params_ptr);
@@ -79,11 +80,8 @@ private:
 	//行的长度	
 	int										_length;
 
-#ifdef TODO
 	//可能性列表
 	std::map<std::string, PossibleLine>		_possiblities;
-	
-#endif
 };
 
 #endif
