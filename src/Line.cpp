@@ -97,16 +97,18 @@ bool Line::install(const std::vector<Param> & params)
 			{
 				this->_points[i]->setEmpty();
 			}
+			//放一个占位置的
+			this->_possiblities[std::string("")] = PossibleLine(NULL, 0);
 
 			return true;
 		}
 	}
 	
+	//缓冲区
 	char * buffer = new char[this->_length];
 
-#ifdef TODO
+	//递归计算所有可行性
 	this->makePossibleTree(buffer, 0, params, 0);
-#endif
 
 	delete [] buffer;
 
@@ -114,18 +116,17 @@ bool Line::install(const std::vector<Param> & params)
 }
 
 
-#ifdef TODO
-
-//buffer
-//buffer_ptr
-//parmas
-//params_ptr
-void Line::makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Param> & params, int params_ptr)
+//recursivePutElementAtAllPossiblePositions(char * buffer, int buffer_offset, )
+//递归在所有的可能位置放置element
+//buffer		缓冲区
+//buffer_ptr	从缓冲区的什么位置可以开始放element，也就是上一个element最后一个位置+1 开始时当然是从0位
+//parmas		所有需放置的element的信息
+//params_ptr	当前应当放置第几个element 开始时当然是从0位
+void Line::makePossibleTree(char * buffer, int buffer_offset, const std::vector<Param> & params, int params_ptr)
 {
 	//剩余未放置的元素的最小总长度
 	int length_of_left_elements = 0;
 
-//	int left_len = 0;
 	//在第一个可放置项前面是否需要一个前导分隔
 	bool leading_space = false;
 	
@@ -150,6 +151,7 @@ void Line::makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Par
 	{
 		leading_space = true;
 	}
+	
 	
 
 	//开始试放第一个未放置项
@@ -194,7 +196,7 @@ void Line::makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Par
 
 
 	//可放置的缓冲区大小
-	int buffer_len = this->_length - buffer_ptr;
+	int buffer_len = this->_length - buffer_offset;
 	//在这个缓冲区里可以做多少次放置
 	int try_times = buffer_len - length_of_left_elements + 1;
 	
@@ -202,8 +204,7 @@ void Line::makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Par
 	//所谓的开始点是从buffer_ptr开始算的
 	for (int start_point = (leading_space ? 1 : 0); start_point < try_times; ++start_point)
 	{
-
-		int ptr = buffer_ptr;
+		int ptr = buffer_offset;
 		
 		for (int i = 0; i < start_point; ++i)
 		{
@@ -238,5 +239,4 @@ void Line::makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Par
 
 //	void makePossibileTree(char * buffer, int buffer_ptr, const std::vector<Param> & params, int params_ptr);
 
-#endif
 

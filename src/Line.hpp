@@ -70,10 +70,9 @@ public:
 	
 private:
 
-#ifdef TODO
 	//递归计算可能性树
 	void makePossibleTree(char * buffer, int buffer_ptr, const std::vector<Param> & params, int params_ptr);
-#endif
+
 private:
 	//所有点
 	Point **								_points;
