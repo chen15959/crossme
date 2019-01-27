@@ -1,12 +1,4 @@
-//
-//	PossibleLine.cpp
-//	emssroc
-//
-//	Created by chen.zhang on 2019/1/20.
-//	Copyright © 2019 chen.zhang. All rights reserved.
-//
-
-#include "PossibleLine.hpp"
+#include "Candidate.hpp"
 
 #include "Line.hpp"
 
@@ -16,7 +8,7 @@
 
 
 
-PossibleLine::PossibleLine(const char * data, int length)
+Candidate::Candidate(const char * data, int length)
 {
 	assert(length >= 0);
 
@@ -35,21 +27,21 @@ PossibleLine::PossibleLine(const char * data, int length)
 
 
 
-PossibleLine::PossibleLine(const PossibleLine & other)
+Candidate::Candidate(const Candidate & other)
 {
 	this->copy(other);
 }
 
 
 
-PossibleLine::~PossibleLine()
+Candidate::~Candidate()
 {
 	free();
 }
 
 
 
-PossibleLine & PossibleLine::operator=(const PossibleLine & rhs)
+Candidate & Candidate::operator=(const Candidate & rhs)
 {
 	if (&rhs != this)
 	{
@@ -62,7 +54,7 @@ PossibleLine & PossibleLine::operator=(const PossibleLine & rhs)
 
 
 
-void PossibleLine::copy(const PossibleLine & other)
+void Candidate::copy(const Candidate & other)
 {
 	this->_length = other._length;
 	
@@ -78,7 +70,7 @@ void PossibleLine::copy(const PossibleLine & other)
 }
 
 
-void PossibleLine::free()
+void Candidate::free()
 {
 	if (this->_length > 0)
 	{
@@ -88,7 +80,7 @@ void PossibleLine::free()
 
 
 
-char PossibleLine::getValue(int i) const
+char Candidate::getValue(int i) const
 {
 	assert(i >= 0 && i < this->_length);
 	
@@ -97,7 +89,7 @@ char PossibleLine::getValue(int i) const
 
 
 
-PossibleLine & PossibleLine::operator+=(const PossibleLine & rhs)
+Candidate & Candidate::operator+=(const Candidate & rhs)
 {
 	assert(this->_length == rhs._length);
 
@@ -114,16 +106,16 @@ PossibleLine & PossibleLine::operator+=(const PossibleLine & rhs)
 	
 
 
-PossibleLine PossibleLine::operator+(const PossibleLine & rhs) const
+Candidate Candidate::operator+(const Candidate & rhs) const
 {
-	PossibleLine ret(*this);
+	Candidate ret(*this);
 	ret += rhs;
 	return ret;
 }
 
 
 
-bool PossibleLine::operator==(const Line & rhs) const
+bool Candidate::operator==(const Line & rhs) const
 {
 	assert(this->_length == rhs.getLength());
 
@@ -144,14 +136,14 @@ bool PossibleLine::operator==(const Line & rhs) const
 
 
 
-bool PossibleLine::operator!=(const Line & rhs) const
+bool Candidate::operator!=(const Line & rhs) const
 {
 	return !(*this == rhs);
 }
 
 
 
-bool PossibleLine::operator==(const PossibleLine & rhs) const
+bool Candidate::operator==(const Candidate & rhs) const
 {
 	assert(this->_length == rhs._length);
 
@@ -168,7 +160,7 @@ bool PossibleLine::operator==(const PossibleLine & rhs) const
 
 
 
-bool PossibleLine::operator!=(const PossibleLine & rhs) const
+bool Candidate::operator!=(const Candidate & rhs) const
 {
 	return !(*this == rhs);
 }

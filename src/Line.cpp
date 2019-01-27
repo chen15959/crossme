@@ -98,7 +98,7 @@ bool Line::install(const std::vector<Param> & params)
 				this->_points[i]->setEmpty();
 			}
 			//放一个占位置的
-			this->_possiblities[std::string("")] = PossibleLine(NULL, 0);
+			//this->_possiblities[std::string("")] = PossibleLine(NULL, 0);
 
 			return true;
 		}

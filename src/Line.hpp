@@ -1,13 +1,12 @@
 /*
 棋盘上的一行
- 算法主要实现在这里
 */
 #ifndef Line_hpp
 #define Line_hpp
 
 #include "Point.hpp"
 #include "Param.hpp"
-#include "PossibleLine.hpp"
+#include "Candidate.hpp"
 
 #include <vector>
 #include <map>
@@ -57,14 +56,16 @@ public:
 	inline
 	bool isDone() const
 	{
-		return this->_possiblities.size() == 1;
+		return false;
+//		return this->_possiblities.size() == 1;
 	}
 
 	//是否产生逻辑错
 	inline
 	bool isError() const
 	{
-		return this->_possiblities.size() < 1;
+		return false;
+//		return this->_possiblities.size() < 1;
 	}
 	
 	
@@ -80,7 +81,7 @@ private:
 	int										_length;
 
 	//可能性列表
-	std::map<std::string, PossibleLine>		_possiblities;
+//	std::map<std::string, PossibleLine>		_possiblities;
 };
 
 #endif
