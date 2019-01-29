@@ -9,7 +9,9 @@
 class Line;
 
 
-
+// 承载行的可能性
+// 相当于一个string
+//
 class Candidate
 {
 public:
@@ -54,8 +56,9 @@ public:
 
 
 private:
-	//数据
+	//数据内容
 	char *		_data;
+	//数据长度
 	int			_length;	
 };
 
