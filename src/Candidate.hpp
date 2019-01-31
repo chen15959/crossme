@@ -34,12 +34,13 @@ public:
 	//获得某个位置上的值
 	char getValue(int index) const;
 	
-	//产生一个摘要
 	inline
-	std::string getKey() const
+	size_t getLength() const
 	{
-		return std::string(this->_data);
+		return this->_length;
 	}
+	
+
 
 public:
 	//相当于两个做一次合并，相同的保留原值，不同的记为？
