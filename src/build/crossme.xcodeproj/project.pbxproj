@@ -14,6 +14,7 @@
 		59451B7721F9BFE000351F75 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7621F9BFE000351F75 /* Board.cpp */; };
 		59451B7A21F9CF4000351F75 /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7921F9CF3F00351F75 /* Line.cpp */; };
 		59EB142A21FE063D00D5E942 /* Candidate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59EB142921FE063C00D5E942 /* Candidate.cpp */; };
+		59EB142E21FE227400D5E942 /* CandidateList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59EB142D21FE227400D5E942 /* CandidateList.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,8 +42,10 @@
 		59451B7621F9BFE000351F75 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Board.cpp; path = ../Board.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B7821F9CF3F00351F75 /* Line.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Line.hpp; path = ../Line.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B7921F9CF3F00351F75 /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Line.cpp; path = ../Line.cpp; sourceTree = "<group>"; usesTabs = 1; };
-		59EB142921FE063C00D5E942 /* Candidate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Candidate.cpp; path = ../Candidate.cpp; sourceTree = "<group>"; };
-		59EB142B21FE064800D5E942 /* Candidate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Candidate.hpp; path = ../Candidate.hpp; sourceTree = "<group>"; };
+		59EB142921FE063C00D5E942 /* Candidate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Candidate.cpp; path = ../Candidate.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		59EB142B21FE064800D5E942 /* Candidate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Candidate.hpp; path = ../Candidate.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		59EB142C21FE227400D5E942 /* CandidateList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CandidateList.hpp; path = ../CandidateList.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		59EB142D21FE227400D5E942 /* CandidateList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CandidateList.cpp; path = ../CandidateList.cpp; sourceTree = "<group>"; usesTabs = 1; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +62,8 @@
 		59199B5E21F87E6F00F0443B = {
 			isa = PBXGroup;
 			children = (
+				59EB142D21FE227400D5E942 /* CandidateList.cpp */,
+				59EB142C21FE227400D5E942 /* CandidateList.hpp */,
 				59EB142B21FE064800D5E942 /* Candidate.hpp */,
 				59EB142921FE063C00D5E942 /* Candidate.cpp */,
 				59451B7921F9CF3F00351F75 /* Line.cpp */,
@@ -143,6 +148,7 @@
 				59451B7421F9BE6B00351F75 /* Point.cpp in Sources */,
 				59EB142A21FE063D00D5E942 /* Candidate.cpp in Sources */,
 				59451B6E21F8CE4D00351F75 /* io.cpp in Sources */,
+				59EB142E21FE227400D5E942 /* CandidateList.cpp in Sources */,
 				59199B7421F8B5FC00F0443B /* main.cpp in Sources */,
 				59451B7A21F9CF4000351F75 /* Line.cpp in Sources */,
 				59451B7721F9BFE000351F75 /* Board.cpp in Sources */,
