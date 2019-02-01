@@ -196,7 +196,7 @@ bool read_puzzle_file(const char * filename, ParamsOfLines & col_param, ParamsOf
 		}
 		else if (!in_comment)
 		{
-			if (ch == '/' || ch == '+')
+			if (ch == '/' || ch == '+' || ch == '-')
 			{
 				*p = '\0';
 				p = buffer;
@@ -217,6 +217,11 @@ bool read_puzzle_file(const char * filename, ParamsOfLines & col_param, ParamsOf
 				}
 				
 				col_mode = false;
+				
+				if (ch == '-')
+				{
+					in_comment = true;
+				}
 			}
 			else if (ch == ' ' || ch == '\t')
 			{
