@@ -5,3 +5,86 @@
 当Param为{0}时，可能性只有一种即"000000...0"。
 
 其余情况下，采用递归算法
+
+
+先讨论黑白情况
+
+
+首先设置缓冲区。缓冲区长度即为该Line的长度。
+
+然后开始逐一放置每个参数所定义的element。
+
+设length = 10, params = [2, 1, 3]
+
+开始时的缓冲区：	[..........]
+					[0123456789]
+
+现在开始放置第一个element：2
+
+显然，放置到0位是可行的
+					[++........]
+					[0123456789]
+而且，放置到1位也是可行的
+					[.++.......]
+					[0123456789]
+依次类推，最后一个可放置的位置，相当于所有元素加在一起不能超出范围
+					[..++.*.***]
+					[0123456789]
+计算方法为所有元素总长度=2+(1)+1+(1)+3=8 其中括号内为两元素间隔
+
+
+
+当放下第一个element的时候，其起始点有多种可能。最左的起始点是+0即缓冲区开始处，而最右的起始点为+length-1亦即缓冲区最后一位。
+
+但是，可以知道，大部分时间放到缓冲区最后一位是有问题的
+
+
+
+	//开始试放第一个未放置项
+	//逻辑如下：
+	//第一个可放置的位置，看leading space是否为True
+	//当leading space==true的时候，第一个可放置位置是buffer ptr+1
+	//当false的时候，第一个可放置位置是buffer ptr
+	//然后从第一个可放置位置开始，尝试往后放
+	//最后一个可放置位置，是总长度减去上面算出的未放置元素最小总长度
+
+	//如下图
+	//设length=10，params = 「2，1，3」
+	//放置params【0】的时候
+	//length_of_left_elements = (2) + 1 + (1) + 1 + (3) = 8
+	//leading_space = false of course
+	// [++ + +++	]
+	// [..........]
+	// at this time, the 1st pos is 0, and the last pos is 10 - 8 = 2
+	
+	// first
+	// [++ * ***	]
+	// [..........]
+	
+	// last
+	// [	++ * ***]
+	// [..........]
+	// you can see in the last case it can not be put any righter because have to left enough space for the following elems
+
+	// after put 1st elem in the first mode, then start to put the 2nd elem -> 1
+	// now the buffer_ptr = 2, which is the following pos of the last elem
+	//
+	// [++ * ***	]
+	// [++	 * ***]
+	// [..........]
+	//		 ^
+	//			 ^
+	// now the leading_space must be considered because they are all the same type, it is true
+	// it shows that the 1st pos is 3, 2 + leading_space;
+	// and the last pos is 5
+
+
+
+
+	//可放置的缓冲区大小
+	int buffer_len = this->_length - buffer_offset;
+	//在这个缓冲区里可以做多少次放置
+	int try_times = buffer_len - length_of_left_elements + 1;
+	
+	//在所有的可能性上试放第一个未放置项
+	//所谓的开始点是从buffer_ptr开始算的
