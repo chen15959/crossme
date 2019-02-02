@@ -4,11 +4,11 @@
 class Board;
 
 //啥都没有
-#define VAL_NONE	'\0'
+#define VAL_NONE		'-'
 //未解谜
-#define VAL_UNKNOWN	 '?'
+#define VAL_UNKNOWN		'?'
 //已解谜，是空
-#define VAL_EMPTY	 '.'
+#define VAL_EMPTY		'.'
 
 
 //棋盘上的一个点
