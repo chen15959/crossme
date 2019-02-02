@@ -42,15 +42,15 @@ CandidateFactory & CandidateFactory::operator=(const CandidateFactory &)
 
 CandidateList * CandidateFactory::createCandidateList(size_t length, const ParamsOfLine & params_of_line)
 {
-	//Éú³ÉÂÔËõ×Ö
+	//ç”Ÿæˆç•¥ç¼©å­—
 	string keyword = createKeyword(length, params_of_line);
 	if (_knownCandidateList.find(keyword) == _knownCandidateList.end())
 	{
-		//ÓÃÂÔËõ×Ö²é²»µ½
-		//×Ô¼º½¨Á¢Ò»ÏÂ
-		CandidateList * retVal = new CandidateList(length, params_of_line);
+		//ç”¨ç•¥ç¼©å­—æŸ¥ä¸åˆ°
+		//è‡ªå·±å»ºç«‹ä¸€ä¸‹
+		CandidateList * retVal = new CandidateList(length);
 
-		//È«0ĞĞµÄ´¦Àí
+		//å…¨0è¡Œçš„å¤„ç†
 		if (params_of_line.size() == 1 && params_of_line[0].getSize() == 0)
 		{
 			retVal->addCandidate(new Candidate(length, VAL_EMPTY));
@@ -59,7 +59,7 @@ CandidateList * CandidateFactory::createCandidateList(size_t length, const Param
 		{
 			char * buffer = new char[length];
 
-			//µİ¹éÉú³ÉËùÓĞ¿ÉÄÜ
+			//é€’å½’ç”Ÿæˆæ‰€æœ‰å¯èƒ½
 			placeItem(retVal, length, buffer, 0, params_of_line, 0);
 
 			delete [] buffer;
@@ -102,27 +102,27 @@ string CandidateFactory::createKeyword(size_t length, const ParamsOfLine & param
 
 
 
-//·ÅÒ»¸öitemµ½»º³åÇø
-//result		·Å½á¹ûµÄ
-//length		×Ü³¤¶È
-//buffer		»º³åÇø
-//buffer_offset	´Ó»º³åÇøµÄÊ²Ã´Î»ÖÃ¿ÉÒÔ¿ªÊ¼·Åitem£¬Ò²¾ÍÊÇÉÏÒ»¸öitem×îºóÒ»¸öÎ»ÖÃ+1 ¿ªÊ¼Ê±µ±È»ÊÇ´Ó0Î»
-//parmas		ËùÓĞĞè·ÅÖÃµÄitemµÄĞÅÏ¢
-//params_ptr	µ±Ç°Ó¦µ±·ÅÖÃµÚ¼¸¸öitem ¿ªÊ¼Ê±µ±È»ÊÇ´Ó0Î»
+//æ”¾ä¸€ä¸ªitemåˆ°ç¼“å†²åŒº
+//result		æ”¾ç»“æœçš„
+//length		æ€»é•¿åº¦
+//buffer		ç¼“å†²åŒº
+//buffer_offset	ä»ç¼“å†²åŒºçš„ä»€ä¹ˆä½ç½®å¯ä»¥å¼€å§‹æ”¾itemï¼Œä¹Ÿå°±æ˜¯ä¸Šä¸€ä¸ªitemæœ€åä¸€ä¸ªä½ç½®+1 å¼€å§‹æ—¶å½“ç„¶æ˜¯ä»0ä½
+//parmas		æ‰€æœ‰éœ€æ”¾ç½®çš„itemçš„ä¿¡æ¯
+//params_ptr	å½“å‰åº”å½“æ”¾ç½®ç¬¬å‡ ä¸ªitem å¼€å§‹æ—¶å½“ç„¶æ˜¯ä»0ä½
 void CandidateFactory::placeItem(CandidateList * result, size_t length, char * buffer, size_t buffer_offset, const ParamsOfLine & params, size_t params_ptr)
 {
-	//Ê£ÓàÎ´·ÅÖÃµÄÏîµÄ×îĞ¡×Ü³¤¶È
+	//å‰©ä½™æœªæ”¾ç½®çš„é¡¹çš„æœ€å°æ€»é•¿åº¦
 	int length_of_left_items = 0;
 
-	//ÔÚµÚÒ»¸öÎ´·ÅÖÃÏîÇ°ÃæÊÇ·ñĞèÒªÒ»¸öÇ°µ¼·Ö¸ô
+	//åœ¨ç¬¬ä¸€ä¸ªæœªæ”¾ç½®é¡¹å‰é¢æ˜¯å¦éœ€è¦ä¸€ä¸ªå‰å¯¼åˆ†éš”
 	int leading_space = 0;
 	
-	//µÚÒ»¸öÎ´·ÅÖÃÏîµÄ³¤¶È
+	//ç¬¬ä¸€ä¸ªæœªæ”¾ç½®é¡¹çš„é•¿åº¦
 	length_of_left_items = params[params_ptr].getSize();
-	//ÆäËûÎ´·ÅÖÃÏîµÄ³¤¶ÈÍùÉÏ¼Ó
+	//å…¶ä»–æœªæ”¾ç½®é¡¹çš„é•¿åº¦å¾€ä¸ŠåŠ 
 	for (size_t i = params_ptr + 1; i < params.size(); ++i)
 	{
-		//ÏàÍ¬ÀàĞÍµÄÏîÖ®¼ä±ØĞë¸ô¿ªÒ»¸öÎ»ÖÃ£¬²»Í¬ÀàĞÍµÄ¿ÉÒÔ°¤×Å·Å
+		//ç›¸åŒç±»å‹çš„é¡¹ä¹‹é—´å¿…é¡»éš”å¼€ä¸€ä¸ªä½ç½®ï¼Œä¸åŒç±»å‹çš„å¯ä»¥æŒ¨ç€æ”¾
 		if (params[i].getType() == params[i-1].getType())
 		{
 			length_of_left_items += (1 + params[i].getSize());
@@ -133,49 +133,49 @@ void CandidateFactory::placeItem(CandidateList * result, size_t length, char * b
 		}
 	}
 	
-	//µ±Ç°ÃæÒÑ¾­ÓĞ·ÅÖÃµÄÏîµÄÊ±ºò£¬±È½ÏµÚÒ»¸öÎ´·ÅÖÃÏîºÍ×îºóÒ»¸öÒÑ·ÅÖÃÏîµÄÀàĞÍ¡£Èç¹ûÀàĞÍÏàÍ¬ĞèÒªÔÚÇ°Ãæ¼ÓÒ»¸ö¼ä¸ô
+	//å½“å‰é¢å·²ç»æœ‰æ”¾ç½®çš„é¡¹çš„æ—¶å€™ï¼Œæ¯”è¾ƒç¬¬ä¸€ä¸ªæœªæ”¾ç½®é¡¹å’Œæœ€åä¸€ä¸ªå·²æ”¾ç½®é¡¹çš„ç±»å‹ã€‚å¦‚æœç±»å‹ç›¸åŒéœ€è¦åœ¨å‰é¢åŠ ä¸€ä¸ªé—´éš”
 	if (params_ptr > 0 && (params[params_ptr-1].getType() == params[params_ptr].getType()))
 	{
 		leading_space = 1;
 	}
 	
-	//¿É·ÅÖÃelementµÄµÚÒ»¸öÎ»ÖÃ
+	//å¯æ”¾ç½®elementçš„ç¬¬ä¸€ä¸ªä½ç½®
 	size_t first_pos = buffer_offset + leading_space;
-	//¿É·ÅÖÃelementµÄ×îºóÒ»¸öÎ»ÖÃ
+	//å¯æ”¾ç½®elementçš„æœ€åä¸€ä¸ªä½ç½®
 	size_t last_pos = length - length_of_left_items;
 
-	//Ñ­»·´¦ÀíÕâĞ©Î»ÖÃ
+	//å¾ªç¯å¤„ç†è¿™äº›ä½ç½®
 	for (size_t start_point = first_pos; start_point <= last_pos; ++start_point)
 	{
-		//¿ªÊ¼µã
+		//å¼€å§‹ç‚¹
 		size_t ptr = buffer_offset;
 		
-		//Ìî³äÉÏ¸öelementµ½Õâ¸öelementÖ®¼äµÄ¿Õ°×
+		//å¡«å……ä¸Šä¸ªelementåˆ°è¿™ä¸ªelementä¹‹é—´çš„ç©ºç™½
 		while (ptr < start_point)
 		{
 			buffer[ptr++] = VAL_EMPTY;
 		}
 
-		//·ÅÏÂÕâ¸öelement
+		//æ”¾ä¸‹è¿™ä¸ªelement
 		for (int i = 0; i < params[params_ptr].getSize(); ++i)
 		{
 			buffer[ptr++] = params[params_ptr].getType();
 		}
 
-		//Èç¹ûºóÃæ»¹ÓĞÆäËûelement£¬ÔòÈ¥·ÅËûÃÇ
+		//å¦‚æœåé¢è¿˜æœ‰å…¶ä»–elementï¼Œåˆ™å»æ”¾ä»–ä»¬
 		if (params_ptr < params.size() - 1)
 		{
 			placeItem(result, length, buffer, ptr, params, params_ptr + 1);
 		}
 		else
 		{
-			//½«ºóÃæ¶¼ÓÃVAL_EMPTYÌî³ä
+			//å°†åé¢éƒ½ç”¨VAL_EMPTYå¡«å……
 			while (ptr < length)
 			{
-				buffer[ptr] = VAL_EMPTY;
+				buffer[ptr++] = VAL_EMPTY;
 			}
 
-			//¼ÓÈëºòÑ¡¼¯ºÏ
+			//åŠ å…¥å€™é€‰é›†åˆ
 			result->addCandidate(new Candidate(length, buffer));
 		}
 	}
