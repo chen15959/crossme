@@ -1,6 +1,3 @@
-/*
-棋盘
-*/
 #ifndef Board_hpp
 #define Board_hpp
 
@@ -10,6 +7,8 @@
 
 
 
+//棋盘
+//
 class Board
 {
 public:
@@ -46,28 +45,21 @@ public:
 	bool play();
 
 
-private:
+public:
 	//是否已经完成
 	bool isDone() const;
+
+	//是否已经失败
+	bool isFail() const;
+	
+	//随机找一个不确定点，生成多种可能性
+	std::vector<Board *> createCandidates() const;
+
 
 public:
 	//获得特定位置的点的值
 	char getValue(int row, int col) const;
 	
-public:
-#if 0	
-	inline
-	int getRowSize() const
-	{
-		return this->row_size;
-	}
-	
-	inline
-	int getColSize() const
-	{
-		return this->col_size;
-	}
-#endif
 	
 public:
 	void point_change_callback(int row, int col, char value);
