@@ -1,6 +1,3 @@
-/*
-解谜输入的参数
-*/
 #ifndef Param_hpp
 #define Param_hpp
 
@@ -9,6 +6,8 @@
 
 
 
+//行/列上输入的参数
+//
 class Param
 {
 public:
