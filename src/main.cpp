@@ -3,10 +3,13 @@
 #include <stdio.h>
 
 #include "Board.hpp"
+#include "CandidateFactory.hpp"
+
 
 
 int main(int argc, const char * argv[])
 {
+/*
 	ParamsOfLines col_param;
 	ParamsOfLines row_param;
 
@@ -18,6 +21,16 @@ int main(int argc, const char * argv[])
 	output_param_of_lines(col_param);
 	printf("/\n");
 	output_param_of_lines(row_param);
+*/
+	ParamsOfLine pol;
+	pol.push_back(Param(2));
+	pol.push_back(Param(1));
+	pol.push_back(Param(3));
+
+	CandidateFactory cf;
+	CandidateList * cl = cf.createCandidateList(10, pol);
+	cl->print();
+
 
 	return 0;
 }

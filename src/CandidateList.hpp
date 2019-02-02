@@ -2,20 +2,24 @@
 #define CandidateList_hpp
 
 #include "Candidate.hpp"
+#include "Param.hpp"
 
 #include <string>
+#include <vector>
 #include <map>
+#include <stdio.h>
 class Line;
 
 
+
+
 // 行的可行性的集合
-// 本质上是一个map
 //
 class CandidateList
 {
 public:
 	//构造函数
-	CandidateList();
+	CandidateList(size_t length);
 	//拷贝构造
 	CandidateList(const CandidateList &);
 	//析构函数
@@ -30,7 +34,7 @@ private:
 
 public:
 	//添加一个Candidate
-	void addCandidate(const Candidate &);
+	void addCandidate(Candidate *);
 	
 public:
 	//将list中不符合Line的条目去掉
@@ -44,54 +48,39 @@ public:
 	{
 		return this->_candidates.size();
 	}
-	
+
+	//是否已经成功了（没有多种可能性了）
 	inline
 	bool isDone() const
 	{
 		return this->size() == 1;
 	}
-	
+
+	//是否已经失败了（没有可能性了）
 	inline
-	bool isFail() const
+	bool isFailed() const
 	{
 		return this->size() < 1;
 	}
 	
 	
-#if 0
-public:
-	//获得某个位置上的值
-	char getValue(int index) const;
-	
-	//产生一个摘要
+#ifdef _DEBUG
+	//输出
 	inline
-	std::string getKey() const
+	void print(FILE * output = stdout) const
 	{
-		return std::string(this->_data);
+		for (std::map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
+		{
+			fprintf(output, "%s\n", it1->second->getValue());
+		}
 	}
-
-public:
-	//相当于两个做一次合并，相同的保留原值，不同的记为？
-	Candidate & operator+=(const Candidate & rhs);
-	Candidate operator+(const Candidate & rhs) const;
-
-	//判断一个是否和已经存在的Line兼容
-	bool operator==(const Line &) const;
-	bool operator!=(const Line &) const;
-
-	//判断一个是否和另一个相同
-	bool operator==(const Candidate &) const;
-	bool operator!=(const Candidate &) const;
-
-
-private:
-	//数据
-	char *		_data;
-	int			_length;
-#endif
+#endif	
     
 private:
-	std::map<int, Candidate>     _candidates;
+	//长度
+	size_t							_length;
+	//所有候选的可能
+	std::map<int, Candidate *>     _candidates;
 };
 
 
