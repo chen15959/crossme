@@ -1,23 +1,23 @@
-/*
-承载行的可行性
-
-*/
 #ifndef Candidate_hpp
 #define Candidate_hpp
 
-#include <string>
 class Line;
 
 
-// 承载行的可能性
-// 相当于一个string
+
+
+//行的候选可能
 //
 class Candidate
 {
 public:
 	//构造函数
 	//用数组初始化
-	Candidate(const char * data = NULL, int length = 0);
+	Candidate(size_t length, const char * buffer);
+
+	//初始化为全都是一个值
+	Candidate(size_t length, char value = '\0');
+
 	//拷贝构造
 	Candidate(const Candidate &);
 	//析构函数
@@ -32,18 +32,25 @@ private:
 
 public:
 	//获得某个位置上的值
-	char getValue(int index) const;
+	char getValue(int pos) const;
+
+	//以字符串形式获得内容
+	inline
+	const char * getValue() const
+	{
+		return _data;
+	}
 	
 	inline
 	size_t getLength() const
 	{
-		return this->_length;
+		return _length;
 	}
 	
 
 
 public:
-	//相当于两个做一次合并，相同的保留原值，不同的记为？
+	//相当于两个做一次合并，相同的保留原值，不同的记为VAL_UNKNOWN
 	Candidate & operator+=(const Candidate & rhs);
 	Candidate operator+(const Candidate & rhs) const;
 

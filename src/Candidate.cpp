@@ -8,21 +8,29 @@
 
 
 
-Candidate::Candidate(const char * data, int length)
-{
-	assert(length >= 0);
 
-	this->_length = length;
+Candidate::Candidate(size_t length, const char * data)
+{
+	assert(length > 0);
+	assert(data);
+
+	_length = length;
+	_data = new char[_length + 1];
+	memcpy(_data, data, _length);
+	_data[_length] = '\0';
 	
-	if (this->_length > 0)
-	{
-		this->_data = new char[this->_length];
-		memcpy(this->_data, data, this->_length);
-	}
-	else
-	{
-		this->_data = NULL;
-	}
+}
+
+
+
+Candidate::Candidate(size_t length, char value)
+{
+	assert(length > 0);
+
+	_length = length;
+	_data = new char[_length + 1];
+	memset(_data, value, _length);
+	_data[_length] = '\0';
 }
 
 
@@ -56,48 +64,42 @@ Candidate & Candidate::operator=(const Candidate & rhs)
 
 void Candidate::copy(const Candidate & other)
 {
-	this->_length = other._length;
+	_length = other._length;
 	
-	if (this->_length > 0)
-	{
-		this->_data = new char[this->_length];
-		memcpy(this->_data, other._data, this->_length);
-	}
-	else
-	{
-		this->_data = NULL;
-	}
+	_data = new char[_length + 1];
+	memcpy(_data, other._data, _length + 1);
 }
 
 
 void Candidate::free()
 {
-	if (this->_length > 0)
-	{
-		delete [] this->_data;
-	}
+	delete [] _data;
 }
 
 
 
-char Candidate::getValue(int i) const
+char Candidate::getValue(int pos) const
 {
-	assert(i >= 0 && i < this->_length);
+	assert(pos >= 0 && pos < _length);
 	
-	return this->_data[i];
+	return _data[pos];
 }
 
 
 
 Candidate & Candidate::operator+=(const Candidate & rhs)
 {
-	assert(this->_length == rhs._length);
+	assert(_length == rhs._length);
 
-	for (int i = 0; i < this->_length; ++i)
+	for (int i = 0; i < _length; ++i)
 	{
-		if (this->_data[i] != rhs._data[i])
+		if (_data[i] == VAL_NONE)
 		{
-			this->_data[i] = VAL_UNKNOWN;
+			_data[i] = rhs._data[i];
+		}
+		else if (_data[i] != rhs._data[i])
+		{
+			_data[i] = VAL_UNKNOWN;
 		}
 	}
 
@@ -117,14 +119,14 @@ Candidate Candidate::operator+(const Candidate & rhs) const
 
 bool Candidate::operator==(const Line & rhs) const
 {
-	assert(this->_length == rhs.getLength());
+	assert(_length == rhs.getLength());
 
-	for (int i = 0; i < this->_length; ++i)
+	for (int i = 0; i < _length; ++i)
 	{
 		char value = rhs.getPoint(i)->getValue();
 		if (value != VAL_UNKNOWN)
 		{
-			if (this->_data[i] != value)
+			if (_data[i] != value)
 			{
 				return false;
 			}
@@ -145,11 +147,11 @@ bool Candidate::operator!=(const Line & rhs) const
 
 bool Candidate::operator==(const Candidate & rhs) const
 {
-	assert(this->_length == rhs._length);
+	assert(_length == rhs._length);
 
-	for (int i = 0; i < this->_length; ++i)
+	for (int i = 0; i < _length; ++i)
 	{
-		if (this->_data[i] != rhs._data[i])
+		if (_data[i] != rhs._data[i])
 		{
 			return false;
 		}
