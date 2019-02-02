@@ -1,15 +1,8 @@
-//
-//	Game.cpp
-//	emssroc
-//
-//	Created by chen.zhang on 2019/1/19.
-//	Copyright © 2019 chen.zhang. All rights reserved.
-//
-
 #include "Game.hpp"
 
 #include <assert.h>
 
+#ifdef game
 
 
 
@@ -21,11 +14,11 @@ Game::Game(const std::vector<std::vector<Param>> & col_params, const std::vector
 	this->_col_size = col_params.size();
 	this->_row_size = row_params.size();
 	
-	this->_boards.push_back(new Board(this->_col_size, this->_row_size);
+	this->_boardsTodo.push(new Board(this->_col_size, this->_row_size);
 	
-	this->_boards.begin().install
-	
+	this->_boardsTodo.top().install(col_params, row_params);
 }
+	
 	
 
 	//拷贝构造
@@ -43,9 +36,16 @@ Game::~Game()
 
 void Game::free()
 {
-	for (list::<Board *>::const_iterator it1 = this->_boards.begin(); it1 != this->_boards.end(); ++it1)
+	while (!this->_boardsTodo.empty())
 	{
-		delete *it1;
+		delete this->_boardsTodo.top();
+		this->_boardsTodo.pop();
+	}
+	
+	while (!this->_boardsDone.size() > 0)
+	{
+		delete this->_boardsDone.back();
+		this->_boardsDone.pop_back();
 	}
 }
 
@@ -79,17 +79,23 @@ public:
 	//影响到所有的board
 	bool install(int row, int col, char val);
 	
-	//解谜 走一步
-	bool solve();
 	
-	//解谜 走完所有凭逻辑能走的
-	bool solveAllByLogic();
+	//开始运行
+	bool play();
 	
-	//解谜 走完所有
-	bool solveAll();
 
 private:
-	//board列表
-	//每个board都是有可能的
-	//等待剪枝
-	std::list<Board *> m_boards;
+	//列数
+	size_t					_col_size;
+	//行数
+	size_t					_row_size;
+	
+	//待执行的Board
+	std::queue<Board *>		_boardsTodo;
+	//成功的Board
+	std::vector<Board *>	_boardsDone;
+	
+};
+
+
+#endif

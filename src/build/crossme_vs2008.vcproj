@@ -175,6 +175,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Candidate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Game.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\io.cpp"
 				>
 			</File>
@@ -202,6 +218,22 @@
 			>
 			<File
 				RelativePath="..\Board.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Candidate.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Game.hpp"
 				>
 			</File>
 			<File
