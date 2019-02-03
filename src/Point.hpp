@@ -35,36 +35,40 @@ public:
 public:
 	//点在哪行（0开始）
 	inline
-	int getRow() const {
+	int getRow() const 
+	{
 		return this->_row;
 	}
 	
 	//点在哪列（0开始）
 	inline
-	int getCol() const {
+	int getCol() const 
+	{
 		return this->_col;
 	}
 	
 	//获得点的值
 	inline
-	char getValue() const {
+	char getValue() const 
+	{
 		return this->_value;
 	}
 	
 	//设置点为空
 	inline
-	int setEmpty() {
+	bool setEmpty()
+	{
 		return setValue(VAL_EMPTY);
 	}
 	
 	//设置点的值
-	int setValue(char value);
+	bool setValue(char value);
 	
 	
 	//该点是否已经确定
 	inline
 	bool isDone() const {
-		return (_value != VAL_UNKNOWN);
+		return (_value != VAL_UNKNOWN && _value != VAL_NONE);
 	}
 	
 	

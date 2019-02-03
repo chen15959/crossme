@@ -51,17 +51,22 @@ Point & Point::operator=(const Point & rhs)
 
 //设置Point的值
 //和Board联动
-int Point::setValue(char value)
+bool Point::setValue(char value)
 {
-	char old_value = this->_value;
-
-	this->_value = value;
+	char old_value = _value;
+	_value = value;
 	
-	if (this->_board && old_value == VAL_UNKNOWN)
+	if (old_value == VAL_UNKNOWN)
 	{
-		this->_board->point_change_callback(this->_row, this->_col, this->_value);
+		if (_board != NULL)
+		{
+			_board->point_change_callback(_row, _col, _value);
+		}
+		return true;
 	}
-	
-	return 0;
+	else
+	{
+		return false;
+	}
 }
 	
