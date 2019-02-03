@@ -58,7 +58,7 @@ public:
 
 	//是否已经失败了（没有可能性了）
 	inline
-	bool isFailed() const
+	bool isError() const
 	{
 		return this->size() < 1;
 	}

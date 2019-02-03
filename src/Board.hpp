@@ -50,7 +50,7 @@ public:
 	bool isDone() const;
 
 	//是否已经失败
-	bool isFail() const;
+	bool isError() const;
 	
 	//随机找一个不确定点，生成多种可能性
 	std::vector<Board *> createCandidates() const;
