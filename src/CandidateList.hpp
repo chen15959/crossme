@@ -39,8 +39,10 @@ public:
 public:
 	//将list中不符合Line的条目去掉
 	bool ruleBy(const Line &);
-	//获得所有条目的最大公约数
-	Candidate getDivisor() const;
+
+
+	char getValue(int pos);
+
 	
 	//list中有多少条目
 	inline

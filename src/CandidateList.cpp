@@ -113,35 +113,30 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-Candidate CandidateList::getDivisor() const
+char CandidateList::getValue(int pos)
 {
-	assert(size() > 0);
-	size_t len = _candidates.begin()->second->getLength();
-	char * buffer = new char[len];
-	
-	int a = 0;
+//	assert(size() > 0);
+	assert(pos >= 0 && pos < _length);
+
+	char retVal = VAL_NONE;
 	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
 	{
-		for (int i = 0; i < len; ++i)
+		if (retVal == VAL_NONE)
 		{
-			if (a == 0)
+			retVal = it1->second->getValue(pos);
+		}
+		else
+		{
+			if (retVal != it1->second->getValue(pos))
 			{
-				buffer[i] = it1->second->getValue(i);
-			}
-			else
-			{
-				if (buffer[i] != it1->second->getValue(i))
-				{
-					buffer[i] = VAL_UNKNOWN;
-				}
+				return VAL_UNKNOWN;
 			}
 		}
-		a++;
 	}
 
-	Candidate retVal(len, buffer);
-	delete [] buffer;
-	
 	return retVal;
 }
-	
+
+
+
+
