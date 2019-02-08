@@ -22,7 +22,7 @@ class Point
 {
 public:
 	//构造 带自己的位置
-	Point(int row, int col, Board * board);
+	Point(unsigned long row, unsigned long col, Board * board);
 	
 	//拷贝构造
 	Point(const Point & other);
@@ -35,14 +35,14 @@ public:
 public:
 	//点在哪行（0开始）
 	inline
-	int getRow() const 
+	unsigned long getRow() const
 	{
 		return this->_row;
 	}
 	
 	//点在哪列（0开始）
 	inline
-	int getCol() const 
+	unsigned long getCol() const
 	{
 		return this->_col;
 	}
@@ -75,13 +75,13 @@ public:
 	
 private:
 	//行（0开始）
-	int			_row;
+	unsigned long	_row;
 	//列（0开始）
-	int			_col;
+	unsigned long	_col;
 	//值
-	char		_value;
+	char	    	_value;
 	//所属的board
-	Board *		_board;
+	Board *		    _board;
 	
 };
 

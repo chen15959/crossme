@@ -14,7 +14,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(int col_size, int row_size);
+	Board(unsigned long col_size, unsigned long row_size);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -35,7 +35,7 @@ public:
 	void install(const ParamsOfLines & col_params, const ParamsOfLines & row_params);
 	
 	//强行设定某Point
-	void install(int row, int col, char value);
+	void install(unsigned long row, unsigned long col, char value);
 
 
 public:
@@ -58,17 +58,17 @@ public:
 
 public:
 	//获得特定位置的点的值
-	char getValue(int row, int col) const;
+	char getValue(unsigned long row, unsigned long col) const;
 	
 	
 public:
-	void point_change_callback(int row, int col, char value);
+	void point_change_callback(unsigned long row, unsigned long col, char value);
 	
 private:
 	//列数
-	int						_col_size;
+	unsigned long			_col_size;
 	//行数
-	int						_row_size;
+	unsigned long			_row_size;
 	
 	//所有Point
 	Point **				_points;
@@ -80,7 +80,7 @@ private:
 		
 	//从行列号获得点的实际位置
 	inline
-	int getIndex(int row, int col) const
+	unsigned long getIndex(unsigned long row, unsigned long col) const
 	{
 		return row * this->_col_size + col;
 	}

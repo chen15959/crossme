@@ -40,7 +40,7 @@ CandidateFactory & CandidateFactory::operator=(const CandidateFactory &)
 
 
 
-CandidateList * CandidateFactory::createCandidateList(size_t length, const ParamsOfLine & params_of_line)
+CandidateList * CandidateFactory::createCandidateList(unsigned long length, const ParamsOfLine & params_of_line)
 {
 	//生成略缩字
 	string keyword = createKeyword(length, params_of_line);
@@ -77,12 +77,12 @@ CandidateList * CandidateFactory::createCandidateList(size_t length, const Param
 
 
 
-string CandidateFactory::createKeyword(size_t length, const ParamsOfLine & params_of_line)
+string CandidateFactory::createKeyword(unsigned long length, const ParamsOfLine & params_of_line)
 {
 	char buffer[1024];
 	string retVal;
 
-	sprintf(buffer, "%d:", length);
+	sprintf(buffer, "%u:", length);
 	retVal += buffer;
 	
 	for (ParamsOfLine::const_iterator it1 = params_of_line.begin(); it1 != params_of_line.end(); ++it1)
@@ -109,18 +109,18 @@ string CandidateFactory::createKeyword(size_t length, const ParamsOfLine & param
 //buffer_offset	从缓冲区的什么位置可以开始放item，也就是上一个item最后一个位置+1 开始时当然是从0位
 //parmas		所有需放置的item的信息
 //params_ptr	当前应当放置第几个item 开始时当然是从0位
-void CandidateFactory::placeItem(CandidateList * result, size_t length, char * buffer, size_t buffer_offset, const ParamsOfLine & params, size_t params_ptr)
+void CandidateFactory::placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamsOfLine & params, unsigned long params_ptr)
 {
 	//剩余未放置的项的最小总长度
-	int length_of_left_items = 0;
+	unsigned long length_of_left_items = 0;
 
 	//在第一个未放置项前面是否需要一个前导分隔
-	int leading_space = 0;
+	unsigned long leading_space = 0;
 	
 	//第一个未放置项的长度
 	length_of_left_items = params[params_ptr].getSize();
 	//其他未放置项的长度往上加
-	for (size_t i = params_ptr + 1; i < params.size(); ++i)
+	for (unsigned long i = params_ptr + 1; i < params.size(); ++i)
 	{
 		//相同类型的项之间必须隔开一个位置，不同类型的可以挨着放
 		if (params[i].getType() == params[i-1].getType())
@@ -140,15 +140,15 @@ void CandidateFactory::placeItem(CandidateList * result, size_t length, char * b
 	}
 	
 	//可放置element的第一个位置
-	size_t first_pos = buffer_offset + leading_space;
+	unsigned long first_pos = buffer_offset + leading_space;
 	//可放置element的最后一个位置
-	size_t last_pos = length - length_of_left_items;
+	unsigned long last_pos = length - length_of_left_items;
 
 	//循环处理这些位置
-	for (size_t start_point = first_pos; start_point <= last_pos; ++start_point)
+	for (unsigned long start_point = first_pos; start_point <= last_pos; ++start_point)
 	{
 		//开始点
-		size_t ptr = buffer_offset;
+		unsigned long ptr = buffer_offset;
 		
 		//填充上个element到这个element之间的空白
 		while (ptr < start_point)
@@ -157,7 +157,7 @@ void CandidateFactory::placeItem(CandidateList * result, size_t length, char * b
 		}
 
 		//放下这个element
-		for (int i = 0; i < params[params_ptr].getSize(); ++i)
+		for (unsigned long i = 0; i < params[params_ptr].getSize(); ++i)
 		{
 			buffer[ptr++] = params[params_ptr].getType();
 		}

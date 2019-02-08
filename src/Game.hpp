@@ -42,7 +42,7 @@ public:
 	
 	//设定一个点为具体值
 	//影响到所有的board
-	bool install(int row, int col, char val);
+	bool install(unsigned long row, unsigned long col, char val);
 	
 
 	//开始运行
@@ -51,9 +51,9 @@ public:
 
 private:
 	//列数
-	size_t					_col_size;
+	unsigned long					_col_size;
 	//行数
-	size_t					_row_size;
+	unsigned long					_row_size;
 	
 	//待执行的Board
 	std::queue<Board *>		_boardsTodo;

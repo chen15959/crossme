@@ -5,7 +5,7 @@
 
 
 
-Point::Point(int row, int col, Board * board)
+Point::Point(unsigned long row, unsigned long col, Board * board)
 {
 	this->_row = row;
 	this->_col = col;

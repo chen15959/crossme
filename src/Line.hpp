@@ -20,7 +20,7 @@ class Line
 public:
 	//构造函数
 	//行的长度
-	Line(int len);
+	Line(unsigned long len);
 	//拷贝构造
 	Line(const Line &);
 	//析构函数
@@ -36,14 +36,14 @@ private:
 
 public:
 	//获得一个行中的点
-	const Point * getPoint(int pos) const;
+	const Point * getPoint(unsigned long pos) const;
 	//将点赋给行
 	//在初始化Board时由Board调用
-	void setPoint(Point * point, int pos);
+	void setPoint(Point * point, unsigned long pos);
 
 	//获得行的长度
 	inline
-	int getLength() const
+	unsigned long getLength() const
 	{
 		return _length;
 	}
@@ -82,7 +82,7 @@ private:
 	//所有点
 	Point **								_points;
 	//行的长度	
-	int										_length;
+	unsigned long							_length;
 	//所有可能性
 	CandidateList *							_candidates;
 

@@ -8,7 +8,7 @@
 
 
 
-Board::Board(int col_size, int row_size)
+Board::Board(unsigned long col_size, unsigned long row_size)
 {
 	assert(col_size > 0);
 	assert(row_size > 0);
@@ -19,9 +19,9 @@ Board::Board(int col_size, int row_size)
 	//初始化Point空间
 	this->_points = new Point*[this->_col_size * this->_row_size];
 
-	for (int r = 0; r < this->_row_size; ++r)
+	for (unsigned long r = 0; r < this->_row_size; ++r)
 	{
-		for (int c = 0; c < this->_col_size; ++c)
+		for (unsigned long c = 0; c < this->_col_size; ++c)
 		{
 			Point * point = new Point(r, c, this);
 			
@@ -71,11 +71,11 @@ void Board::copy(const Board & other)
 	//复制Point空间
 	this->_points = new Point*[this->_col_size * this->_row_size];
 	
-	for (int r = 0; r < this->_row_size; ++r)
+	for (unsigned long r = 0; r < this->_row_size; ++r)
 	{
-		for (int c = 0; c < this->_col_size; ++c)
+		for (unsigned long c = 0; c < this->_col_size; ++c)
 		{
-			int idx = getIndex(r, c);
+			unsigned long idx = getIndex(r, c);
 			this->_points[idx] = new Point(*(other._points[idx]));
 		}
 	}
@@ -87,9 +87,9 @@ void Board::free()
 {
 
 	//销毁每个Point
-	for (int r = 0; r < this->_row_size; ++r)
+	for (unsigned long r = 0; r < this->_row_size; ++r)
 	{
-		for (int c = 0; c < this->_col_size; ++c)
+		for (unsigned long c = 0; c < this->_col_size; ++c)
 		{
 			delete this->_points[this->getIndex(r, c)];
 		}
@@ -104,9 +104,9 @@ void Board::free()
 //棋局是否已经走完
 bool Board::isDone() const
 {
-	for (int r = 0; r < this->_row_size; ++r)
+	for (unsigned long r = 0; r < this->_row_size; ++r)
 	{
-		for (int c = 0; c < this->_col_size; ++c)
+		for (unsigned long c = 0; c < this->_col_size; ++c)
 		{
 			if (this->_points[this->getIndex(r, c)]->getValue() == VAL_UNKNOWN)
 			{
@@ -123,10 +123,10 @@ bool Board::isDone() const
 
 
 
-char Board::getValue(int row, int col) const
+char Board::getValue(unsigned long row, unsigned long col) const
 {
-	assert(row >= 0 && row < this->_row_size);
-	assert(col >= 0 && col < this->_col_size);
+	assert(row < this->_row_size);
+	assert(col < this->_col_size);
 	
 	return this->_points[this->getIndex(row, col)]->getValue();
 }
@@ -153,17 +153,17 @@ void Board::install(const ParamsOfLines & col_params, const ParamsOfLines & row_
 
 
 //强行设定某Point
-void Board::install(int row, int col, char value)
+void Board::install(unsigned long row, unsigned long col, char value)
 {
-	assert(row >= 0 && row < this->_row_size);
-	assert(col >= 0 && col < this->_col_size);
+	assert(row < this->_row_size);
+	assert(col < this->_col_size);
 	
 	this->_points[this->getIndex(row, col)]->setValue(value);
 }
 
 
 
-void Board::point_change_callback(int row, int col, char value)
+void Board::point_change_callback(unsigned long row, unsigned long col, char value)
 {
 	//todo
 	

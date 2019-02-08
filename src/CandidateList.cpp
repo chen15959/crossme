@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-CandidateList::CandidateList(size_t length)
+CandidateList::CandidateList(unsigned long length)
 {
 	assert(length > 0);
 
@@ -88,7 +88,7 @@ bool CandidateList::ruleBy(const Line & line)
 	{
 		assert(line.getLength() == it1->second->getLength());
 
-		for (int i = 0; i < line.getLength(); ++i)
+		for (unsigned long i = 0; i < line.getLength(); ++i)
 		{
 			char value = line.getPoint(i)->getValue();
 			if (value != VAL_UNKNOWN)
@@ -113,7 +113,7 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-char CandidateList::getValue(int pos)
+char CandidateList::getValue(unsigned long pos)
 {
 //	assert(size() > 0);
 	assert(pos >= 0 && pos < _length);

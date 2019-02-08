@@ -9,7 +9,7 @@
 
 
 
-Candidate::Candidate(size_t length, const char * data)
+Candidate::Candidate(unsigned long length, const char * data)
 {
 	assert(length > 0);
 	assert(data);
@@ -23,7 +23,7 @@ Candidate::Candidate(size_t length, const char * data)
 
 
 
-Candidate::Candidate(size_t length, char value)
+Candidate::Candidate(unsigned long length, char value)
 {
 	assert(length > 0);
 
@@ -78,7 +78,7 @@ void Candidate::free()
 
 
 
-char Candidate::getValue(int pos) const
+char Candidate::getValue(unsigned long pos) const
 {
 	assert(pos >= 0 && pos < _length);
 	

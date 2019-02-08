@@ -8,11 +8,11 @@ CandidateFactory Line::__candidateFactory;
 
 
 
-Line::Line(int len)
+Line::Line(unsigned long length)
 {
-	assert(len > 0);
+	assert(length > 0);
 	
-	_length = len;
+	_length = length;
 	_points = new Point*[_length];
 	_candidates = NULL;
 }
@@ -51,7 +51,7 @@ void Line::copy(const Line & other)
 	_length = other._length;
 	_points = new Point*[_length];
 
-//	for (int i = 0; i < _length; ++i)
+//	for (unsigned long i = 0; i < _length; ++i)
 //	{
 //		_points[i] = other._points[i];
 //	}
@@ -78,18 +78,18 @@ void Line::free()
 
 
 
-const Point * Line::getPoint(int pos) const
+const Point * Line::getPoint(unsigned long pos) const
 {
-	assert(pos >= 0 && pos < _length);
+	assert(pos < _length);
 	
 	return _points[pos];
 }
 
 
 
-void Line::setPoint(Point * point, int pos)
+void Line::setPoint(Point * point, unsigned long pos)
 {
-	assert(pos >= 0 && pos < _length);
+	assert(pos < _length);
 	
 	_points[pos] = point;
 }
@@ -123,7 +123,7 @@ int Line::setByCandidates()
 {
 	int retVal = 0;
 
-	for (int i = 0; i < _length; ++i)
+	for (unsigned long i = 0; i < _length; ++i)
 	{
 		char value = _candidates->getValue(i);
 		if (value != VAL_UNKNOWN && value != VAL_NONE)

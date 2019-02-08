@@ -26,15 +26,15 @@ private:
 public:
 	//根据参数创建可能性
 	//如果曾经创建过，那直接从已有的情况复制
-	CandidateList * createCandidateList(size_t length, const ParamsOfLine & params_of_line);
+	CandidateList * createCandidateList(unsigned long length, const ParamsOfLine & params_of_line);
 
 private:
 	//放置一个item到缓冲区
-	void placeItem(CandidateList * result, size_t length, char * buffer, size_t buffer_offset, const ParamsOfLine & params, size_t params_ptr);
+	void placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamsOfLine & params, unsigned long params_ptr);
 
 private:
 	//根据参数生成关键字
-	std::string createKeyword(size_t length, const ParamsOfLine & params_of_line);
+	std::string createKeyword(unsigned long length, const ParamsOfLine & params_of_line);
 
 private:
 	//曾经算过的可能性，用参数关键字做索引
