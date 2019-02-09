@@ -82,12 +82,12 @@ string CandidateFactory::createKeyword(unsigned long length, const ParamsOfLine 
 	char buffer[1024];
 	string retVal;
 
-	sprintf(buffer, "%u:", length);
+	sprintf(buffer, "%lu:", length);
 	retVal += buffer;
 	
 	for (ParamsOfLine::const_iterator it1 = params_of_line.begin(); it1 != params_of_line.end(); ++it1)
 	{
-		sprintf(buffer, "%c%d,", it1->getType(), it1->getSize());
+		sprintf(buffer, "%c%lu,", it1->getType(), it1->getSize());
 		retVal += buffer;
 	}
 
