@@ -63,6 +63,19 @@ void Line::copy(const Line & other)
 }
 
 
+void Line::copyCandidates(const Line & other)
+{
+	if (_candidates)
+	{
+		delete _candidates;
+	}
+	
+	if (other._candidates)
+	{
+		_candidates = new CandidateList(*(other._candidates));
+	}
+}
+
 
 void Line::free()
 {

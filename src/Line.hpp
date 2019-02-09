@@ -32,6 +32,9 @@ public:
 private:
 	void copy(const Line &);
 	void free();
+	
+public:
+	void copyCandidates(const Line &);
 
 
 public:
