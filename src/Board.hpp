@@ -24,6 +24,8 @@ public:
 	Board & operator=(const Board &);
 	
 private:
+	//建立基本的Point矩阵
+	void init(unsigned long col_size, unsigned long row_size);
 	//释放资源
 	void free();
 	//复制内容
@@ -66,18 +68,16 @@ public:
 	
 private:
 	//列数
-	unsigned long			_col_size;
+	unsigned long				_col_size;
 	//行数
-	unsigned long			_row_size;
+	unsigned long				_row_size;
 	
 	//所有Point
-	Point **				_points;
+	Point **					_points;
 
-	//所有行
-	std::vector<Line *>		_rows;
-	//所有列
-	std::vector<Line *>		_cols;
-		
+	//所有行/列
+	std::map<long, Line *>		_lines;
+	
 	//从行列号获得点的实际位置
 	inline
 	unsigned long getIndex(unsigned long row, unsigned long col) const
