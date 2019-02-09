@@ -1,6 +1,8 @@
 #ifndef Param_hpp
 #define Param_hpp
 
+#include "Point.hpp"
+
 #include <vector>
 
 
@@ -16,7 +18,7 @@ public:
 	//在单颜色模式下 只输入第一个参数就行
 	
 	//构造函数
-	Param(int size, char type = 'A');
+	Param(unsigned long size, char type = 'A');
 	//拷贝构造
 	Param(const Param & other);
 	//析构函数
@@ -35,7 +37,7 @@ public:
 	
 	//获得数量
 	inline
-	int getSize() const
+	unsigned long getSize() const
 	{
 		return _size;
 	}
@@ -44,15 +46,15 @@ public:
 	inline
 	bool isValid() const
 	{
-		return _size > -1;
+		return _type != VAL_EMPTY;
 	}
 	
 	
 private:
-	//类型，单色模式下长为A
-	char _type;
+	//类型，单色模式下常为A
+	char			_type;
 	//数量
-	int _size;
+	unsigned long	_size;
 };
 
 

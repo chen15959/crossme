@@ -5,7 +5,7 @@
 
 
 
-Param::Param(int size, char type)
+Param::Param(unsigned long size, char type)
 {
 	this->_type = type;
 	this->_size = size;

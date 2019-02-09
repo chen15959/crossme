@@ -42,7 +42,7 @@ Param fromStr(const char * str)
 	}
 	else
 	{
-		return Param(-1);
+		return Param(0, VAL_EMPTY);
 	}
 
 }
@@ -309,7 +309,7 @@ void output_param_of_lines(const ParamsOfLines & param_vec, FILE * output)
 	{
 		for (ParamsOfLine::const_iterator it2 = it1->begin(); it2 != it1->end(); ++it2)
 		{
-			fprintf(output, "%d ", it2->getSize());
+			fprintf(output, "%lu ", it2->getSize());
 		}
 		fprintf(output, "\n");
 	}
