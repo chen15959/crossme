@@ -24,6 +24,10 @@ private:
 
 
 public:
+    //评估可能性的数量
+    double evaluateCandidateSize(unsigned long length, const ParamsOfLine & params_of_line);
+    
+    
 	//根据参数创建可能性
 	//如果曾经创建过，那直接从已有的情况复制
 	CandidateList * createCandidateList(unsigned long length, const ParamsOfLine & params_of_line);

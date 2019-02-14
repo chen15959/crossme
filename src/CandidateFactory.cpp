@@ -40,6 +40,65 @@ CandidateFactory & CandidateFactory::operator=(const CandidateFactory &)
 
 
 
+//将C1....Cm放到N里，求共有多少种放法
+/*
+固定格为 cc ＝ sum（c1 cm）+m-1
+活动格为N-cc
+可放置空位m+1
+
+将n-cc放到m+1，有多少种放法
+
+
+
+（m+1）乘方（n-cc）除以（n-cc）！
+
+n＝110
+n-cc＝24
+28乘方24
+*/
+double CandidateFactory::evaluateCandidateSize(unsigned long length, const ParamsOfLine & params_of_line)
+{
+	assert(params_of_line.size() > 0);
+	
+	if (params_of_line.size() == 1 && params_of_line[0].getSize() == 0)
+	{
+		//全空行
+		return 1;
+	}
+	
+	//确定的Point（包括必须的间隔）
+	unsigned long size_of_certain = params_of_line[0].getSize();
+	for (int i = 1; i < params_of_line.size(); ++i)
+	{
+		size_of_certain += (params_of_line[i].getSize() + (params_of_line[i-1].getType() == params_of_line[i].getType() ? 1 : 0));
+	}
+	
+	//待分配的Point
+	unsigned long to_be_put = length - size_of_certain;
+	
+	if (to_be_put == 0)
+	{
+		//刚好放满了
+		return 1;
+	}
+	
+	//可放置的位置
+	unsigned long space_to_put = params_of_line.size() + 1;
+	
+	//求将to_be_put放到space_to_put中，有多少种放法
+	//C(to_be_put+space_to_put-1 , space_to_put-1)
+	
+	unsigned long a = to_be_put + space_to_put - 1;
+	unsigned long b = space_to_put - 1;
+	
+//	unsigned long r = a! / (b！ * to-be-put!)
+	
+		
+	return 0.0;
+}
+
+
+
 CandidateList * CandidateFactory::createCandidateList(unsigned long length, const ParamsOfLine & params_of_line)
 {
 	//生成略缩字
