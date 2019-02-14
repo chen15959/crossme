@@ -5,9 +5,32 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 using namespace std;
 
+#define PI	3.1416
+#define E	2.718
+
+double factorial_stirling(unsigned long n)
+{
+	if (n == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		double a = n / E;
+		double r = sqrt(2 * PI * n);
+		
+		for (int i = 0; i < n; ++i)
+		{
+			r *= a;
+		}
+		
+		return r;
+	}
+}
 
 
 
@@ -87,14 +110,8 @@ double CandidateFactory::evaluateCandidateSize(unsigned long length, const Param
 	
 	//求将to_be_put放到space_to_put中，有多少种放法
 	//C(to_be_put+space_to_put-1 , space_to_put-1)
-	
-	unsigned long a = to_be_put + space_to_put - 1;
-	unsigned long b = space_to_put - 1;
-	
-//	unsigned long r = a! / (b！ * to-be-put!)
-	
-		
-	return 0.0;
+
+	return factorial_stirling(to_be_put + space_to_put - 1) / (factorial_stirling(space_to_put - 1) * factorial_stirling(to_be_put));
 }
 
 
