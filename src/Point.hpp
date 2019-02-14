@@ -79,9 +79,9 @@ private:
 	//列（0开始）
 	unsigned long	_col;
 	//值
-	char	    	_value;
+	char			_value;
 	//所属的board
-	Board *		    _board;
+	Board *			_board;
 	
 };
 

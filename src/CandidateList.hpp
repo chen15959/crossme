@@ -76,13 +76,13 @@ public:
 			fprintf(output, "%s\n", it1->second->getValue());
 		}
 	}
-#endif	
-    
+#endif
+
 private:
 	//长度
 	unsigned long					_length;
 	//所有候选的可能
-	std::map<int, Candidate *>     _candidates;
+	std::map<int, Candidate *>		_candidates;
 };
 
 

@@ -65,7 +65,7 @@ Game & Game::operator=(const Game & rhs)
 	
 	return *this;
 }
-	
+	/*
 private:
 	//释放所有资源
 	void free();
@@ -86,9 +86,9 @@ public:
 
 private:
 	//列数
-	size_t					_col_size;
+	unsigned long					_col_size;
 	//行数
-	size_t					_row_size;
+	unsigned long					_row_size;
 	
 	//待执行的Board
 	std::queue<Board *>		_boardsTodo;
@@ -96,6 +96,7 @@ private:
 	std::vector<Board *>	_boardsDone;
 	
 };
-
+*/
 
 #endif
+
