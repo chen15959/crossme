@@ -210,6 +210,10 @@
 				RelativePath="..\Point.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\WeightQueue.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -250,6 +254,10 @@
 			</File>
 			<File
 				RelativePath="..\Point.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\WeightQueue.hpp"
 				>
 			</File>
 		</Filter>
