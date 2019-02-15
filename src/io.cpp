@@ -328,3 +328,32 @@ void output_board(const Board & board, FILE * output)
 	}
 }
 */
+
+
+void output_board(const Board & board, FILE * output)
+{
+	if (board.id() > 0)
+	{
+		fprintf(output, "-= %d =-\n", board.id());
+	}
+
+	for (unsigned long row = 0; row < board.row_size(); ++row)
+	{
+		if (row % 5 == 0)
+		{
+			fprintf(output, "\n");
+		}
+
+		for (unsigned long col = 0; col < board.col_size(); ++col)
+		{
+			if (col % 5 == 0 && col > 0)
+			{
+				fprintf(output, " ");
+			}
+			fprintf(output, "%c", board.getValue(row, col));
+		}
+		fprintf(output, "\n");
+	}
+
+	fprintf(output, "\n\n");
+}

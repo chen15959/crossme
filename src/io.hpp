@@ -1,6 +1,7 @@
 /*
 控制输入输出
  * 读取puzzle文件
+ * 输出结果排布
 */
 #ifndef io_hpp
 #define io_hpp
@@ -9,9 +10,7 @@
 
 
 #include "Param.hpp"
-//class Param;
-//#include "Board.hpp"
-class Board;
+#include "Board.hpp"
 
 
 
@@ -28,5 +27,8 @@ bool read_puzzle_file(const char * filename, ParamsOfLines & col_param, ParamsOf
 // output			输出流
 void output_param_of_lines(const ParamsOfLines & params_of_lines, FILE * output = stdout);
 
+
+//画出排布
+void output_board(const Board & board, FILE * output = stdout);
 
 #endif
