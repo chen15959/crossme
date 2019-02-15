@@ -4,6 +4,7 @@
 
 #include "Board.hpp"
 #include "CandidateFactory.hpp"
+#include "Game.hpp"
 
 
 
@@ -37,13 +38,17 @@ int main(int argc, const char * argv[])
 	ParamsOfLines row_param;
 
 	read_puzzle_file(argv[1], col_param, row_param);
+
+	Game game(col_param.size(), row_param.size());
 	
-	Board board(col_param.size(), row_param.size());
-	board.install(col_param, row_param);
+	//Board board(col_param.size(), row_param.size());
+	game.install(col_param, row_param);
 
-	board.play();
+	game.play();
 
-	board.write();
+	//board.write();
+
+
 
 
 

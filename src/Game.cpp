@@ -1,30 +1,30 @@
 #include "Game.hpp"
 
 #include <assert.h>
-
-#ifdef game
-
+using namespace std;
 
 
-Game::Game(const std::vector<std::vector<Param>> & col_params, const std::vector<std::vector<Param>> & row_params)
+
+Game::Game(unsigned long col_size, unsigned long row_size)
 {
-	assert(col_params.size() > 0);
-	assert(row_params.size() > 0);
+	assert(col_size > 0);
+	assert(row_size > 0);
 	
-	this->_col_size = col_params.size();
-	this->_row_size = row_params.size();
+	_col_size = col_size;
+	_row_size = row_size;
 	
-	this->_boardsTodo.push(new Board(this->_col_size, this->_row_size);
-	
-	this->_boardsTodo.top().install(col_params, row_params);
+	_todo.push_back(new Board(_col_size, _row_size));
+
+	_installed = false;
 }
 	
 	
 
-	//拷贝构造
+//拷贝构造
 Game::Game(const Game & other)
 {
-	copy(other);
+	assert(0);
+//	copy(other);
 }
 
 
@@ -36,67 +36,93 @@ Game::~Game()
 
 void Game::free()
 {
-	while (!this->_boardsTodo.empty())
+	for (list<Board *>::const_iterator it1 = _todo.begin(); it1 != _todo.end(); ++it1)
 	{
-		delete this->_boardsTodo.top();
-		this->_boardsTodo.pop();
+		delete *it1;
 	}
 	
-	while (!this->_boardsDone.size() > 0)
+	for (list<Board *>::const_iterator it2 = _done.begin(); it2 != _done.end(); ++it2)
 	{
-		delete this->_boardsDone.back();
-		this->_boardsDone.pop_back();
+		delete *it2;
 	}
 }
+
 
 
 void Game::copy(const Game & other)
 {
+	assert(0);
 	//TODO
 }
-	
+
+
 Game & Game::operator=(const Game & rhs)
 {
 	if (&rhs != this)
 	{
-		this->free();
-		this->copy(rhs);
+		free();
+		copy(rhs);
 	}
 	
 	return *this;
 }
-	/*
-private:
-	//释放所有资源
-	void free();
-	//从另一个复制过来
-	void copy(const Game &);
-	
-	
-public:
-	
-	//设定一个点为具体值
-	//影响到所有的board
-	bool install(int row, int col, char val);
-	
-	
-	//开始运行
-	bool play();
 	
 
-private:
-	//列数
-	unsigned long					_col_size;
-	//行数
-	unsigned long					_row_size;
-	
-	//待执行的Board
-	std::queue<Board *>		_boardsTodo;
-	//成功的Board
-	std::vector<Board *>	_boardsDone;
-	
-};
-*/
 
-#endif
+bool Game::install(const ParamsOfLines & col_params, const ParamsOfLines & row_params)
+{
+	if (!_installed)
+	{
+		(*(_todo.begin()))->install(col_params, row_params);
+		_installed = true;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
+
+
+bool Game::install(unsigned long row, unsigned long col, char value)
+{
+	for (list<Board *>::const_iterator it1 = _todo.begin(); it1 != _todo.end(); ++it1)
+	{
+		(*it1)->install(row, col, value);
+	}
+
+	return true;
+}
+	
+
+
+bool Game::play()
+{
+	while (!_todo.empty())
+	{
+		Board * board = *(_todo.begin());
+		_todo.pop_front();
+
+		board->play();
+		if (board->isDone())
+		{
+			_done.push_back(board);
+		}
+		else if (board->isError())
+		{
+			//todo
+			//log
+		}
+		else
+		{
+			vector<Board *> newBoards = board->createCandidates();
+			for (vector<Board *>::const_iterator it = newBoards.begin(); it != newBoards.end(); ++it)
+			{
+				_todo.push_back(*it);
+			}
+		}
+	}
+
+	return true;
+}
