@@ -1,7 +1,7 @@
 #include "Board.hpp"
 
 #include "Line.hpp"
-
+#include "io.hpp"
 #include <assert.h>
 #include <stdlib.h>
 using namespace std;
@@ -9,9 +9,10 @@ using namespace std;
 
 
 
-Board::Board(unsigned long col_size, unsigned long row_size)
+Board::Board(unsigned long col_size, unsigned long row_size, int id)
 {
 	init(col_size, row_size);
+	_id = id;
 }
 
 
@@ -77,8 +78,6 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 			_lines[col_id(c)]->setPoint(point, r);
 		}
 	}
-
-	output = stdout;
 }
 
 
@@ -103,6 +102,8 @@ void Board::copy(const Board & other)
 	{
 		_lines[it1->first]->copyCandidates(*(it1->second));
 	}
+
+	_id = other._id;
 }
 
 
@@ -227,7 +228,7 @@ void Board::point_change_callback(unsigned long row, unsigned long col, char val
 	_todo.push(row_id(row));
 	_todo.push(col_id(col));
 	
-	fprintf(output, "\t[%lu, %lu] -> (%c)\n", row + 1, col + 1, value);
+	printf("\t[%lu, %lu] -> (%c)\n", row + 1, col + 1, value);
 }
 
 bool output_every_step = false;
@@ -240,11 +241,11 @@ bool Board::play()
 		long p = _todo.top();
 		if (p > 0)
 		{
-			fprintf(output, "ROW: %d\n", p);
+			printf("#%d\tROW: %d\n", _id, p);
 		}
 		else
 		{
-			fprintf(output, "COL: %d\n", -p);
+			printf("#%d\tCOL: %d\n", _id, -p);
 		}
 
 		_lines[p]->play();
@@ -252,8 +253,13 @@ bool Board::play()
 
 		if (output_every_step)
 		{
-			this->write();
+			output_board(*this, stdout);
 		}
+	}
+
+	for (map<long, Line *>::const_iterator it = _lines.begin(); it != _lines.end(); ++it)
+	{
+		_todo.push(it->first);
 	}
 
 
@@ -271,30 +277,11 @@ std::vector<Board *> Board::createCandidates() const
 {
 	vector<Board *> retVal;
 	//TODO
+	//找到最合适的点
+
+
+
 	
 	return retVal;
 }
 
-
-
-void Board::write() const
-{
-	for (unsigned long row = 0; row < _row_size; ++row)
-	{
-		if (row % 5 == 0 && row > 0)
-		{
-			fprintf(output, "| \n");
-		}
-		fprintf(output, "| ");
-
-		for (unsigned long col = 0; col < _col_size; ++col)
-		{
-			if (col % 5 == 0 && col > 0)
-			{
-				fprintf(output, " ");
-			}
-			fprintf(output, "%c", getValue(row, col));
-		}
-		fprintf(output, "\n");
-	}
-}

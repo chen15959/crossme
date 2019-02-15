@@ -15,7 +15,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size);
+	Board(unsigned long col_size, unsigned long row_size, int id = -1);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -105,19 +105,28 @@ private:
 
 public:
 	inline
-	void setOutput(FILE * output)
+	int id() const
 	{
-		this->output = output;
+		return _id;
 	}
 
 
-	void write() const;
+	inline
+	unsigned long row_size() const
+	{
+		return _row_size;
+	}
+
+
+	inline
+	unsigned long col_size() const
+	{
+		return _col_size;
+	}
 
 
 private:
-	FILE * output;
-
-
+	int		_id;
 };
 
 
