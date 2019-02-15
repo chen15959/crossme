@@ -8,6 +8,7 @@ using namespace std;
 
 
 
+
 Board::Board(unsigned long col_size, unsigned long row_size)
 {
 	init(col_size, row_size);
@@ -51,13 +52,13 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 	_row_size = row_size;
 	
 	//初始化行/列
-	for (int r = 0; r < row_size; ++r)
+	for (unsigned long r = 0; r < row_size; ++r)
 	{
-		_lines[r+1] = new Line(col_size);
+		_lines[row_id(r)] = new Line(col_size);
 	}
-	for (int c = 0; c < col_size; ++c)
+	for (unsigned long c = 0; c < col_size; ++c)
 	{
-		_lines[-c-1] = new Line(row_size);
+		_lines[col_id(c)] = new Line(row_size);
 	}
 	
 	//初始化Point空间
@@ -72,11 +73,14 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 			
 			_points[getIndex(r, c)] = point;
 			
-			_lines[r+1]->setPoint(point, c);
-			_lines[-c-1]->setPoint(point, r);
+			_lines[row_id(r)]->setPoint(point, c);
+			_lines[col_id(c)]->setPoint(point, r);
 		}
 	}
+
+	output = stdout;
 }
+
 
 
 void Board::copy(const Board & other)
@@ -187,7 +191,17 @@ col_size = 4
 //使用参数来初始化
 void Board::install(const ParamsOfLines & col_params, const ParamsOfLines & row_params)
 {
-	//todo
+	for (unsigned long r = 0; r < row_params.size(); ++r)
+	{
+		double v = _lines[row_id(r)]->install(row_params[r]);
+		_todo.push(row_id(r), -v);
+	}
+
+	for (unsigned long c = 0; c < col_params.size(); ++c)
+	{
+		double v = _lines[col_id(c)]->install(col_params[c]);
+		_todo.push(col_id(c), -v);
+	}
 }
 
 
@@ -200,31 +214,87 @@ void Board::install(unsigned long row, unsigned long col, char value)
 	
 	_points[getIndex(row, col)]->setValue(value);
 	
-	//todo
+	//加入需计算列表
+	_todo.push(row_id(row));
+	_todo.push(col_id(col));
 }
 
 
 
 void Board::point_change_callback(unsigned long row, unsigned long col, char value)
 {
-	//todo
+	//加入需计算列表
+	_todo.push(row_id(row));
+	_todo.push(col_id(col));
 	
+	fprintf(output, "\t[%lu, %lu] -> (%c)\n", row + 1, col + 1, value);
 }
 
+bool output_every_step = false;
 
 
 bool Board::play()
 {
+	while (_todo.size() > 0)
+	{
+		long p = _todo.top();
+		if (p > 0)
+		{
+			fprintf(output, "ROW: %d\n", p);
+		}
+		else
+		{
+			fprintf(output, "COL: %d\n", -p);
+		}
+
+		_lines[p]->play();
+		_todo.pop();
+
+		if (output_every_step)
+		{
+			this->write();
+		}
+	}
+
+
+
+
 	//todo
 	return true;
 }
 
 
-/*
- 
- 
- //随机找一个不确定点，生成多种可能性
- std::vector<Board *> createCandidates() const;
- 
- 
- */
+
+
+
+std::vector<Board *> Board::createCandidates() const
+{
+	vector<Board *> retVal;
+	//TODO
+	
+	return retVal;
+}
+
+
+
+void Board::write() const
+{
+	for (unsigned long row = 0; row < _row_size; ++row)
+	{
+		if (row % 5 == 0 && row > 0)
+		{
+			fprintf(output, "| \n");
+		}
+		fprintf(output, "| ");
+
+		for (unsigned long col = 0; col < _col_size; ++col)
+		{
+			if (col % 5 == 0 && col > 0)
+			{
+				fprintf(output, " ");
+			}
+			fprintf(output, "%c", getValue(row, col));
+		}
+		fprintf(output, "\n");
+	}
+}

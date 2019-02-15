@@ -109,25 +109,28 @@ void Line::setPoint(Point * point, unsigned long pos)
 
 
 
-bool Line::install(const ParamsOfLine & params)
+double Line::install(const ParamsOfLine & params)
 {
 	assert(params.size() > 0);
 
 	_candidates = __candidateFactory.createCandidateList(_length, params);
 
-	return !_candidates->isError();
+	if (_candidates->isError())
+	{
+		return -1;
+	}
+	else
+	{
+		return _candidates->size();
+	}
 }
 
 
 
 bool Line::play()
 {
-	if (_candidates->ruleBy(*this))
-	{
-		return setByCandidates() > 0;
-	}
-
-	return false;
+	_candidates->ruleBy(*this);
+	return setByCandidates() > 0;
 }
 
 

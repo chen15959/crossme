@@ -53,7 +53,9 @@ public:
 	
 public:
 	//通过参数建立全部可能性
-	bool install(const ParamsOfLine & params);
+	//返回可能性的数量
+	//-1代表出错了
+	double install(const ParamsOfLine & params);
 
 	//开始计算
 	bool play();

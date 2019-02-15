@@ -4,6 +4,7 @@
 #include "Param.hpp"
 #include "Point.hpp"
 #include "Line.hpp"
+#include "WeightQueue.hpp"
 
 
 
@@ -77,13 +78,46 @@ private:
 
 	//所有行/列
 	std::map<long, Line *>		_lines;
-	
+
+	WeightQueue					_todo;
+
+
+private:
 	//从行列号获得点的实际位置
 	inline
 	unsigned long getIndex(unsigned long row, unsigned long col) const
 	{
 		return row * this->_col_size + col;
 	}
+	
+	inline
+	long col_id(long col)
+	{
+		return -col - 1;
+	}
+
+	inline
+	long row_id(long row)
+	{
+		return row + 1;
+	}
+
+
+public:
+	inline
+	void setOutput(FILE * output)
+	{
+		this->output = output;
+	}
+
+
+	void write() const;
+
+
+private:
+	FILE * output;
+
+
 };
 
 
