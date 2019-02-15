@@ -48,6 +48,8 @@ Line & Line::operator=(const Line & rhs)
 
 void Line::copy(const Line & other)
 {
+	assert(0);
+
 	_length = other._length;
 	_points = new Point*[_length];
 
@@ -61,6 +63,7 @@ void Line::copy(const Line & other)
 		_candidates = new CandidateList(*(other._candidates));
 	}
 }
+
 
 
 void Line::copyCandidates(const Line & other)

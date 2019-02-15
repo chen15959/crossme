@@ -19,21 +19,27 @@ class Line
 {
 public:
 	//构造函数
-	//行的长度
+	//	行的长度
 	Line(unsigned long len);
 	//拷贝构造
+	//	不应当被调用
 	Line(const Line &);
 	//析构函数
 	virtual ~Line();
 	
 	//赋值运算符
+	//	不应当被调用
 	Line & operator=(const Line &);
 	
 private:
+	//从另一个Line复制
+	//	不应当被调用
 	void copy(const Line &);
+	//释放资源
 	void free();
 	
 public:
+	//从另一个Line复制他的全部可能性
 	void copyCandidates(const Line &);
 
 
@@ -41,7 +47,7 @@ public:
 	//获得一个行中的点
 	const Point * getPoint(unsigned long pos) const;
 	//将点赋给行
-	//在初始化Board时由Board调用
+	//	仅在初始化Board时由Board调用
 	void setPoint(Point * point, unsigned long pos);
 
 	//获得行的长度
@@ -58,10 +64,15 @@ public:
 	double install(const ParamsOfLine & params);
 
 	//开始计算
+	//	>0	这次确定了几个Point的值
+	//	=0	这次没能确定任何Point的值
+	//	=-1	发生了错误
 	bool play();
 
 
 private:
+	//通过综合所有的可能性，设置实际的值
+	//	返回值是确定了几个point的值
 	int setByCandidates();
 
 
