@@ -110,7 +110,7 @@ Param create_param_from_str(const char * str)
 	}
 
 	//格式不符合要求
-	return Param(-1);
+	return Param(-1, VAL_EMPTY);
 }
 
 
