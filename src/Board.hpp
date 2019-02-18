@@ -58,6 +58,9 @@ public:
 	//随机找一个不确定点，生成多种可能性
 	std::vector<Board *> createCandidates() const;
 
+private:
+	std::vector<Board *> createCandidates(unsigned long row, unsigned long col) const;
+
 
 public:
 	//获得特定位置的点的值
@@ -91,13 +94,13 @@ private:
 	}
 	
 	inline
-	long col_id(long col)
+	long col_id(long col) const
 	{
 		return -col - 1;
 	}
 
 	inline
-	long row_id(long row)
+	long row_id(long row) const
 	{
 		return row + 1;
 	}

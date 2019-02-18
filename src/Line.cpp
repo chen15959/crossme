@@ -77,6 +77,10 @@ void Line::copyCandidates(const Line & other)
 	{
 		_candidates = new CandidateList(*(other._candidates));
 	}
+	else
+	{
+		_candidates = NULL;
+	}
 }
 
 
@@ -115,6 +119,7 @@ void Line::setPoint(Point * point, unsigned long pos)
 double Line::install(const ParamsOfLine & params)
 {
 	assert(params.size() > 0);
+	assert(_candidates == NULL);
 
 	_candidates = __candidateFactory.createCandidateList(_length, params);
 
@@ -130,16 +135,28 @@ double Line::install(const ParamsOfLine & params)
 
 
 
-bool Line::play()
+int Line::play()
 {
+	assert(_candidates);
+
 	_candidates->ruleBy(*this);
-	return setByCandidates() > 0;
+	int updated = setByCandidates();
+	if (_candidates->isError())
+	{
+		return -1;
+	}
+	else
+	{
+		return updated;
+	}
 }
 
 
 
 int Line::setByCandidates()
 {
+	assert(_candidates);
+
 	int retVal = 0;
 
 	for (unsigned long i = 0; i < _length; ++i)
@@ -154,3 +171,13 @@ int Line::setByCandidates()
 	return retVal;
 }
 
+
+
+std::map<char, int> Line::getCandidateValue(unsigned long pos) const
+{
+	assert(_candidates);
+	assert(pos < _length);
+
+	return _candidates->getCandidateValue(pos);
+
+}

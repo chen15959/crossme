@@ -1,6 +1,7 @@
 #include "io.hpp"
 
 #include <stdio.h>
+#include <windows.h>
 
 #include "Board.hpp"
 #include "CandidateFactory.hpp"
@@ -40,11 +41,20 @@ int main(int argc, const char * argv[])
 	read_puzzle_file(argv[1], col_param, row_param);
 
 	Game game(col_param.size(), row_param.size());
-	
+
+	unsigned long t1 = ::GetTickCount();
+
 	//Board board(col_param.size(), row_param.size());
 	game.install(col_param, row_param);
 
 	game.play();
+
+
+	unsigned long t2 = ::GetTickCount();
+
+	game.write(stdout);
+
+	printf("\n\n\n\nit costs %lu ms.\n", t2 - t1);
 
 	//board.write();
 

@@ -50,6 +50,12 @@ public:
 	//	仅在初始化Board时由Board调用
 	void setPoint(Point * point, unsigned long pos);
 
+
+	std::map<char, int> getCandidateValue(unsigned long pos) const;
+
+
+
+
 	//获得行的长度
 	inline
 	unsigned long getLength() const
@@ -67,7 +73,7 @@ public:
 	//	>0	这次确定了几个Point的值
 	//	=0	这次没能确定任何Point的值
 	//	=-1	发生了错误
-	bool play();
+	int play();
 
 
 private:

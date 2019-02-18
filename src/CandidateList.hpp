@@ -41,7 +41,9 @@ public:
 	bool ruleBy(const Line &);
 
 
-	char getValue(unsigned long pos);
+	char getValue(unsigned long pos) const;
+
+	std::map<char, int> getCandidateValue(unsigned long pos) const;
 
 	
 	//list中有多少条目

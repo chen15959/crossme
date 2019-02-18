@@ -65,7 +65,7 @@ private:
 
 
 public:
-	void write(FILE * output);
+	void write(FILE * output) const;
 	
 };
 

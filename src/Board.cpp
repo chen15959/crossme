@@ -276,12 +276,72 @@ bool Board::play()
 std::vector<Board *> Board::createCandidates() const
 {
 	vector<Board *> retVal;
+
 	//TODO
 	//找到最合适的点
-
-
-
-	
-	return retVal;
+	for (unsigned long r = 0; r < _row_size; r++)
+	{
+		for (unsigned long c = 0; c < _col_size; c++)
+		{
+			if (getValue(r, c) == VAL_UNKNOWN)
+			{
+				return createCandidates(r, c);
+			}
+		}
+	}
 }
 
+
+
+std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long col) const
+{
+	vector<Board *> retVal;
+	map<char, int> candidates;
+
+	//long a = row_id(row);
+//	map<long, Line *>::const_iterator tttr = _lines.find(row_id(row));
+//	Line * l = _lines[row_id(row)];
+//	map<char, int> ttt = tttr->second->getCandidateValue(col);
+	//map<char, int> tr = _lines[row_id(row)]->getCandidateValue(col);
+	map<char, int> tr = _lines.find(row_id(row))->second->getCandidateValue(col);
+
+	for (map<char, int>::const_iterator it1 = tr.begin(); it1 != tr.end(); ++it1)
+	{
+		if (candidates.find(it1->first) == candidates.end())
+		{
+			candidates.insert(pair<char, int>(it1->first, it1->second));
+		}
+		else
+		{
+			candidates[it1->first] += it1->second;
+		}
+	}
+
+	map<char, int> tc = _lines.find(col_id(col))->second->getCandidateValue(row);
+	//map<char, int> tc = _lines[col_id(col)]->getCandidateValue(row);
+	for (map<char, int>::const_iterator it2 = tc.begin(); it2 != tc.end(); ++it2)
+	{
+		if (candidates.find(it2->first) == candidates.end())
+		{
+			candidates.insert(pair<char, int>(it2->first, it2->second));
+		}
+		else
+		{
+			candidates[it2->first] += it2->second;
+		}
+	}
+
+	int v = 1;
+	for (map<char, int>::const_iterator it = candidates.begin(); it != candidates.end(); ++it)
+	{
+		Board * board = new Board(*this);
+		board->install(row, col, it->first);
+		board->_id = _id * 10 + v++;
+
+		printf("#%d\tSET [%lu, %lu] <- (%c) ==> #%d\n", _id, row + 1, col + 1, it->first, board->_id);
+		retVal.push_back(board);
+	}
+
+	return retVal;
+
+}

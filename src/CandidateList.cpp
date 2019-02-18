@@ -113,7 +113,7 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-char CandidateList::getValue(unsigned long pos)
+char CandidateList::getValue(unsigned long pos) const
 {
 //	assert(size() > 0);
 	assert(pos >= 0 && pos < _length);
@@ -138,5 +138,28 @@ char CandidateList::getValue(unsigned long pos)
 }
 
 
+
+std::map<char, int> CandidateList::getCandidateValue(unsigned long pos) const
+{
+//	assert(size() > 0);
+	assert(pos >= 0 && pos < _length);
+
+	map<char, int> retVal;
+
+	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
+	{
+		char value = it1->second->getValue(pos);
+		if (retVal.find(value) == retVal.end())
+		{
+			retVal.insert(pair<char, int>(value, 1));
+		}
+		else
+		{
+			retVal[value]++;
+		}
+	}
+
+	return retVal;
+}
 
 

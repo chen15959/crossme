@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+#include "io.hpp"
+
 #include <assert.h>
 using namespace std;
 
@@ -13,7 +15,7 @@ Game::Game(unsigned long col_size, unsigned long row_size)
 	_col_size = col_size;
 	_row_size = row_size;
 	
-	_todo.push_back(new Board(_col_size, _row_size));
+	_todo.push_back(new Board(_col_size, _row_size, 1));
 
 	_installed = false;
 }
@@ -125,4 +127,16 @@ bool Game::play()
 	}
 
 	return true;
+}
+
+
+
+void Game::write(FILE * output) const
+{
+	for (list<Board *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
+	{
+		output_board(**it, output);
+	}
+
+
 }
