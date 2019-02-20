@@ -1,7 +1,7 @@
 #include "Board.hpp"
 
 #include "Line.hpp"
-#include "io.hpp"
+//#include "io.hpp"
 #include <assert.h>
 #include <stdlib.h>
 using namespace std;
@@ -9,10 +9,11 @@ using namespace std;
 
 
 
-Board::Board(unsigned long col_size, unsigned long row_size, int id)
+Board::Board(unsigned long col_size, unsigned long row_size, int id, int output_level)
 {
 	init(col_size, row_size);
 	_id = id;
+	_output_level = output_level;
 }
 
 
@@ -87,6 +88,8 @@ void Board::copy(const Board & other)
 	//初始化
 	init(other._col_size, other._row_size);
 
+	int old_output_level = _output_level;
+	_output_level = OUTPUT_RESULT;
 	//复制Point的值
 	for (unsigned long r = 0; r < _row_size; ++r)
 	{
@@ -96,6 +99,7 @@ void Board::copy(const Board & other)
 			_points[idx]->setValue(other.getValue(r, c));
 		}
 	}
+	_output_level = old_output_level;
 	
 	//复制Line的值
 	for (map<long, Line *>::const_iterator it1 = other._lines.begin(); it1 != other._lines.end(); ++it1)
@@ -104,6 +108,9 @@ void Board::copy(const Board & other)
 	}
 
 	_id = other._id;
+	_output_level = other._output_level;
+
+	_todo.clear();
 }
 
 
@@ -228,7 +235,10 @@ void Board::point_change_callback(unsigned long row, unsigned long col, char val
 	_todo.push(row_id(row));
 	_todo.push(col_id(col));
 	
-	printf("\t[%lu, %lu] -> (%c)\n", row + 1, col + 1, value);
+	if (_output_level >= OUTPUT_STEPS)
+	{
+		printf("\t[%lu, %lu] = (%c)\n", row + 1, col + 1, value);
+	}
 }
 
 bool output_every_step = false;
@@ -239,33 +249,71 @@ bool Board::play()
 	while (_todo.size() > 0)
 	{
 		long p = _todo.top();
-		if (p > 0)
+		
+		if (_output_level == OUTPUT_STEPS)
 		{
-			printf("#%d\tROW: %d\n", _id, p);
-		}
-		else
-		{
-			printf("#%d\tCOL: %d\n", _id, -p);
+			if (p > 0)
+			{
+				printf("#%d\tROW: %d\n", _id, p);
+			}
+			else
+			{
+				printf("#%d\tCOL: %d\n", _id, -p);
+			}
 		}
 
-		_lines[p]->play();
+		int ret = _lines[p]->play();
+
+		if (_output_level == OUTPUT_ROUNDS || _output_level == OUTPUT_ROUNDS_EFF)
+		{
+			if (ret > 0)
+			{
+				if (p > 0)
+				{
+					printf("#%d\tROW: %d\t(%d)\n", _id, p, ret);
+				}
+				else
+				{
+					printf("#%d\tCOL: %d\t(%d)\n", _id, -p, ret);
+				}
+			}
+			else if (ret < 0)
+			{
+				if (p > 0)
+				{
+					printf("#%d\tROW: %d\tERROR\n", _id, p);
+				}
+				else
+				{
+					printf("#%d\tCOL: %d\tERROR\n", _id, -p);
+				}
+
+				return false;
+			}
+			else if (ret == 0)
+			{
+				if (_output_level == OUTPUT_ROUNDS)
+				{
+					if (p > 0)
+					{
+						printf("#%d\tROW: %d\t(0)\n", _id, p);
+					}
+					else
+					{
+						printf("#%d\tCOL: %d\t(0)\n", _id, -p);
+					}
+				}
+			}
+		}
+		
+		if (ret < 0)
+		{
+			return false;
+		}
+
 		_todo.pop();
-
-		if (output_every_step)
-		{
-			this->print(stdout, true);
-		}
 	}
 
-//	for (map<long, Line *>::const_iterator it = _lines.begin(); it != _lines.end(); ++it)
-//	{
-//		_todo.push(it->first);
-//	}
-
-
-
-
-	//todo
 	return true;
 }
 
@@ -338,7 +386,11 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 		board->install(row, col, it->first);
 		board->_id = _id * 10 + v++;
 
-		printf("#%d\tSET [%lu, %lu] <- (%c) ==> #%d\n", _id, row + 1, col + 1, it->first, board->_id);
+		if (_output_level >= OUTPUT_TRIES)
+		{
+			printf("#%d\tTRY [%lu, %lu] = (%c) -> #%d\n", _id, row + 1, col + 1, it->first, board->_id);
+		}
+			
 		retVal.push_back(board);
 	}
 
@@ -347,9 +399,9 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 }
 
 
-void Board::print(FILE * output, bool header) const
+void Board::print(FILE * output) const
 {
-	if (_id > 0 && header)
+	if (_id > 1)
 	{
 		fprintf(output, "-= %d =-\n", _id);
 	}

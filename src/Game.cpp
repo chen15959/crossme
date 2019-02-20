@@ -7,7 +7,7 @@ using namespace std;
 
 
 
-Game::Game(unsigned long col_size, unsigned long row_size)
+Game::Game(unsigned long col_size, unsigned long row_size, int output_level)
 {
 	assert(col_size > 0);
 	assert(row_size > 0);
@@ -15,7 +15,7 @@ Game::Game(unsigned long col_size, unsigned long row_size)
 	_col_size = col_size;
 	_row_size = row_size;
 	
-	_todo.push_back(new Board(_col_size, _row_size, 1));
+	_todo.push_back(new Board(_col_size, _row_size, 1, output_level));
 
 	_installed = false;
 }
@@ -110,11 +110,16 @@ bool Game::play()
 		if (board->isDone())
 		{
 			_done.push_back(board);
+
 		}
 		else if (board->isError())
 		{
-			//todo
-			//log
+			if (board->output_level() >= OUTPUT_TRIES)
+			{
+				printf("#%d\tFAILED\n", board->id());
+			}
+
+			delete board;
 		}
 		else
 		{
@@ -123,6 +128,8 @@ bool Game::play()
 			{
 				_todo.push_back(*it);
 			}
+
+			delete board;
 		}
 	}
 
@@ -136,8 +143,7 @@ void Game::write(FILE * output) const
 
 	for (list<Board *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
 	{
-		(*it)->print(stdout, _done.size() > 1);
-//		output_board(**it, output);
+		(*it)->print(stdout);
 	}
 
 

@@ -8,14 +8,24 @@
 
 
 
-//棋盘
-//
+
+#define OUTPUT_RESULT			0		//只输出结果
+#define OUTPUT_TRIES			1		//输出每一次尝试
+#define OUTPUT_ROUNDS_EFF		2		//只输出有意义的轮次
+#define OUTPUT_ROUNDS			3		//输出每一轮的情况
+#define OUTPUT_STEPS			4		//输出每一个点的改变
+
+
+
+/**
+棋盘
+*/
 class Board
 {
 public:
 	//构造函数
 	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size, int id = -1);
+	Board(unsigned long col_size, unsigned long row_size, int id, int output_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -59,6 +69,7 @@ public:
 	std::vector<Board *> createCandidates() const;
 
 private:
+	//基于某点生成多种可能性
 	std::vector<Board *> createCandidates(unsigned long row, unsigned long col) const;
 
 
@@ -68,6 +79,7 @@ public:
 	
 	
 public:
+	//点被改变的回调
 	void point_change_callback(unsigned long row, unsigned long col, char value);
 	
 private:
@@ -82,6 +94,7 @@ private:
 	//所有行/列
 	std::map<long, Line *>		_lines;
 
+	//待分析的行/列
 	WeightQueue					_todo;
 
 
@@ -108,7 +121,7 @@ private:
 
 public:
 	inline
-	int id() const
+	unsigned long id() const
 	{
 		return _id;
 	}
@@ -129,11 +142,22 @@ public:
 
 
 private:
-	int		_id;
+	unsigned long		_id;
 
 
 public:
-	void print(FILE * output, bool header) const;
+	//输出结果
+	void print(FILE * output) const;
+
+
+	//输出登记
+	inline int output_level() const
+	{
+		return _output_level;
+	}
+private:
+	int		_output_level;
+
 
 };
 

@@ -21,7 +21,7 @@ class Game
 {
 public:
 	//从参数构建新游戏
-	Game(unsigned long col_size, unsigned long row_size);
+	Game(unsigned long col_size, unsigned long row_size, int output_level = 0);
 	//析构
 	virtual ~Game();
 
