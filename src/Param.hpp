@@ -55,6 +55,9 @@ private:
 	char			_type;
 	//数量
 	unsigned long	_size;
+
+public:
+	static const Param INVALID;
 };
 
 

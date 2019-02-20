@@ -4,6 +4,9 @@
 
 
 
+const Param Param::INVALID(0, VAL_EMPTY);
+
+
 
 Param::Param(unsigned long size, char type)
 {
