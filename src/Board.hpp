@@ -130,6 +130,11 @@ public:
 
 private:
 	int		_id;
+
+
+public:
+	void print(FILE * output, bool header) const;
+
 };
 
 

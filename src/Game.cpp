@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-#include "io.hpp"
+//#include "io.hpp"
 
 #include <assert.h>
 using namespace std;
@@ -133,9 +133,11 @@ bool Game::play()
 
 void Game::write(FILE * output) const
 {
+
 	for (list<Board *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
 	{
-		output_board(**it, output);
+		(*it)->print(stdout, _done.size() > 1);
+//		output_board(**it, output);
 	}
 
 

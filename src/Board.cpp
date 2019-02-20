@@ -253,7 +253,7 @@ bool Board::play()
 
 		if (output_every_step)
 		{
-			output_board(*this, stdout);
+			this->print(stdout, true);
 		}
 	}
 
@@ -343,5 +343,37 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 	}
 
 	return retVal;
+
+}
+
+
+void Board::print(FILE * output, bool header) const
+{
+	if (_id > 0 && header)
+	{
+		fprintf(output, "-= %d =-\n", _id);
+	}
+
+	for (unsigned long row = 0; row < row_size(); ++row)
+	{
+		if (row % 5 == 0)
+		{
+			fprintf(output, "\n");
+		}
+
+		for (unsigned long col = 0; col < col_size(); ++col)
+		{
+			if (col % 5 == 0 && col > 0)
+			{
+				fprintf(output, " ");
+			}
+			fprintf(output, "%c", getValue(row, col));
+		}
+		fprintf(output, "\n");
+	}
+
+	fprintf(output, "\n\n");
+
+
 
 }
