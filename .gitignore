@@ -9,4 +9,3 @@ src/build/Release/*
 *.suo
 *.vcproj.*.user
 
-*.sln
