@@ -15,7 +15,7 @@ Game::Game(unsigned long col_size, unsigned long row_size, int output_level)
 	_col_size = col_size;
 	_row_size = row_size;
 	
-	_todo.push_back(new Board(_col_size, _row_size, 1, output_level));
+	_todo.push_back(new Board(_col_size, _row_size, output_level));
 
 	_installed = false;
 }
@@ -113,14 +113,14 @@ bool Game::play()
 
 			if (board->output_level() >= OUTPUT_TRIES)
 			{
-				printf("#%d\tSUCCEEDED\n", board->id());
+				printf("#%s\tSUCCEEDED\n", board->id());
 			}
 		}
 		else if (board->isError())
 		{
 			if (board->output_level() >= OUTPUT_TRIES)
 			{
-				printf("#%d\tFAILED\n", board->id());
+				printf("#%s\tFAILED\n", board->id());
 			}
 
 			delete board;
@@ -129,7 +129,7 @@ bool Game::play()
 		{
 			if (board->output_level() >= OUTPUT_TRIES)
 			{
-				printf("#%d\t%u/%u\n", board->id(), board->known(), _col_size * _row_size);
+				printf("#%s\t%u/%u\n", board->id(), board->known(), _col_size * _row_size);
 			}
 
 			vector<Board *> newBoards = board->createCandidates();

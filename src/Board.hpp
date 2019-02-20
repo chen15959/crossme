@@ -6,6 +6,7 @@
 #include "Line.hpp"
 #include "WeightQueue.hpp"
 
+#include <string>
 
 
 
@@ -25,7 +26,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size, int id, int output_level);
+	Board(unsigned long col_size, unsigned long row_size, int output_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -120,12 +121,18 @@ private:
 
 
 public:
+/*
 	inline
 	unsigned long id() const
 	{
 		return _id;
 	}
-
+*/
+	inline
+	const char * id() const
+	{
+		return _id.c_str();
+	}
 
 	inline
 	unsigned long row_size() const
@@ -142,7 +149,8 @@ public:
 
 
 private:
-	unsigned long		_id;
+//	unsigned long		_id;
+	std::string			_id;
 
 
 public:

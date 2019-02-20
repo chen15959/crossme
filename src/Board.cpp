@@ -9,10 +9,10 @@ using namespace std;
 
 
 
-Board::Board(unsigned long col_size, unsigned long row_size, int id, int output_level)
+Board::Board(unsigned long col_size, unsigned long row_size, int output_level)
+:_id("1")
 {
 	init(col_size, row_size);
-	_id = id;
 	_output_level = output_level;
 }
 
@@ -254,11 +254,11 @@ bool Board::play()
 		{
 			if (p > 0)
 			{
-				printf("#%d\tROW: %d\n", _id, p);
+				printf("#%s\tROW: %d\n", id(), p);
 			}
 			else
 			{
-				printf("#%d\tCOL: %d\n", _id, -p);
+				printf("#%s\tCOL: %d\n", id(), -p);
 			}
 		}
 
@@ -270,22 +270,22 @@ bool Board::play()
 			{
 				if (p > 0)
 				{
-					printf("#%d\tROW: %d\t(%d)\n", _id, p, ret);
+					printf("#%s\tROW: %d\t(%d)\n", id(), p, ret);
 				}
 				else
 				{
-					printf("#%d\tCOL: %d\t(%d)\n", _id, -p, ret);
+					printf("#%s\tCOL: %d\t(%d)\n", id(), -p, ret);
 				}
 			}
 			else if (ret < 0)
 			{
 				if (p > 0)
 				{
-					printf("#%d\tROW: %d\tERROR\n", _id, p);
+					printf("#%s\tROW: %d\tERROR\n", id(), p);
 				}
 				else
 				{
-					printf("#%d\tCOL: %d\tERROR\n", _id, -p);
+					printf("#%s\tCOL: %s\tERROR\n", id(), -p);
 				}
 
 				return false;
@@ -296,11 +296,11 @@ bool Board::play()
 				{
 					if (p > 0)
 					{
-						printf("#%d\tROW: %d\t(0)\n", _id, p);
+						printf("#%s\tROW: %d\t(0)\n", id(), p);
 					}
 					else
 					{
-						printf("#%d\tCOL: %d\t(0)\n", _id, -p);
+						printf("#%s\tCOL: %d\t(0)\n", id(), -p);
 					}
 				}
 			}
@@ -392,11 +392,13 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 		board->install(row, col, it->first);
 		board->_output_level = _output_level;
 
-		board->_id = _id * 10 + v++;
+		char buf[16];
+		itoa(v++, buf, 10);
+		board->_id += buf;
 
 		if (_output_level >= OUTPUT_TRIES)
 		{
-			printf("#%d\tTRY [%lu, %lu] = (%c) -> #%d\n", _id, row + 1, col + 1, it->first, board->_id);
+			printf("#%s\tTRY [%lu, %lu] = (%c) -> #%s\n", id(), row + 1, col + 1, it->first, board->id());
 		}
 			
 		retVal.push_back(board);
@@ -409,9 +411,9 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 
 void Board::print(FILE * output) const
 {
-	if (_id > 1)
+	if (_id != "1")
 	{
-		fprintf(output, "-= %d =-\n", _id);
+		fprintf(output, "-= %s =-\n", id());
 	}
 
 	for (unsigned long row = 0; row < row_size(); ++row)
