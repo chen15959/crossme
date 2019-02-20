@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Puzzle.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\WeightQueue.cpp"
 				>
 			</File>
@@ -254,6 +258,10 @@
 			</File>
 			<File
 				RelativePath="..\Point.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Puzzle.hpp"
 				>
 			</File>
 			<File
