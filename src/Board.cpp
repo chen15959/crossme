@@ -257,10 +257,10 @@ bool Board::play()
 		}
 	}
 
-	for (map<long, Line *>::const_iterator it = _lines.begin(); it != _lines.end(); ++it)
-	{
-		_todo.push(it->first);
-	}
+//	for (map<long, Line *>::const_iterator it = _lines.begin(); it != _lines.end(); ++it)
+//	{
+//		_todo.push(it->first);
+//	}
 
 
 
