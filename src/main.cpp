@@ -6,6 +6,7 @@
 #include "Board.hpp"
 #include "CandidateFactory.hpp"
 #include "Game.hpp"
+#include "Puzzle.hpp"
 
 
 
@@ -34,18 +35,21 @@ int main(int argc, const char * argv[])
 	CandidateList * cl = cf.createCandidateList(10, pol);
 	cl->print();
 */
+	Puzzle puzzle;
+	puzzle.load_puzzle_file(argv[1]);
 
-	ParamsOfLines col_param;
-	ParamsOfLines row_param;
+//	ParamsOfLines col_param;
+//	ParamsOfLines row_param;
 
-	read_puzzle_file(argv[1], col_param, row_param);
+//	read_puzzle_file(argv[1], col_param, row_param);
 
-	Game game(col_param.size(), row_param.size());
+	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size());
 
 	unsigned long t1 = ::GetTickCount();
 
 	//Board board(col_param.size(), row_param.size());
-	game.install(col_param, row_param);
+	game.install(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
+	//game.install(col_param, row_param);
 
 	game.play();
 

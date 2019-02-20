@@ -191,10 +191,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\io.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Line.cpp"
 				>
 			</File>
@@ -242,10 +238,6 @@
 			</File>
 			<File
 				RelativePath="..\Game.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\io.hpp"
 				>
 			</File>
 			<File
