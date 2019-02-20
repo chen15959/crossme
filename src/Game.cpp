@@ -111,6 +111,10 @@ bool Game::play()
 		{
 			_done.push_back(board);
 
+			if (board->output_level() >= OUTPUT_TRIES)
+			{
+				printf("#%d\tSUCCEEDED\n", board->id());
+			}
 		}
 		else if (board->isError())
 		{
@@ -123,6 +127,11 @@ bool Game::play()
 		}
 		else
 		{
+			if (board->output_level() >= OUTPUT_TRIES)
+			{
+				printf("#%d\t%u/%u\n", board->id(), board->known(), _col_size * _row_size);
+			}
+
 			vector<Board *> newBoards = board->createCandidates();
 			for (vector<Board *>::const_iterator it = newBoards.begin(); it != newBoards.end(); ++it)
 			{

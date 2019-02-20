@@ -159,6 +159,12 @@ private:
 	int		_output_level;
 
 
+public:
+	unsigned long known() const;
+
+
+
+
 };
 
 

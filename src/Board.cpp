@@ -250,7 +250,7 @@ bool Board::play()
 	{
 		long p = _todo.top();
 		
-		if (_output_level == OUTPUT_STEPS)
+		if (_output_level >= OUTPUT_STEPS)
 		{
 			if (p > 0)
 			{
@@ -305,9 +305,14 @@ bool Board::play()
 				}
 			}
 		}
-		
+
+
 		if (ret < 0)
 		{
+			if (_output_level >= OUTPUT_STEPS)
+			{
+				printf("\tFAILED\n");
+			}
 			return false;
 		}
 
@@ -383,7 +388,10 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 	for (map<char, int>::const_iterator it = candidates.begin(); it != candidates.end(); ++it)
 	{
 		Board * board = new Board(*this);
+		board->_output_level = OUTPUT_RESULT;
 		board->install(row, col, it->first);
+		board->_output_level = _output_level;
+
 		board->_id = _id * 10 + v++;
 
 		if (_output_level >= OUTPUT_TRIES)
@@ -427,5 +435,27 @@ void Board::print(FILE * output) const
 	fprintf(output, "\n\n");
 
 
+
+}
+
+
+
+
+unsigned long Board::known() const
+{
+	unsigned long ret = 0;
+
+	for (unsigned long r = 0; r < _row_size; r++)
+	{
+		for (unsigned long c = 0; c < _col_size; c++)
+		{
+			if (getValue(r, c) != VAL_UNKNOWN)
+			{
+				ret++;
+			}
+		}
+	}
+
+	return ret;
 
 }
