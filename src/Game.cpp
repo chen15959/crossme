@@ -129,7 +129,8 @@ bool Game::play()
 		{
 			if (board->output_level() >= OUTPUT_TRIES)
 			{
-				printf("#%s\t%u/%u\n", board->id(), board->known(), _col_size * _row_size);
+				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _col_size * _row_size);
+				board->print(stdout);
 			}
 
 			vector<Board *> newBoards = board->createCandidates();

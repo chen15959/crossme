@@ -254,11 +254,11 @@ bool Board::play()
 		{
 			if (p > 0)
 			{
-				printf("#%s\tROW: %d\n", id(), p);
+				printf("#%s\tROW: %ld\n", id(), p);
 			}
 			else
 			{
-				printf("#%s\tCOL: %d\n", id(), -p);
+				printf("#%s\tCOL: %ld\n", id(), -p);
 			}
 		}
 
@@ -270,22 +270,22 @@ bool Board::play()
 			{
 				if (p > 0)
 				{
-					printf("#%s\tROW: %d\t(%d)\n", id(), p, ret);
+					printf("#%s\tROW: %ld\t(%d)\n", id(), p, ret);
 				}
 				else
 				{
-					printf("#%s\tCOL: %d\t(%d)\n", id(), -p, ret);
+					printf("#%s\tCOL: %ld\t(%d)\n", id(), -p, ret);
 				}
 			}
 			else if (ret < 0)
 			{
 				if (p > 0)
 				{
-					printf("#%s\tROW: %d\tERROR\n", id(), p);
+					printf("#%s\tROW: %ld\tERROR\n", id(), p);
 				}
 				else
 				{
-					printf("#%s\tCOL: %s\tERROR\n", id(), -p);
+					printf("#%s\tCOL: %ld\tERROR\n", id(), -p);
 				}
 
 				return false;
@@ -296,11 +296,11 @@ bool Board::play()
 				{
 					if (p > 0)
 					{
-						printf("#%s\tROW: %d\t(0)\n", id(), p);
+						printf("#%s\tROW: %ld\t(0)\n", id(), p);
 					}
 					else
 					{
-						printf("#%s\tCOL: %d\t(0)\n", id(), -p);
+						printf("#%s\tCOL: %ld\t(0)\n", id(), -p);
 					}
 				}
 			}
@@ -342,6 +342,8 @@ std::vector<Board *> Board::createCandidates() const
 			}
 		}
 	}
+	
+	return retVal;
 }
 
 
@@ -393,7 +395,7 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 		board->_output_level = _output_level;
 
 		char buf[16];
-		itoa(v++, buf, 10);
+		sprintf(buf, "%d", v++);
 		board->_id += buf;
 
 		if (_output_level >= OUTPUT_TRIES)

@@ -64,7 +64,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "puzzle/black/2.42.txt"
+            argument = "puzzle/black/8.202.txt"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		59199B7421F8B5FC00F0443B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59199B7321F8B5FC00F0443B /* main.cpp */; };
-		59451B6E21F8CE4D00351F75 /* io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B6D21F8CE4D00351F75 /* io.cpp */; };
 		59451B7121F8CF6D00351F75 /* Param.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7021F8CF6C00351F75 /* Param.cpp */; };
 		59451B7421F9BE6B00351F75 /* Point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7221F9BE6A00351F75 /* Point.cpp */; };
 		59451B7721F9BFE000351F75 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7621F9BFE000351F75 /* Board.cpp */; };
 		59451B7A21F9CF4000351F75 /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7921F9CF3F00351F75 /* Line.cpp */; };
 		59E35ED9220C73D200B0F4BF /* CandidateFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35ED7220C73D200B0F4BF /* CandidateFactory.cpp */; };
 		59E35EDC220C73E600B0F4BF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35EDA220C73E600B0F4BF /* Game.cpp */; };
+		59E35EF9221D9C5A00B0F4BF /* Puzzle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35EF6221D9C5A00B0F4BF /* Puzzle.cpp */; };
+		59E35EFA221D9C5A00B0F4BF /* WeightQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35EF8221D9C5A00B0F4BF /* WeightQueue.cpp */; };
 		59EB142A21FE063D00D5E942 /* Candidate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59EB142921FE063C00D5E942 /* Candidate.cpp */; };
 		59EB142E21FE227400D5E942 /* CandidateList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59EB142D21FE227400D5E942 /* CandidateList.cpp */; };
 /* End PBXBuildFile section */
@@ -34,8 +35,6 @@
 /* Begin PBXFileReference section */
 		59199B6721F87E6F00F0443B /* crossme */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = crossme; sourceTree = BUILT_PRODUCTS_DIR; };
 		59199B7321F8B5FC00F0443B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main.cpp; sourceTree = "<group>"; usesTabs = 1; };
-		59451B6C21F8CE4D00351F75 /* io.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = io.hpp; path = ../io.hpp; sourceTree = "<group>"; usesTabs = 1; };
-		59451B6D21F8CE4D00351F75 /* io.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = io.cpp; path = ../io.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B6F21F8CF6C00351F75 /* Param.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Param.hpp; path = ../Param.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B7021F8CF6C00351F75 /* Param.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Param.cpp; path = ../Param.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59451B7221F9BE6A00351F75 /* Point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Point.cpp; path = ../Point.cpp; sourceTree = "<group>"; usesTabs = 1; };
@@ -49,6 +48,9 @@
 		59E35EDA220C73E600B0F4BF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = ../Game.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59E35EDB220C73E600B0F4BF /* Game.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Game.hpp; path = ../Game.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59E35EE0220EDB6E00B0F4BF /* WeightQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = WeightQueue.hpp; path = ../WeightQueue.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		59E35EF6221D9C5A00B0F4BF /* Puzzle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Puzzle.cpp; path = ../Puzzle.cpp; sourceTree = "<group>"; };
+		59E35EF7221D9C5A00B0F4BF /* Puzzle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Puzzle.hpp; path = ../Puzzle.hpp; sourceTree = "<group>"; };
+		59E35EF8221D9C5A00B0F4BF /* WeightQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WeightQueue.cpp; path = ../WeightQueue.cpp; sourceTree = "<group>"; };
 		59EB142921FE063C00D5E942 /* Candidate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Candidate.cpp; path = ../Candidate.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59EB142B21FE064800D5E942 /* Candidate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Candidate.hpp; path = ../Candidate.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59EB142C21FE227400D5E942 /* CandidateList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CandidateList.hpp; path = ../CandidateList.hpp; sourceTree = "<group>"; usesTabs = 1; };
@@ -69,6 +71,9 @@
 		59199B5E21F87E6F00F0443B = {
 			isa = PBXGroup;
 			children = (
+				59E35EF6221D9C5A00B0F4BF /* Puzzle.cpp */,
+				59E35EF7221D9C5A00B0F4BF /* Puzzle.hpp */,
+				59E35EF8221D9C5A00B0F4BF /* WeightQueue.cpp */,
 				59E35EE0220EDB6E00B0F4BF /* WeightQueue.hpp */,
 				59E35ED7220C73D200B0F4BF /* CandidateFactory.cpp */,
 				59E35ED8220C73D200B0F4BF /* CandidateFactory.hpp */,
@@ -84,10 +89,8 @@
 				59451B7321F9BE6A00351F75 /* Point.hpp */,
 				59451B7021F8CF6C00351F75 /* Param.cpp */,
 				59451B6F21F8CF6C00351F75 /* Param.hpp */,
-				59451B6D21F8CE4D00351F75 /* io.cpp */,
 				59E35EDA220C73E600B0F4BF /* Game.cpp */,
 				59E35EDB220C73E600B0F4BF /* Game.hpp */,
-				59451B6C21F8CE4D00351F75 /* io.hpp */,
 				59199B7321F8B5FC00F0443B /* main.cpp */,
 				59199B6821F87E6F00F0443B /* Products */,
 			);
@@ -158,8 +161,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				59451B7421F9BE6B00351F75 /* Point.cpp in Sources */,
+				59E35EF9221D9C5A00B0F4BF /* Puzzle.cpp in Sources */,
 				59EB142A21FE063D00D5E942 /* Candidate.cpp in Sources */,
-				59451B6E21F8CE4D00351F75 /* io.cpp in Sources */,
+				59E35EFA221D9C5A00B0F4BF /* WeightQueue.cpp in Sources */,
 				59EB142E21FE227400D5E942 /* CandidateList.cpp in Sources */,
 				59199B7421F8B5FC00F0443B /* main.cpp in Sources */,
 				59451B7A21F9CF4000351F75 /* Line.cpp in Sources */,
