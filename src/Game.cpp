@@ -1,21 +1,22 @@
 #include "Game.hpp"
 
-//#include "io.hpp"
-
 #include <assert.h>
 using namespace std;
 
 
 
-Game::Game(unsigned long col_size, unsigned long row_size, int output_level)
+
+Game::Game(unsigned long col_size, unsigned long row_size, int log_level, int display_level)
 {
 	assert(col_size > 0);
 	assert(row_size > 0);
 	
 	_col_size = col_size;
 	_row_size = row_size;
+
+	display_level = min(log_level, display_level);
 	
-	_todo.push_back(new Board(_col_size, _row_size, output_level));
+	_todo.push_back(new Board(_col_size, _row_size, log_level, display_level));
 
 	_installed = false;
 }
@@ -111,14 +112,14 @@ bool Game::play()
 		{
 			_done.push_back(board);
 
-			if (board->output_level() >= OUTPUT_TRIES)
+			if (board->log_level() >= LOG_TRY)
 			{
 				printf("#%s\tSUCCEEDED\n", board->id());
 			}
 		}
 		else if (board->isError())
 		{
-			if (board->output_level() >= OUTPUT_TRIES)
+			if (board->log_level() >= LOG_TRY)
 			{
 				printf("#%s\tFAILED\n", board->id());
 			}
@@ -127,10 +128,13 @@ bool Game::play()
 		}
 		else
 		{
-			if (board->output_level() >= OUTPUT_TRIES)
+			if (board->log_level() >= LOG_TRY)
 			{
 				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _col_size * _row_size);
-				board->print(stdout);
+				if (board->display_level() >= DIS_TRY)
+				{
+					board->print(stdout, true);
+				}
 			}
 
 			vector<Board *> newBoards = board->createCandidates();
@@ -153,7 +157,7 @@ void Game::write(FILE * output) const
 
 	for (list<Board *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
 	{
-		(*it)->print(stdout);
+		(*it)->print(output);
 	}
 
 

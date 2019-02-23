@@ -9,13 +9,14 @@
 #include <string>
 
 
+#define LOG_RESULT			0		//只输出结果
+#define LOG_TRY				1		//输出每一次尝试
+#define LOG_ROUND			2		//输出每一轮的情况
+#define LOG_STEP			3		//输出每一个点的改变
 
-#define OUTPUT_RESULT			0		//只输出结果
-#define OUTPUT_TRIES			1		//输出每一次尝试
-#define OUTPUT_ROUNDS_EFF		2		//只输出有意义的轮次
-#define OUTPUT_ROUNDS			3		//输出每一轮的情况
-#define OUTPUT_STEPS			4		//输出每一个点的改变
-
+#define DIS_RESULT			0
+#define DIS_TRY				1
+#define	DIS_ROUND			2
 
 
 /**
@@ -26,7 +27,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size, int output_level);
+	Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -155,16 +156,26 @@ private:
 
 public:
 	//输出结果
-	void print(FILE * output) const;
+	void print(FILE * output, bool head = false) const;
 
 
-	//输出登记
-	inline int output_level() const
+	//输出等级
+	inline 
+	int log_level() const
 	{
-		return _output_level;
+		return _log_level;
 	}
+
+	inline
+	int display_level() const
+	{
+		return _display_level;
+	}
+
+
 private:
-	int		_output_level;
+	int		_log_level;
+	int		_display_level;
 
 
 public:
