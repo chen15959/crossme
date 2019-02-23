@@ -25,12 +25,54 @@ unsigned long long now_ms()
 
 int main(int argc, const char * argv[])
 {
-
 	Puzzle puzzle;
+
+	int log_level = 0; //default
+	int display_level = 0;
+
+
+	for (int i = 1; i < argc; ++i)
+	{
+		if (strcmp(argv[i], "--log:step") == 0)
+		{
+			log_level = max(log_level, LOG_TRY);
+		}
+
+		if (strcmp(argv[i], "--log:round") == 0)
+		{
+			log_level = max(log_level, LOG_ROUND);
+		}
+
+		if (strcmp(argv[i], "--log:try") == 0)
+		{
+			log_level = max(log_level, LOG_TRY);
+		}
+
+		if (strcmp(argv[i], "--log:result") == 0)
+		{
+			log_level = max(log_level, LOG_RESULT);
+		}
+
+		if (strcmp(argv[i], "--display:round") == 0)
+		{
+			display_level = max(display_level, DIS_ROUND);
+		}
+
+		if (strcmp(argv[i], "--display:try") == 0)
+		{
+			display_level = max(display_level, DIS_TRY);
+		}
+
+		if (strcmp(argv[i], "--display:result") == 0)
+		{
+			display_level = max(display_level, DIS_RESULT);
+		}
+	}
+
+
 	puzzle.load_puzzle_file(argv[1]);
 
-
-	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), OUTPUT_RESULT);
+	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), log_level, display_level);
 
 	unsigned long long t1 = now_ms();
 
