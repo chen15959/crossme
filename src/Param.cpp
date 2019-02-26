@@ -4,22 +4,19 @@
 
 
 
-const Param Param::INVALID(0, VAL_EMPTY);
 
-
-
-Param::Param(unsigned long size, char type)
+Param::Param(short size, char type)
 {
-	this->_type = type;
-	this->_size = size;
+	_type = type;
+	_size = size;
 }
 
 
 
 Param::Param(const Param & other)
 {
-	this->_type = other._type;
-	this->_size = other._size;
+	_type = other._type;
+	_size = other._size;
 }
 
 
@@ -35,8 +32,8 @@ Param & Param::operator=(const Param & rhs)
 {
 	if (&rhs != this)
 	{
-		this->_type = rhs._type;
-		this->_size = rhs._size;
+		_type = rhs._type;
+		_size = rhs._size;
 	}
 	
 	return *this;

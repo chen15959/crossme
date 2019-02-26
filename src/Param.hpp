@@ -18,7 +18,7 @@ public:
 	//在单颜色模式下 只输入第一个参数就行
 	
 	//构造函数
-	Param(unsigned long size, char type = 'A');
+	Param(short size, char type = 'A');
 	//拷贝构造
 	Param(const Param & other);
 	//析构函数
@@ -34,19 +34,25 @@ public:
 	{
 		return _type;
 	}
-	
+
+	inline
+	char type() const
+	{
+		return _type;
+	}
+
+
 	//获得数量
 	inline
 	unsigned long getSize() const
 	{
 		return _size;
 	}
-	
-	//是否为合法的参数
+
 	inline
-	bool isValid() const
+	short size() const
 	{
-		return _type != VAL_EMPTY;
+		return _size;
 	}
 	
 	
@@ -54,10 +60,7 @@ private:
 	//类型，单色模式下常为A
 	char			_type;
 	//数量
-	unsigned long	_size;
-
-public:
-	static const Param INVALID;
+	short			_size;
 };
 
 
