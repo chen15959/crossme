@@ -23,6 +23,16 @@ unsigned long long now_ms()
 }
 
 
+
+double factor_ax = -1;
+double factor_bx = 0.5;
+double factor_cx = 1.5;
+double factor_ay = 0;
+double factor_by = 0;
+double factor_cy = 0;
+//0,5,1,?,?,?
+
+
 int main(int argc, const char * argv[])
 {
 	Puzzle puzzle;
@@ -36,37 +46,77 @@ int main(int argc, const char * argv[])
 		if (strcmp(argv[i], "--log:step") == 0)
 		{
 			log_level = max(log_level, LOG_TRY);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--log:round") == 0)
 		{
 			log_level = max(log_level, LOG_ROUND);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--log:try") == 0)
 		{
 			log_level = max(log_level, LOG_TRY);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--log:result") == 0)
 		{
 			log_level = max(log_level, LOG_RESULT);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--display:round") == 0)
 		{
 			display_level = max(display_level, DIS_ROUND);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--display:try") == 0)
 		{
 			display_level = max(display_level, DIS_TRY);
+			continue;
 		}
 
 		if (strcmp(argv[i], "--display:result") == 0)
 		{
 			display_level = max(display_level, DIS_RESULT);
+			continue;
 		}
+
+
+		if (sscanf(argv[i], "--factor-ax:%f", &factor_ax) == 1)
+		{
+			continue;
+		}
+
+		if (sscanf(argv[i], "--factor-bx:%f", &factor_bx) == 1)
+		{
+			continue;
+		}
+
+		if (sscanf(argv[i], "--factor-cx:%f", &factor_cx) == 1)
+		{
+			continue;
+		}
+
+		if (sscanf(argv[i], "--factor-ay:%f", &factor_ax) == 1)
+		{
+			continue;
+		}
+
+		if (sscanf(argv[i], "--factor-by:%f", &factor_bx) == 1)
+		{
+			continue;
+		}
+
+		if (sscanf(argv[i], "--factor-cy:%f", &factor_cx) == 1)
+		{
+			continue;
+		}
+
+
 	}
 
 
