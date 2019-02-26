@@ -6,4 +6,9 @@
 double factorial_stirling(unsigned long n);
 
 
+//信息压缩与解压缩
+long zip(short a, short b);
+void unzip(long zip, short & a, short & b);
+
+
 #endif

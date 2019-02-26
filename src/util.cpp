@@ -27,3 +27,22 @@ double factorial_stirling(unsigned long n)
 		return r;
 	}
 }
+
+
+
+
+long zip(short a, short b)
+{
+	short v[2];
+	v[0] = a;
+	v[1] = b;
+	return *((long *)v);
+}
+
+
+void unzip(long zip, short & a, short & b)
+{
+	short * v = (short *)(&zip);
+	a = v[0];
+	b = v[1];
+}
