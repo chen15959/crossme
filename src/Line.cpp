@@ -121,7 +121,7 @@ double Line::install(const ParamsOfLine & params)
 	assert(params.size() > 0);
 	assert(_candidates == NULL);
 
-	_candidates = __candidateFactory.createCandidateList(_length, params);
+	_candidates = __candidateFactory.createCandidateList(_length, params, NULL);
 
 	if (_candidates->isError())
 	{
