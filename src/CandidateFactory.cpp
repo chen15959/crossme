@@ -42,6 +42,12 @@ CandidateFactory::CandidateFactory()
 
 CandidateFactory::~CandidateFactory()
 {
+	for (map<string, CandidateList *>::const_iterator it = _knownCandidateList.begin(); it != _knownCandidateList.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	_knownCandidateList.clear();
 }
 
 
