@@ -22,7 +22,7 @@ class Point
 {
 public:
 	//构造 带自己的位置
-	Point(unsigned long row, unsigned long col, Board * board);
+	Point(short row, short col, Board * board);
 	
 	//拷贝构造
 	Point(const Point & other);
@@ -35,16 +35,28 @@ public:
 public:
 	//点在哪行（0开始）
 	inline
-	unsigned long getRow() const
+	short getRow() const
 	{
 		return this->_row;
+	}
+
+	inline
+	short row() const
+	{
+		return _row;
 	}
 	
 	//点在哪列（0开始）
 	inline
-	unsigned long getCol() const
+	short getCol() const
 	{
 		return this->_col;
+	}
+
+	inline
+	short col() const
+	{
+		return _col;
 	}
 	
 	//获得点的值
@@ -52,6 +64,12 @@ public:
 	char getValue() const 
 	{
 		return this->_value;
+	}
+
+	inline
+	char value() const
+	{
+		return _value;
 	}
 	
 	//设置点为空
@@ -75,9 +93,9 @@ public:
 	
 private:
 	//行（0开始）
-	unsigned long	_row;
+	short			_row;
 	//列（0开始）
-	unsigned long	_col;
+	short			_col;
 	//值
 	char			_value;
 	//所属的board

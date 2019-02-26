@@ -5,24 +5,24 @@
 
 
 
-Point::Point(unsigned long row, unsigned long col, Board * board)
+Point::Point(short row, short col, Board * board)
 {
-	this->_row = row;
-	this->_col = col;
+	_row = row;
+	_col = col;
 
-	this->_value = VAL_UNKNOWN;
+	_value = VAL_UNKNOWN;
 	
-	this->_board = board;
+	_board = board;
 }
 
 
 
 Point::Point(const Point & other)
 {
-	this->_row = other._row;
-	this->_col = other._col;
-	this->_value = other._value;
-	this->_board = other._board;
+	_row = other._row;
+	_col = other._col;
+	_value = other._value;
+	_board = other._board;
 }
 
 
@@ -38,10 +38,10 @@ Point & Point::operator=(const Point & rhs)
 {
 	if (&rhs != this)
 	{
-		this->_row = rhs._row;
-		this->_col = rhs._col;
-		this->_value = rhs._value;
-		this->_board = rhs._board;
+		_row = rhs._row;
+		_col = rhs._col;
+		_value = rhs._value;
+		_board = rhs._board;
 	}
 	
 	return *this;
