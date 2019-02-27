@@ -105,6 +105,8 @@ private:
 	Point **								_points;
 	//行的长度	
 	unsigned long							_length;
+	//输入参数
+	ParamsOfLine							_params;
 	//所有可能性
 	CandidateList *							_candidates;
 

@@ -42,6 +42,7 @@ private:
 	//释放资源
 	void free();
 	//复制内容
+	//此时不复制line上的可能性
 	void copy(const Board &);
 	
 		
