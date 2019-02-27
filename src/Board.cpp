@@ -1,7 +1,8 @@
 #include "Board.hpp"
 
 #include "Line.hpp"
-//#include "io.hpp"
+#include "util.hpp"
+
 #include <assert.h>
 #include <stdlib.h>
 using namespace std;
@@ -72,7 +73,7 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 	{
 		for (unsigned long c = 0; c < _col_size; ++c)
 		{
-			Point * point = new Point(r, c, this);
+			Point * point = new Point((short)r, (short)c, this);
 			
 			_points[getIndex(r, c)] = point;
 			
@@ -327,24 +328,95 @@ bool Board::play()
 
 
 
+extern double factor_ax;
+extern double factor_bx;
+extern double factor_cx;
+extern double factor_ay;
+extern double factor_by;
+extern double factor_cy;
+
 
 
 std::vector<Board *> Board::createCandidates() const
 {
 	vector<Board *> retVal;
 
-	//TODO
-	//找到最合适的点
-	for (unsigned long r = 0; r < _row_size; r++)
+	WeightQueue weight;
+
+	for (short r = 0; r < _row_size; r++)
 	{
-		for (unsigned long c = 0; c < _col_size; c++)
+		for (short c = 0; c < _col_size; c++)
+		{
+			char v = getValue(r, c);
+			if (v != VAL_UNKNOWN && v != VAL_NONE)
+			{
+/*
+			    c
+		      b a b 
+		    c a * a c
+	          b a b
+				c
+*/
+				if (v != VAL_EMPTY)
+				{
+					weight.push(zip(r-2, c), factor_cx);
+
+					weight.push(zip(r-1, c-1), factor_bx);
+					weight.push(zip(r-1, c), factor_ax);
+					weight.push(zip(r-1, c+1), factor_bx);
+
+					weight.push(zip(r, c-2), factor_cx);
+					weight.push(zip(r, c-1), factor_ax);
+					weight.push(zip(r, c+1), factor_ax);
+					weight.push(zip(r, c+2), factor_cx);
+
+					weight.push(zip(r+1, c-1), factor_bx);
+					weight.push(zip(r+1, c), factor_ax);
+					weight.push(zip(r+1, c+1), factor_bx);
+
+					weight.push(zip(r+2, c), factor_cx);
+				}
+				else
+				{
+					weight.push(zip(r-2, c), factor_cy);
+
+					weight.push(zip(r-1, c-1), factor_by);
+					weight.push(zip(r-1, c), factor_ay);
+					weight.push(zip(r-1, c+1), factor_by);
+
+					weight.push(zip(r, c-2), factor_cy);
+					weight.push(zip(r, c-1), factor_ay);
+					weight.push(zip(r, c+1), factor_ay);
+					weight.push(zip(r, c+2), factor_cy);
+
+					weight.push(zip(r+1, c-1), factor_by);
+					weight.push(zip(r+1, c), factor_ay);
+					weight.push(zip(r+1, c+1), factor_by);
+
+					weight.push(zip(r+2, c), factor_cy);
+				}
+			}
+		}
+	}
+
+
+	while (!weight.empty())
+	{
+		long pos0 = weight.top();
+		short r, c;
+		unzip(pos0, r, c);
+		if (r >= 0 && r < _row_size && c >= 0 && c < _col_size)
 		{
 			if (getValue(r, c) == VAL_UNKNOWN)
 			{
 				return createCandidates(r, c);
 			}
 		}
+
+		weight.pop();
 	}
+
+	assert(0);
 	
 	return retVal;
 }
@@ -356,13 +428,7 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 	vector<Board *> retVal;
 	map<char, int> candidates;
 
-	//long a = row_id(row);
-//	map<long, Line *>::const_iterator tttr = _lines.find(row_id(row));
-//	Line * l = _lines[row_id(row)];
-//	map<char, int> ttt = tttr->second->getCandidateValue(col);
-	//map<char, int> tr = _lines[row_id(row)]->getCandidateValue(col);
 	map<char, int> tr = _lines.find(row_id(row))->second->getCandidateValue(col);
-
 	for (map<char, int>::const_iterator it1 = tr.begin(); it1 != tr.end(); ++it1)
 	{
 		if (candidates.find(it1->first) == candidates.end())
@@ -376,7 +442,6 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 	}
 
 	map<char, int> tc = _lines.find(col_id(col))->second->getCandidateValue(row);
-	//map<char, int> tc = _lines[col_id(col)]->getCandidateValue(row);
 	for (map<char, int>::const_iterator it2 = tc.begin(); it2 != tc.end(); ++it2)
 	{
 		if (candidates.find(it2->first) == candidates.end())
