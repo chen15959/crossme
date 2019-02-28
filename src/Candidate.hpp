@@ -13,10 +13,10 @@ class Candidate
 public:
 	//构造函数
 	//用数组初始化
-	Candidate(unsigned long length, const char * buffer);
+	Candidate(short length, const char * buffer);
 
 	//初始化为全都是一个值
-	Candidate(unsigned long length, char value = '\0');
+	Candidate(short length, char value = '\0');
 
 	//拷贝构造
 	Candidate(const Candidate &);
@@ -32,7 +32,8 @@ private:
 
 public:
 	//获得某个位置上的值
-	char getValue(unsigned long pos) const;
+	//inline
+	char getValue(short pos) const;
 
 	//以字符串形式获得内容
 	inline
@@ -42,7 +43,13 @@ public:
 	}
 	
 	inline
-	unsigned long getLength() const
+	short getLength() const
+	{
+		return _length;
+	}
+
+	inline
+	short length() const
 	{
 		return _length;
 	}
@@ -67,7 +74,7 @@ private:
 	//数据内容
 	char *			_data;
 	//数据长度
-	unsigned long	_length;
+	short			_length;
 };
 
 
