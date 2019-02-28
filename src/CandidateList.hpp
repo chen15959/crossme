@@ -68,17 +68,7 @@ public:
 	}
 	
 	
-#ifdef _DEBUG
-	//输出
-	inline
-	void print(FILE * output = stdout) const
-	{
-		for (std::map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
-		{
-			fprintf(output, "%s\n", it1->second->getValue());
-		}
-	}
-#endif
+
 
 private:
 	//长度

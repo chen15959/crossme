@@ -32,16 +32,14 @@ private:
 
 public:
 	//获得某个位置上的值
-	//inline
 	char getValue(short pos) const;
 
-	//以字符串形式获得内容
 	inline
-	const char * getValue() const
+	char value(short pos) const
 	{
-		return _data;
+		return getValue(pos);
 	}
-	
+
 	inline
 	short getLength() const
 	{
@@ -55,19 +53,6 @@ public:
 	}
 	
 
-
-public:
-	//相当于两个做一次合并，相同的保留原值，不同的记为VAL_UNKNOWN
-	Candidate & operator+=(const Candidate & rhs);
-	Candidate operator+(const Candidate & rhs) const;
-
-	//判断一个是否和已经存在的Line兼容
-	bool operator==(const Line &) const;
-	bool operator!=(const Line &) const;
-
-	//判断一个是否和另一个相同
-	bool operator==(const Candidate &) const;
-	bool operator!=(const Candidate &) const;
 
 
 private:
