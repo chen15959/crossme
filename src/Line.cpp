@@ -8,7 +8,7 @@ CandidateFactory Line::__candidateFactory;
 
 
 
-Line::Line(unsigned long length)
+Line::Line(short length)
 {
 	assert(length > 0);
 	
@@ -98,18 +98,18 @@ void Line::free()
 
 
 
-const Point * Line::getPoint(unsigned long pos) const
+const Point * Line::getPoint(short pos) const
 {
-	assert(pos < _length);
+	assert(0 <= pos && pos < _length);
 	
 	return _points[pos];
 }
 
 
 
-void Line::setPoint(Point * point, unsigned long pos)
+void Line::setPoint(Point * point, short pos)
 {
-	assert(pos < _length);
+	assert(0 <= pos && pos < _length);
 	
 	_points[pos] = point;
 }
@@ -173,7 +173,7 @@ int Line::setByCandidates()
 
 
 
-std::map<char, int> Line::getCandidateValue(unsigned long pos) const
+std::map<char, int> Line::getCandidateValue(short pos) const
 {
 	assert(_candidates);
 	assert(pos < _length);

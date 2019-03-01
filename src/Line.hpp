@@ -20,7 +20,7 @@ class Line
 public:
 	//构造函数
 	//	行的长度
-	Line(unsigned long len);
+	Line(short length);
 	//拷贝构造
 	//	不应当被调用
 	Line(const Line &);
@@ -39,19 +39,20 @@ private:
 	void free();
 	
 public:
-	//从另一个Line复制他的全部可能性
+	//从另一个Line复制他的candidates
 	void copyCandidates(const Line &);
+
 
 
 public:
 	//获得一个行中的点
-	const Point * getPoint(unsigned long pos) const;
+	const Point * getPoint(short pos) const;
 	//将点赋给行
 	//	仅在初始化Board时由Board调用
-	void setPoint(Point * point, unsigned long pos);
+	void setPoint(Point * point, short pos);
 
 
-	std::map<char, int> getCandidateValue(unsigned long pos) const;
+	std::map<char, int> getCandidateValue(short pos) const;
 
 
 
@@ -59,6 +60,12 @@ public:
 	//获得行的长度
 	inline
 	unsigned long getLength() const
+	{
+		return _length;
+	}
+
+	inline
+	short length() const
 	{
 		return _length;
 	}
@@ -104,7 +111,7 @@ private:
 	//所有点
 	Point **								_points;
 	//行的长度	
-	unsigned long							_length;
+	short									_length;
 	//输入参数
 	ParamsOfLine							_params;
 	//所有可能性
