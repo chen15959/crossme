@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-CandidateList::CandidateList(unsigned long length)
+CandidateList::CandidateList(short length)
 {
 	assert(length > 0);
 
@@ -73,7 +73,7 @@ void CandidateList::free()
 
 void CandidateList::addCandidate(Candidate * c)
 {
-	assert(c->getLength() == _length);
+	assert(c->length() == _length);
 	
 	_candidates.insert(pair<int, Candidate *>(size(), c));
 }
@@ -86,25 +86,16 @@ bool CandidateList::ruleBy(const Line & line)
 	
 	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
 	{
-		assert(line.getLength() == it1->second->getLength());
-
-		for (unsigned long i = 0; i < line.getLength(); ++i)
+		if (*(it1->second) != line)
 		{
-			char value = line.getPoint(i)->getValue();
-			if (value != VAL_UNKNOWN)
-			{
-				if (value != it1->second->getValue(i))
-				{
-					to_del.push_back(it1->first);
-					break;
-				}
-			}
+			to_del.push_back(it1->first);
 		}
 	}
 	
 	
 	for (vector<int>::const_iterator it2 = to_del.begin(); it2 != to_del.end(); ++it2)
 	{
+		delete _candidates[*it2];
 		_candidates.erase(*it2);
 	}
 	
@@ -113,7 +104,7 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-char CandidateList::getValue(unsigned long pos) const
+char CandidateList::getValue(short pos) const
 {
 //	assert(size() > 0);
 	assert(pos >= 0 && pos < _length);
@@ -139,7 +130,7 @@ char CandidateList::getValue(unsigned long pos) const
 
 
 
-std::map<char, int> CandidateList::getCandidateValue(unsigned long pos) const
+std::map<char, int> CandidateList::getCandidateValue(short pos) const
 {
 //	assert(size() > 0);
 	assert(pos >= 0 && pos < _length);

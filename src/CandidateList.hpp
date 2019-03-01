@@ -19,7 +19,7 @@ class CandidateList
 {
 public:
 	//构造函数
-	CandidateList(unsigned long length);
+	CandidateList(short length);
 	//拷贝构造
 	CandidateList(const CandidateList &);
 	//析构函数
@@ -41,9 +41,9 @@ public:
 	bool ruleBy(const Line &);
 
 
-	char getValue(unsigned long pos) const;
+	char getValue(short pos) const;
 
-	std::map<char, int> getCandidateValue(unsigned long pos) const;
+	std::map<char, int> getCandidateValue(short pos) const;
 
 	
 	//list中有多少条目
@@ -72,7 +72,7 @@ public:
 
 private:
 	//长度
-	unsigned long					_length;
+	short							_length;
 	//所有候选的可能
 	std::map<int, Candidate *>		_candidates;
 };
