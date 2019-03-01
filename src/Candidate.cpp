@@ -87,3 +87,23 @@ char Candidate::getValue(short pos) const
 
 
 
+bool Candidate::operator==(const Line & rhs) const
+{
+	assert(_length == rhs.length());
+
+	for (int i = 0; i < _length; ++i)
+	{
+		char value = rhs.getPoint(i)->getValue();
+		if (value != VAL_UNKNOWN)
+		{
+			if (_data[i] != value)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+

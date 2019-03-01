@@ -54,6 +54,16 @@ public:
 	
 
 
+public:
+	//判断是否和已经存在的Line兼容
+	bool operator==(const Line & rhs) const;
+	inline
+	bool operator!=(const Line & rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+
 
 private:
 	//数据内容
