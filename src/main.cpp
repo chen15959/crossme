@@ -23,6 +23,12 @@ unsigned long long now_ms()
 }
 
 
+int max(int a, int b)
+{
+	return a > b ? a : b;
+}
+
+
 
 double factor_ax = -1;
 double factor_bx = 0.5;
@@ -86,32 +92,32 @@ int main(int argc, const char * argv[])
 		}
 
 
-		if (sscanf(argv[i], "--factor-ax:%f", &factor_ax) == 1)
+		if (sscanf(argv[i], "--factor-ax:%lf", &factor_ax) == 1)
 		{
 			continue;
 		}
 
-		if (sscanf(argv[i], "--factor-bx:%f", &factor_bx) == 1)
+		if (sscanf(argv[i], "--factor-bx:%lf", &factor_bx) == 1)
 		{
 			continue;
 		}
 
-		if (sscanf(argv[i], "--factor-cx:%f", &factor_cx) == 1)
+		if (sscanf(argv[i], "--factor-cx:%lf", &factor_cx) == 1)
 		{
 			continue;
 		}
 
-		if (sscanf(argv[i], "--factor-ay:%f", &factor_ax) == 1)
+		if (sscanf(argv[i], "--factor-ay:%lf", &factor_ax) == 1)
 		{
 			continue;
 		}
 
-		if (sscanf(argv[i], "--factor-by:%f", &factor_bx) == 1)
+		if (sscanf(argv[i], "--factor-by:%lf", &factor_bx) == 1)
 		{
 			continue;
 		}
 
-		if (sscanf(argv[i], "--factor-cy:%f", &factor_cx) == 1)
+		if (sscanf(argv[i], "--factor-cy:%lf", &factor_cx) == 1)
 		{
 			continue;
 		}
