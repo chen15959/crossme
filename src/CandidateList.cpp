@@ -84,6 +84,7 @@ bool CandidateList::ruleBy(const Line & line)
 {
 	vector<int> to_del;
 	
+	//将和line不符合的可能性标记出来
 	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
 	{
 		if (*(it1->second) != line)
@@ -92,7 +93,7 @@ bool CandidateList::ruleBy(const Line & line)
 		}
 	}
 	
-	
+	//删除这些被标记的
 	for (vector<int>::const_iterator it2 = to_del.begin(); it2 != to_del.end(); ++it2)
 	{
 		delete _candidates[*it2];
@@ -106,30 +107,26 @@ bool CandidateList::ruleBy(const Line & line)
 
 char CandidateList::getValue(short pos) const
 {
-//	assert(size() > 0);
-	assert(pos >= 0 && pos < _length);
-
-	char retVal = VAL_NONE;
-	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
+	WeightQueue result;
+	
+	getValues(pos, result);
+	
+	if (result.size() == 0)
 	{
-		if (retVal == VAL_NONE)
-		{
-			retVal = it1->second->getValue(pos);
-		}
-		else
-		{
-			if (retVal != it1->second->getValue(pos))
-			{
-				return VAL_UNKNOWN;
-			}
-		}
+		return VAL_NONE;
 	}
-
-	return retVal;
+	else if (result.size() == 1)
+	{
+		return (char)result.top();
+	}
+	else
+	{
+		return VAL_UNKNOWN;
+	}
 }
 
 
-
+/*
 std::map<char, int> CandidateList::getCandidateValue(short pos) const
 {
 //	assert(size() > 0);
@@ -152,5 +149,15 @@ std::map<char, int> CandidateList::getCandidateValue(short pos) const
 
 	return retVal;
 }
+*/
 
 
+void CandidateList::getValues(short pos, WeightQueue & result) const
+{
+	assert(pos >= 0 && pos < _length);
+
+	for (map<int, Candidate *>::const_iterator it = _candidates.begin(); it != _candidates.end(); ++it)
+	{
+		result.push(it->second->value(pos), 1);
+	}
+}

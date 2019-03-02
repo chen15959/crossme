@@ -3,6 +3,7 @@
 
 #include "Candidate.hpp"
 #include "Param.hpp"
+#include "WeightQueue.hpp"
 
 #include <string>
 #include <vector>
@@ -40,10 +41,33 @@ public:
 	//将list中不符合Line的条目去掉
 	bool ruleBy(const Line &);
 
+	inline
+	bool setBy(const Line & line)
+	{
+		return ruleBy(line);
+	}
+
 
 	char getValue(short pos) const;
 
-	std::map<char, int> getCandidateValue(short pos) const;
+
+	inline
+	char value(short pos) const
+	{
+		return getValue(pos);
+	}
+
+//	std::map<char, int> getCandidateValue(short pos) const;
+
+	void getValues(short pos, WeightQueue & result) const;
+
+	inline
+	WeightQueue values(short pos) const
+	{
+		WeightQueue retVal;
+		getValues(pos, retVal);
+		return retVal;
+	}
 
 	
 	//list中有多少条目

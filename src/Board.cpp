@@ -11,7 +11,7 @@ using namespace std;
 
 
 Board::Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level)
-:_id("1")
+:_id("")
 {
 	init(col_size, row_size);
 	_log_level = log_level;
@@ -90,8 +90,10 @@ void Board::copy(const Board & other)
 	//初始化
 	init(other._col_size, other._row_size);
 
+	//不要输出日志
 	int old_log_level = _log_level;
 	_log_level =	LOG_RESULT;
+
 	//复制Point的值
 	for (unsigned long r = 0; r < _row_size; ++r)
 	{
@@ -101,6 +103,8 @@ void Board::copy(const Board & other)
 			_points[idx]->setValue(other.getValue(r, c));
 		}
 	}
+
+	//日志恢复
 	_log_level = old_log_level;
 	
 	//复制Line的值
@@ -426,8 +430,12 @@ std::vector<Board *> Board::createCandidates() const
 std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long col) const
 {
 	vector<Board *> retVal;
-	map<char, int> candidates;
+	//map<char, int> candidates;
+	WeightQueue candidates;
 
+#if 1
+	_lines.find(row_id(row))->second->getValues(col, candidates);
+#else
 	map<char, int> tr = _lines.find(row_id(row))->second->getCandidateValue(col);
 	for (map<char, int>::const_iterator it1 = tr.begin(); it1 != tr.end(); ++it1)
 	{
@@ -440,7 +448,11 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 			candidates[it1->first] += it1->second;
 		}
 	}
+#endif
 
+#if 1
+	_lines.find(col_id(col))->second->getValues(row, candidates);
+#else
 	map<char, int> tc = _lines.find(col_id(col))->second->getCandidateValue(row);
 	for (map<char, int>::const_iterator it2 = tc.begin(); it2 != tc.end(); ++it2)
 	{
@@ -453,7 +465,31 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 			candidates[it2->first] += it2->second;
 		}
 	}
+#endif
 
+	while (!candidates.empty())
+	{
+		char value = (char)candidates.pop();
+
+		Board * board = new Board(*this);
+
+		board->_log_level = LOG_RESULT;
+		board->install(row, col, value);
+		board->_log_level = _log_level;
+
+		char buf[16];
+		sprintf(buf, "%c", value);
+		board->_id += buf;
+
+		if (_log_level >= LOG_TRY)
+		{
+			printf("#%s\tTRY [%lu, %lu] = (%c) -> #%s\n", id(), row + 1, col + 1, value, board->id());
+		}
+			
+		retVal.push_back(board);
+	}
+
+#if 0
 	int v = 1;
 	for (map<char, int>::const_iterator it = candidates.begin(); it != candidates.end(); ++it)
 	{
@@ -474,6 +510,8 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 		retVal.push_back(board);
 	}
 
+#endif
+
 	return retVal;
 
 }
@@ -481,7 +519,7 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 
 void Board::print(FILE * output, bool head) const
 {
-	if (_id != "1" || head)
+	if (_id.length() > 0 || head)
 	{
 		fprintf(output, "-= %s =-\n", id());
 	}

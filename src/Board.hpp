@@ -100,6 +100,9 @@ private:
 	//待分析的行/列
 	WeightQueue					_todo;
 
+	//运行参数
+	ParamsOfLines				_params_of_lines;
+
 
 private:
 	//从行列号获得点的实际位置

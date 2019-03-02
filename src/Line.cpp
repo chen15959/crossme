@@ -21,6 +21,8 @@ Line::Line(short length)
 
 Line::Line(const Line & other)
 {
+	//不支持
+	assert(0);
 	copy(other);
 }
 
@@ -35,6 +37,8 @@ Line::~Line()
 
 Line & Line::operator=(const Line & rhs)
 {
+	//不支持
+	assert(0);
 	if (&rhs != this)
 	{
 		free();
@@ -49,7 +53,7 @@ Line & Line::operator=(const Line & rhs)
 void Line::copy(const Line & other)
 {
 	assert(0);
-
+#if 0
 	_length = other._length;
 	_points = new Point*[_length];
 
@@ -62,6 +66,7 @@ void Line::copy(const Line & other)
 	{
 		_candidates = new CandidateList(*(other._candidates));
 	}
+#endif
 }
 
 
@@ -172,12 +177,21 @@ int Line::setByCandidates()
 }
 
 
-
-std::map<char, int> Line::getCandidateValue(short pos) const
+/*
+WeightQueue Line::getCandidateValue(short pos) const
 {
 	assert(_candidates);
 	assert(pos < _length);
 
-	return _candidates->getCandidateValue(pos);
+	return _candidates->values(pos);
+}
+*/
+
+void Line::getValues(short pos, WeightQueue & result) const
+{
+	assert(_candidates);
+	assert(0 <= pos && pos < _length);
+
+	_candidates->getValues(pos, result);
 
 }

@@ -6,6 +6,7 @@
 #include "Candidate.hpp"
 #include "CandidateList.hpp"
 #include "CandidateFactory.hpp"
+#include "WeightQueue.hpp"
 
 #include <vector>
 #include <map>
@@ -52,7 +53,9 @@ public:
 	void setPoint(Point * point, short pos);
 
 
-	std::map<char, int> getCandidateValue(short pos) const;
+//	WeightQueue getCandidateValue(short pos) const;
+
+	void getValues(short pos, WeightQueue &) const;
 
 
 
