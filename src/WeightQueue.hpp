@@ -22,7 +22,7 @@ private:
 public:
 	long	top();
 	void	push(long value, double weight = 1);
-	void	pop();
+	long	pop();
 
 
 

@@ -107,7 +107,7 @@ void WeightQueue::push(long value, double weight)
 
 
 
-void WeightQueue::pop()
+long WeightQueue::pop()
 {
 	assert(size() > 0);
 
@@ -119,4 +119,6 @@ void WeightQueue::pop()
 
 	_data.erase(_top);
 	_ready = false;
+
+	return _top;
 }
