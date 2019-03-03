@@ -4,6 +4,7 @@
 #include "Point.hpp"
 #include "Param.hpp"
 #include "Board.hpp"
+#include "Result.hpp"
 
 #include <vector>
 #include <list>
@@ -59,7 +60,7 @@ private:
 	//待执行的Board
 	std::list<Board *>		_todo;
 	//成功的Board
-	std::list<Board *>		_done;
+	std::list<Result *>		_done;
 
 	bool					_installed;
 

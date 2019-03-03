@@ -44,7 +44,7 @@ void Game::free()
 		delete *it1;
 	}
 	
-	for (list<Board *>::const_iterator it2 = _done.begin(); it2 != _done.end(); ++it2)
+	for (list<Result *>::const_iterator it2 = _done.begin(); it2 != _done.end(); ++it2)
 	{
 		delete *it2;
 	}
@@ -110,7 +110,7 @@ bool Game::play()
 		board->play();
 		if (board->isDone())
 		{
-			_done.push_back(board);
+			_done.push_back(new Result(*board));
 
 			if (board->log_level() >= LOG_TRY)
 			{
@@ -123,8 +123,6 @@ bool Game::play()
 			{
 				printf("#%s\tFAILED\n", board->id());
 			}
-
-			delete board;
 		}
 		else
 		{
@@ -142,9 +140,9 @@ bool Game::play()
 			{
 				_todo.push_back(*it);
 			}
-
-			delete board;
 		}
+		
+		delete board;
 	}
 
 	return true;
@@ -155,7 +153,7 @@ bool Game::play()
 void Game::write(FILE * output) const
 {
 
-	for (list<Board *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
+	for (list<Result *>::const_iterator it = _done.begin(); it != _done.end(); ++it)
 	{
 		(*it)->print(output);
 	}

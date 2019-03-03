@@ -13,6 +13,7 @@
 		59451B7721F9BFE000351F75 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7621F9BFE000351F75 /* Board.cpp */; };
 		59451B7A21F9CF4000351F75 /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59451B7921F9CF3F00351F75 /* Line.cpp */; };
 		59A31014222B4DC300B7D654 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59A31013222B4DC300B7D654 /* util.cpp */; };
+		59A31017222B74BD00B7D654 /* Result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59A31016222B74BD00B7D654 /* Result.cpp */; };
 		59E35ED9220C73D200B0F4BF /* CandidateFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35ED7220C73D200B0F4BF /* CandidateFactory.cpp */; };
 		59E35EDC220C73E600B0F4BF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35EDA220C73E600B0F4BF /* Game.cpp */; };
 		59E35EF9221D9C5A00B0F4BF /* Puzzle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59E35EF6221D9C5A00B0F4BF /* Puzzle.cpp */; };
@@ -46,6 +47,8 @@
 		59451B7921F9CF3F00351F75 /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Line.cpp; path = ../Line.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59A31012222B4DC300B7D654 /* util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = util.hpp; path = ../util.hpp; sourceTree = "<group>"; };
 		59A31013222B4DC300B7D654 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = ../util.cpp; sourceTree = "<group>"; };
+		59A31015222B74A800B7D654 /* Result.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Result.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		59A31016222B74BD00B7D654 /* Result.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Result.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59E35ED7220C73D200B0F4BF /* CandidateFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CandidateFactory.cpp; path = ../CandidateFactory.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		59E35ED8220C73D200B0F4BF /* CandidateFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CandidateFactory.hpp; path = ../CandidateFactory.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		59E35EDA220C73E600B0F4BF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Game.cpp; path = ../Game.cpp; sourceTree = "<group>"; usesTabs = 1; };
@@ -74,6 +77,8 @@
 		59199B5E21F87E6F00F0443B = {
 			isa = PBXGroup;
 			children = (
+				59A31016222B74BD00B7D654 /* Result.cpp */,
+				59A31015222B74A800B7D654 /* Result.hpp */,
 				59A31013222B4DC300B7D654 /* util.cpp */,
 				59A31012222B4DC300B7D654 /* util.hpp */,
 				59E35EF6221D9C5A00B0F4BF /* Puzzle.cpp */,
@@ -176,6 +181,7 @@
 				59451B7721F9BFE000351F75 /* Board.cpp in Sources */,
 				59451B7121F8CF6D00351F75 /* Param.cpp in Sources */,
 				59E35EDC220C73E600B0F4BF /* Game.cpp in Sources */,
+				59A31017222B74BD00B7D654 /* Result.cpp in Sources */,
 				59A31014222B4DC300B7D654 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
