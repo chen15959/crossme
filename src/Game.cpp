@@ -122,14 +122,18 @@ bool Game::play()
 				result->print(_result_as_soon_as_possible);
 				delete result;
 			}
-			else
+			else if (board->display_level() >= DIS_RESULT)
 			{
 				_done.push_back(new Result(*board));
+			}
+			else
+			{
+				delete result;
 			}
 		}
 		else if (board->isError())
 		{
-			if (board->log_level() >= LOG_TRY)
+			if (board->log_level() >= LOG_PROGRESS)
 			{
 				printf("#%s\tFAILED\n", board->id());
 			}

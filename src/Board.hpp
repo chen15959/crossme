@@ -9,14 +9,17 @@
 #include <string>
 
 
-#define LOG_RESULT			0		//只输出结果
-#define LOG_TRY				1		//输出每一次尝试
-#define LOG_ROUND			2		//输出每一轮的情况
-#define LOG_STEP			3		//输出每一个点的改变
+#define LOG_NOTHING			0
+#define LOG_RESULT			1		//只输出结果
+#define LOG_PROGRESS		2
+#define LOG_TRY				3		//输出每一次尝试
+#define LOG_ROUND			4		//输出每一轮的情况
+#define LOG_STEP			5		//输出每一个点的改变
 
-#define DIS_RESULT			0
-#define DIS_TRY				1
-#define	DIS_ROUND			2
+#define DIS_NOTHING			0
+#define DIS_RESULT			1
+#define DIS_TRY				2
+#define	DIS_ROUND			3
 
 
 /**

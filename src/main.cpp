@@ -43,8 +43,8 @@ int main(int argc, const char * argv[])
 {
 	Puzzle puzzle;
 
-	int log_level = 0; //default
-	int display_level = 0;
+	int log_level = LOG_PROGRESS;
+	int display_level = DIS_RESULT;
 	int stop_after_found_n = 10;
 	FILE * result_asap = NULL;
 
@@ -69,9 +69,21 @@ int main(int argc, const char * argv[])
 			continue;
 		}
 
+		if (strcmp(argv[i], "--log:progress") == 0)
+		{
+			log_level = max(log_level, LOG_PROGRESS);
+			continue;
+		}
+
 		if (strcmp(argv[i], "--log:result") == 0)
 		{
 			log_level = max(log_level, LOG_RESULT);
+			continue;
+		}
+		
+		if (strcmp(argv[i], "--log:nothing") == 0)
+		{
+			log_level = max(log_level, LOG_NOTHING);
 			continue;
 		}
 
@@ -90,6 +102,12 @@ int main(int argc, const char * argv[])
 		if (strcmp(argv[i], "--display:result") == 0)
 		{
 			display_level = max(display_level, DIS_RESULT);
+			continue;
+		}
+		
+		if (strcmp(argv[i], "--display:nothing") == 0)
+		{
+			display_level = max(display_level, DIS_NOTHING);
 			continue;
 		}
 
@@ -132,9 +150,8 @@ int main(int argc, const char * argv[])
 		if (strcmp(argv[i], "--result-asap") == 0)
 		{
 			result_asap = stdout;
+			continue;
 		}
-
-
 	}
 
 

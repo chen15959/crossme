@@ -92,7 +92,7 @@ void Board::copy(const Board & other)
 
 	//不要输出日志
 	int old_log_level = _log_level;
-	_log_level =	LOG_RESULT;
+	_log_level =	LOG_NOTHING;
 
 	//复制Point的值
 	for (unsigned long r = 0; r < _row_size; ++r)
@@ -272,7 +272,7 @@ bool Board::play()
 
 		if (_log_level == LOG_ROUND)
 		{
-			if (ret > 0)
+			if (ret >= 0)
 			{
 				if (p > 0)
 				{
@@ -283,7 +283,7 @@ bool Board::play()
 					printf("#%s\tCOL: %ld\t(%d)\n", id(), -p, ret);
 				}
 			}
-			else if (ret < 0)
+			else
 			{
 				if (p > 0)
 				{
@@ -295,17 +295,6 @@ bool Board::play()
 				}
 
 				return false;
-			}
-			else if (ret == 0)
-			{
-					if (p > 0)
-					{
-						printf("#%s\tROW: %ld\t(0)\n", id(), p);
-					}
-					else
-					{
-						printf("#%s\tCOL: %ld\t(0)\n", id(), -p);
-					}
 			}
 		}
 
@@ -473,7 +462,7 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 
 		Board * board = new Board(*this);
 
-		board->_log_level = LOG_RESULT;
+		board->_log_level = LOG_NOTHING;
 		board->install(row, col, value);
 		board->_log_level = _log_level;
 
