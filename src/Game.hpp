@@ -67,9 +67,9 @@ private:
 	
 public:
 	inline
-	void setStopAfterFound(int value)
+	void setStopAfter(int value)
 	{
-		_stop_after_found = value;
+		_stop_after = value;
 	}
 	
 	inline
@@ -78,10 +78,11 @@ public:
 		_result_as_soon_as_possible = value;
 	}
 	
+	
 private:
 	//在多解时，找到n个解就停止
 	//小于1代表找到所有再停止
-	int _stop_after_found = 0;
+	int _stop_after = 0;
 	
 	FILE * _result_as_soon_as_possible = NULL;
 

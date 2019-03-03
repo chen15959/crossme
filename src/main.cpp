@@ -45,7 +45,7 @@ int main(int argc, const char * argv[])
 
 	int log_level = LOG_PROGRESS;
 	int display_level = DIS_RESULT;
-	int stop_after_found_n = 10;
+	int stop_after_n = 10;
 	FILE * result_asap = NULL;
 
 
@@ -142,8 +142,14 @@ int main(int argc, const char * argv[])
 			continue;
 		}
 		
-		if (sscanf(argv[i], "--stop-after-found:%d", &stop_after_found_n) == 1)
+		if (sscanf(argv[i], "--stop-after:%d", &stop_after_n) == 1)
 		{
+			continue;
+		}
+		
+		if (strcmp(argv[i], "--find-all") == 0)
+		{
+			stop_after_n = -1;
 			continue;
 		}
 		
@@ -159,7 +165,7 @@ int main(int argc, const char * argv[])
 
 	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), log_level, display_level);
 	
-	game.setStopAfterFound(stop_after_found_n);
+	game.setStopAfter(stop_after_n);
 	game.setResultAsSoonAsPosslbie(result_asap);
 
 	

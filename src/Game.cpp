@@ -102,7 +102,7 @@ bool Game::install(unsigned long row, unsigned long col, char value)
 
 bool Game::play()
 {
-	while (!_todo.empty() && ((_stop_after_found > 0 && _done.size() < _stop_after_found) || _stop_after_found <= 0))
+	while (!_todo.empty() && ((_stop_after > 0 && _done.size() < _stop_after) || _stop_after <= 0))
 	{
 		Board * board = *(_todo.begin());
 		_todo.pop_front();
