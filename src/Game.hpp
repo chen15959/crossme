@@ -75,7 +75,7 @@ public:
 	inline
 	void setResultAsSoonAsPosslbie(FILE * value)
 	{
-		_result_as_soone_as_possible = value;
+		_result_as_soon_as_possible = value;
 	}
 	
 private:
