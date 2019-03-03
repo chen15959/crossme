@@ -422,39 +422,9 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 	//map<char, int> candidates;
 	WeightQueue candidates;
 
-#if 1
-	_lines.find(row_id(row))->second->getValues(col, candidates);
-#else
-	map<char, int> tr = _lines.find(row_id(row))->second->getCandidateValue(col);
-	for (map<char, int>::const_iterator it1 = tr.begin(); it1 != tr.end(); ++it1)
-	{
-		if (candidates.find(it1->first) == candidates.end())
-		{
-			candidates.insert(pair<char, int>(it1->first, it1->second));
-		}
-		else
-		{
-			candidates[it1->first] += it1->second;
-		}
-	}
-#endif
 
-#if 1
+	_lines.find(row_id(row))->second->getValues(col, candidates);
 	_lines.find(col_id(col))->second->getValues(row, candidates);
-#else
-	map<char, int> tc = _lines.find(col_id(col))->second->getCandidateValue(row);
-	for (map<char, int>::const_iterator it2 = tc.begin(); it2 != tc.end(); ++it2)
-	{
-		if (candidates.find(it2->first) == candidates.end())
-		{
-			candidates.insert(pair<char, int>(it2->first, it2->second));
-		}
-		else
-		{
-			candidates[it2->first] += it2->second;
-		}
-	}
-#endif
 
 	while (!candidates.empty())
 	{
@@ -478,32 +448,10 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 		retVal.push_back(board);
 	}
 
-#if 0
-	int v = 1;
-	for (map<char, int>::const_iterator it = candidates.begin(); it != candidates.end(); ++it)
-	{
-		Board * board = new Board(*this);
-		board->_log_level = LOG_RESULT;
-		board->install(row, col, it->first);
-		board->_log_level = _log_level;
-
-		char buf[16];
-		sprintf(buf, "%d", v++);
-		board->_id += buf;
-
-		if (_log_level >= LOG_TRY)
-		{
-			printf("#%s\tTRY [%lu, %lu] = (%c) -> #%s\n", id(), row + 1, col + 1, it->first, board->id());
-		}
-			
-		retVal.push_back(board);
-	}
-
-#endif
 
 	return retVal;
-
 }
+
 
 
 void Board::print(FILE * output, bool head) const

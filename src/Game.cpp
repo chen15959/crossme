@@ -140,15 +140,15 @@ bool Game::play()
 		}
 		else
 		{
-			if (board->log_level() >= LOG_TRY)
+			if (board->log_level() >= LOG_PROGRESS)
 			{
 				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _col_size * _row_size);
-				if (board->display_level() >= DIS_TRY)
-				{
-					board->print(stdout, true);
-				}
 			}
-
+			if (board->display_level() >= DIS_TRY)
+			{
+				board->print(stdout, true);
+			}
+						
 			vector<Board *> newBoards = board->createCandidates();
 			for (vector<Board *>::const_iterator it = newBoards.begin(); it != newBoards.end(); ++it)
 			{
