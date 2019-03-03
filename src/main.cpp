@@ -43,8 +43,8 @@ int main(int argc, const char * argv[])
 {
 	Puzzle puzzle;
 
-	int log_level = LOG_PROGRESS;
-	int display_level = DIS_RESULT;
+	int log_level = -1;
+	int display_level = -1;
 	int stop_after_n = 10;
 	FILE * result_asap = NULL;
 
@@ -158,6 +158,16 @@ int main(int argc, const char * argv[])
 			result_asap = stdout;
 			continue;
 		}
+	}
+	
+	if (log_level < 0)
+	{
+		log_level = LOG_PROGRESS;
+	}
+	
+	if (display_level < 0)
+	{
+		display_level = DIS_RESULT;
 	}
 
 
