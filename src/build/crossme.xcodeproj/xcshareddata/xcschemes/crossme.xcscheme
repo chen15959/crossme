@@ -65,6 +65,18 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "puzzle/black/8.202.txt"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "puzzle/black/4.78.txt"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--stop-after-found:0"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--log:result"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

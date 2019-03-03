@@ -102,7 +102,7 @@ bool Game::install(unsigned long row, unsigned long col, char value)
 
 bool Game::play()
 {
-	while (!_todo.empty())
+	while (!_todo.empty() && ((_stop_after_found > 0 && _done.size() < _stop_after_found) || _stop_after_found <= 0))
 	{
 		Board * board = *(_todo.begin());
 		_todo.pop_front();
@@ -110,11 +110,21 @@ bool Game::play()
 		board->play();
 		if (board->isDone())
 		{
-			_done.push_back(new Result(*board));
-
-			if (board->log_level() >= LOG_TRY)
+			if (board->log_level() >= LOG_RESULT)
 			{
 				printf("#%s\tSUCCEEDED\n", board->id());
+			}
+
+			Result * result = new Result(*board);
+
+			if (_result_as_soon_as_possible)
+			{
+				result->print(_result_as_soon_as_possible);
+				delete result;
+			}
+			else
+			{
+				_done.push_back(new Result(*board));
 			}
 		}
 		else if (board->isError())

@@ -45,6 +45,8 @@ int main(int argc, const char * argv[])
 
 	int log_level = 0; //default
 	int display_level = 0;
+	int stop_after_found_n = 10;
+	FILE * result_asap = NULL;
 
 
 	for (int i = 1; i < argc; ++i)
@@ -121,6 +123,16 @@ int main(int argc, const char * argv[])
 		{
 			continue;
 		}
+		
+		if (sscanf(argv[i], "--stop-after-found:%d", &stop_after_found_n) == 1)
+		{
+			continue;
+		}
+		
+		if (strcmp(argv[i], "--result-asap") == 0)
+		{
+			result_asap = stdout;
+		}
 
 
 	}
@@ -129,7 +141,11 @@ int main(int argc, const char * argv[])
 	puzzle.load_puzzle_file(argv[1]);
 
 	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), log_level, display_level);
+	
+	game.setStopAfterFound(stop_after_found_n);
+	game.setResultAsSoonAsPosslbie(result_asap);
 
+	
 	unsigned long long t1 = now_ms();
 
 	game.install(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());

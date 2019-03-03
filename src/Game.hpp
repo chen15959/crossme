@@ -64,6 +64,26 @@ private:
 
 	bool					_installed;
 
+	
+public:
+	inline
+	void setStopAfterFound(int value)
+	{
+		_stop_after_found = value;
+	}
+	
+	inline
+	void setResultAsSoonAsPosslbie(FILE * value)
+	{
+		_result_as_soone_as_possible = value;
+	}
+	
+private:
+	//在多解时，找到n个解就停止
+	//小于1代表找到所有再停止
+	int _stop_after_found = 0;
+	
+	FILE * _result_as_soon_as_possible = NULL;
 
 public:
 	void write(FILE * output) const;
