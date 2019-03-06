@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Clock.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Game.cpp"
 				>
 			</File>
@@ -210,6 +214,10 @@
 			</File>
 			<File
 				RelativePath="..\Puzzle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Result.cpp"
 				>
 			</File>
 			<File
@@ -243,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Clock.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Game.hpp"
 				>
 			</File>
@@ -260,6 +272,10 @@
 			</File>
 			<File
 				RelativePath="..\Puzzle.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Result.hpp"
 				>
 			</File>
 			<File
