@@ -1,16 +1,14 @@
 #include <stdio.h>
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <sys/time.h>
-#endif
 
 #include "Board.hpp"
 #include "CandidateFactory.hpp"
 #include "Game.hpp"
 #include "Puzzle.hpp"
+#include "Clock.hpp"
+#include "util.hpp"
 
 
+/*
 unsigned long long now_ms()
 {
 #ifdef WIN32
@@ -21,13 +19,13 @@ unsigned long long now_ms()
 	return t.tv_sec * 1000 + t.tv_usec / 1000;
 #endif
 }
-
-
+*/
+/*
 int max(int a, int b)
 {
 	return a > b ? a : b;
 }
-
+*/
 
 
 double factor_ax = -1;
@@ -178,19 +176,21 @@ int main(int argc, const char * argv[])
 	game.setStopAfter(stop_after_n);
 	game.setResultAsSoonAsPosslbie(result_asap);
 
-	
-	unsigned long long t1 = now_ms();
+	Clock clock;
+	clock.start();
+//	unsigned long long t1 = now_ms();
 
 	game.install(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
 
 	game.play();
 
 
-	unsigned long long t2 = now_ms();
+//	unsigned long long t2 = now_ms();
+	clock.stop();
 
 	game.write(stdout);
 
-	printf("\n\nit costs %lu ms.\n", (unsigned long)(t2 - t1));
+	printf("\n\nit costs %lu ms.\n", clock.elapsed_ms());
 
 	return 0;
 }
