@@ -10,24 +10,29 @@
 
 double factorial_stirling(unsigned long n)
 {
-	if (n == 0)
+	switch (n)
 	{
+	case 0:
+	case 1:
 		return 1;
-	}
-	else
-	{
+	case 2:
+		return 2;
+	case 3:
+		return 6;
+	case 4:
+		return 24;
+	case 5:
+		return 120;
+	case 6:
+		return 720;
+	default:
 		double a = n / E;
 		double r = sqrt(2 * PI * n);
+		double e = pow(a, (double)n);
 		
-		for (int i = 0; i < n; ++i)
-		{
-			r *= a;
-		}
-		
-		return r;
+		return r * e;
 	}
 }
-
 
 
 
