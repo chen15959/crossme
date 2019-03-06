@@ -19,6 +19,9 @@ Game::Game(unsigned long col_size, unsigned long row_size, int log_level, int di
 	_todo.push_back(new Board(_col_size, _row_size, log_level, display_level));
 
 	_installed = false;
+
+	_stop_after = 0;
+	_result_as_soon_as_possible = NULL;
 }
 	
 	

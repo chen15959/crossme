@@ -82,9 +82,9 @@ public:
 private:
 	//在多解时，找到n个解就停止
 	//小于1代表找到所有再停止
-	int _stop_after = 0;
+	int _stop_after;
 	
-	FILE * _result_as_soon_as_possible = NULL;
+	FILE * _result_as_soon_as_possible;
 
 public:
 	void write(FILE * output) const;
