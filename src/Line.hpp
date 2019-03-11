@@ -43,6 +43,9 @@ public:
 	//从另一个Line复制他的candidates
 	void copyCandidates(const Line &);
 
+	//从另一个Line复制他的params
+	void copyParams(const Line &);
+
 
 
 public:

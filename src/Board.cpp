@@ -92,7 +92,7 @@ void Board::copy(const Board & other)
 
 	//不要输出日志
 	int old_log_level = _log_level;
-	_log_level =	LOG_NOTHING;
+	_log_level = LOG_NOTHING;
 
 	//复制Point的值
 	for (unsigned long r = 0; r < _row_size; ++r)
@@ -111,6 +111,7 @@ void Board::copy(const Board & other)
 	for (map<long, Line *>::const_iterator it1 = other._lines.begin(); it1 != other._lines.end(); ++it1)
 	{
 		_lines[it1->first]->copyCandidates(*(it1->second));
+		_lines[it1->first]->copyParams(*(it1->second));
 	}
 
 	_id = other._id;

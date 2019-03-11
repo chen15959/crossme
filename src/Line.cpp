@@ -89,6 +89,15 @@ void Line::copyCandidates(const Line & other)
 }
 
 
+
+void Line::copyParams(const Line & other)
+{
+	_params = other._params;
+}
+
+
+
+
 void Line::free()
 {
 	//所有的点从Board删除
@@ -124,25 +133,21 @@ void Line::setPoint(Point * point, short pos)
 double Line::install(const ParamsOfLine & params)
 {
 	assert(params.size() > 0);
-	assert(_candidates == NULL);
+//	assert(_candidates == NULL);
 
-	_candidates = __candidateFactory.createCandidateList(_length, params, NULL);
+	_params = params;
 
-	if (_candidates->isError())
-	{
-		return -1;
-	}
-	else
-	{
-		return _candidates->size();
-	}
+	return __candidateFactory.evaluateCandidateSize(_length, params, NULL);
 }
 
 
 
 int Line::play()
 {
-	assert(_candidates);
+	if (_candidates == NULL)
+	{
+		_candidates = __candidateFactory.createCandidateList(_length, _params, NULL);
+	}
 
 	_candidates->ruleBy(*this);
 	int updated = setByCandidates();
