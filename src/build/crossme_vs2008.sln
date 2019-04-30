@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crossme", "crossme_vs2008.vcproj", "{165BF222-4A0B-4EDD-BE73-6BD987BAC899}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_factorial", "..\..\test\test_factorial\test_factorial.vcproj", "{A99E73C2-AC46-4C77-9658-EA0B6687FCE1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_clock", "..\..\test\test_clock\test_clock.vcproj", "{AF9FDA8F-796A-4A3C-BCC4-9353A880828F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +17,14 @@ Global
 		{165BF222-4A0B-4EDD-BE73-6BD987BAC899}.Debug|Win32.Build.0 = Debug|Win32
 		{165BF222-4A0B-4EDD-BE73-6BD987BAC899}.Release|Win32.ActiveCfg = Release|Win32
 		{165BF222-4A0B-4EDD-BE73-6BD987BAC899}.Release|Win32.Build.0 = Release|Win32
+		{A99E73C2-AC46-4C77-9658-EA0B6687FCE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A99E73C2-AC46-4C77-9658-EA0B6687FCE1}.Debug|Win32.Build.0 = Debug|Win32
+		{A99E73C2-AC46-4C77-9658-EA0B6687FCE1}.Release|Win32.ActiveCfg = Release|Win32
+		{A99E73C2-AC46-4C77-9658-EA0B6687FCE1}.Release|Win32.Build.0 = Release|Win32
+		{AF9FDA8F-796A-4A3C-BCC4-9353A880828F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AF9FDA8F-796A-4A3C-BCC4-9353A880828F}.Debug|Win32.Build.0 = Debug|Win32
+		{AF9FDA8F-796A-4A3C-BCC4-9353A880828F}.Release|Win32.ActiveCfg = Release|Win32
+		{AF9FDA8F-796A-4A3C-BCC4-9353A880828F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
