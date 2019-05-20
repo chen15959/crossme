@@ -10,12 +10,16 @@ double factorial_stirling(unsigned long n);
 long zip(short a, short b);
 void unzip(long zip, short & a, short & b);
 
+
+//求两值中较大者
 inline
 int max(int a, int b)
 {
 	return a > b ? a : b;
 }
 
+
+//求两值中较小者
 inline
 int min(int a, int b)
 {

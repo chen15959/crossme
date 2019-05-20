@@ -69,9 +69,7 @@ long WeightQueue::top()
 
 	if (!_ready)
 	{
-		//FIND THE ONE
-//		_top = _data.begin()->first;
-
+		//遍历寻找最大权重者
 		double max_weight = -DBL_MAX;
 		long max_value = 0;
 
@@ -117,6 +115,7 @@ long WeightQueue::pop()
 		top();
 	}
 
+	//出列后置最大值为null
 	_data.erase(_top);
 	_ready = false;
 
