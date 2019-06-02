@@ -68,5 +68,6 @@ private:
 typedef std::vector<Param > ParamsOfLine;
 //一组Line上的参数（所有行或所有列）
 typedef std::vector<ParamsOfLine > ParamsOfLines;
+typedef std::vector<ParamsOfLine > ParamsOfLineCollection;
 
 #endif
