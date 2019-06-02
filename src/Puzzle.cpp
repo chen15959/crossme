@@ -310,7 +310,7 @@ bool Puzzle::load_puzzle_file(const char * filename)
 					in_comment = true;
 				}
 			}
-			else if (ch == ' ' || ch == '\t') {
+			else if (ch == ' ' || ch == '\t' || ch == '.') {
 				ph.finishItem();
 			}
 			else if (ch != '\xFF'){
