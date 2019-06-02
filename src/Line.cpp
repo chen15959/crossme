@@ -130,7 +130,7 @@ void Line::setPoint(Point * point, short pos)
 
 
 
-double Line::install(const ParamsOfLine & params)
+double Line::install(const ParamList & params)
 {
 	assert(params.size() > 0);
 //	assert(_candidates == NULL);

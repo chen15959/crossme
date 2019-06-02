@@ -25,20 +25,20 @@ private:
 
 public:
 	//评估可能性的数量
-	double evaluateCandidateSize(unsigned long length, const ParamsOfLine & params_of_line, const Line * ref_line);
+	double evaluateCandidateSize(unsigned long length, const ParamList & params_of_line, const Line * ref_line);
 
 
 	//根据参数创建可能性
 	//如果曾经创建过，那直接从已有的情况复制
-	CandidateList * createCandidateList(unsigned long length, const ParamsOfLine & params_of_line, const Line * ref_line);
+	CandidateList * createCandidateList(unsigned long length, const ParamList & params_of_line, const Line * ref_line);
 
 private:
 	//放置一个item到缓冲区
-	void placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamsOfLine & params, unsigned long params_ptr, const Line * ref_line);
+	void placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line);
 
 private:
 	//根据参数生成关键字
-	std::string createKeyword(unsigned long length, const ParamsOfLine & params_of_line);
+	std::string createKeyword(unsigned long length, const ParamList & params_of_line);
 
 private:
 	//曾经算过的可能性，用参数关键字做索引

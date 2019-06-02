@@ -40,7 +40,7 @@ private:
 	
 public:
 
-	bool install(const ParamsOfLines & col_params, const ParamsOfLines & row_params);
+	bool install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//设定一个点为具体值
 	//影响到所有的board

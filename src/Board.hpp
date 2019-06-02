@@ -51,7 +51,7 @@ private:
 		
 public:
 	//使用参数来初始化
-	void install(const ParamsOfLines & col_params, const ParamsOfLines & row_params);
+	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//强行设定某Point
 	void install(unsigned long row, unsigned long col, char value);
@@ -104,7 +104,7 @@ private:
 	WeightQueue					_todo;
 
 	//运行参数
-	ParamsOfLines				_params_of_lines;
+	ParamListCollection			_params_of_lines;
 
 
 private:

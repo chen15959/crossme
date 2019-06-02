@@ -75,7 +75,7 @@ Game & Game::operator=(const Game & rhs)
 	
 
 
-bool Game::install(const ParamsOfLines & col_params, const ParamsOfLines & row_params)
+bool Game::install(const ParamListCollection & col_params, const ParamListCollection & row_params)
 {
 	if (!_installed)
 	{

@@ -62,7 +62,7 @@ n＝110
 n-cc＝24
 28乘方24
 */
-double CandidateFactory::evaluateCandidateSize(unsigned long length, const ParamsOfLine & params_of_line, const Line * ref_line)
+double CandidateFactory::evaluateCandidateSize(unsigned long length, const ParamList & params_of_line, const Line * ref_line)
 {
 	assert(params_of_line.size() > 0);
 	
@@ -99,7 +99,7 @@ double CandidateFactory::evaluateCandidateSize(unsigned long length, const Param
 
 
 
-CandidateList * CandidateFactory::createCandidateList(unsigned long length, const ParamsOfLine & params_of_line, const Line * ref_line)
+CandidateList * CandidateFactory::createCandidateList(unsigned long length, const ParamList & params_of_line, const Line * ref_line)
 {
 	//生成略缩字
 	string keyword = createKeyword(length, params_of_line);
@@ -148,7 +148,7 @@ CandidateList * CandidateFactory::createCandidateList(unsigned long length, cons
 
 
 
-string CandidateFactory::createKeyword(unsigned long length, const ParamsOfLine & params_of_line)
+string CandidateFactory::createKeyword(unsigned long length, const ParamList & params_of_line)
 {
 	char buffer[1024];
 	string retVal;
@@ -156,7 +156,7 @@ string CandidateFactory::createKeyword(unsigned long length, const ParamsOfLine 
 	sprintf(buffer, "%lu:", length);
 	retVal += buffer;
 	
-	for (ParamsOfLine::const_iterator it1 = params_of_line.begin(); it1 != params_of_line.end(); ++it1)
+	for (ParamList::const_iterator it1 = params_of_line.begin(); it1 != params_of_line.end(); ++it1)
 	{
 		sprintf(buffer, "%c%lu,", it1->getType(), it1->getSize());
 		retVal += buffer;
@@ -180,7 +180,7 @@ string CandidateFactory::createKeyword(unsigned long length, const ParamsOfLine 
 //buffer_offset	从缓冲区的什么位置可以开始放item，也就是上一个item最后一个位置+1 开始时当然是从0位
 //parmas		所有需放置的item的信息
 //params_ptr	当前应当放置第几个item 开始时当然是从0位
-void CandidateFactory::placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamsOfLine & params, unsigned long params_ptr, const Line * ref_line)
+void CandidateFactory::placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line)
 {
 	//剩余未放置的项的最小总长度
 	unsigned long length_of_left_items = 0;

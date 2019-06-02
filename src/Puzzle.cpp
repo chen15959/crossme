@@ -60,7 +60,7 @@ void Puzzle::free()
  返回值为true代表字符串是有效的格式，生成的Param已经附加到params的结尾
 */
 static
-bool create_param(const char * str, ParamsOfLine & params)
+bool create_param(const char * str, ParamList & param_list)
 {
 	assert(str);
 	
@@ -93,7 +93,7 @@ bool create_param(const char * str, ParamsOfLine & params)
 		if (sscanf(str, "%d", &d) == 1)
 		{
 			//格式符合要求
-			params.push_back(Param(d, t));
+			param_list.push_back(Param(d, t));
 			return true;
 		}
 	}
@@ -110,7 +110,7 @@ bool create_param(const char * str, ParamsOfLine & params)
 class _params_handler
 {
 public:
-	_params_handler(ParamsOfLines * params);
+	_params_handler(ParamListCollection * params);
 	virtual ~_params_handler();
 
 public:
@@ -119,10 +119,10 @@ public:
 	void finishLine();
 	
 private:
-	ParamsOfLines * pols;
+	ParamListCollection * pols;
 	char buffer[1024];
 	char * ptr;
-	ParamsOfLine line;
+	ParamList param_list;
 };
 
 
@@ -133,7 +133,7 @@ private:
 class params_handler
 {
 public:
-	params_handler(ParamsOfLines * col_params, ParamsOfLines * row_params);
+	params_handler(ParamListCollection * col_params, ParamListCollection * row_params);
 	virtual ~params_handler();
 	
 public:
@@ -162,7 +162,7 @@ private:
 
 
 
-params_handler::params_handler(ParamsOfLines * col_params, ParamsOfLines * row_params)
+params_handler::params_handler(ParamListCollection * col_params, ParamListCollection * row_params)
 : _second(row_params), _first(col_params)
 {
 	//先指向列
@@ -177,7 +177,7 @@ params_handler::~params_handler()
 }
 
 
-_params_handler::_params_handler(ParamsOfLines * param)
+_params_handler::_params_handler(ParamListCollection * param)
 {
 	pols = param;
 	ptr = buffer;
@@ -198,7 +198,7 @@ void _params_handler::put(char ch)
 void _params_handler::finishItem()
 {
 	*ptr = '\0';
-	create_param(buffer, line);
+	create_param(buffer, param_list);
 	ptr = buffer;
 }
 
@@ -207,10 +207,10 @@ void _params_handler::finishLine()
 {
 	finishItem();
 	
-	if (line.size() > 0)
+	if (param_list.size() > 0)
 	{
-		pols->push_back(line);
-		line.clear();
+		pols->push_back(param_list);
+		param_list.clear();
 	}
 }
 

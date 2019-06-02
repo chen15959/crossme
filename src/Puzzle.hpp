@@ -38,22 +38,22 @@ public:
 public:
 	//全部列的参数
 	inline
-	const ParamsOfLines & getParamsOnCols() const
+	const ParamListCollection & getParamsOnCols() const
 	{
 		return _params_of_cols;
 	}
 
 	//全部行的参数
 	inline
-	const ParamsOfLines & getParamsOnRows() const
+	const ParamListCollection & getParamsOnRows() const
 	{
 		return _params_of_rows;
 	}
 
 
 private:
-	ParamsOfLines		_params_of_cols;
-	ParamsOfLines		_params_of_rows;
+	ParamListCollection		_params_of_cols;
+	ParamListCollection		_params_of_rows;
 };
 
 

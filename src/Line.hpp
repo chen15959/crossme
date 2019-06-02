@@ -80,12 +80,12 @@ public:
 	//通过参数建立全部可能性
 	//返回可能性的数量
 	//-1代表出错了
-	double install(const ParamsOfLine & params);
+	double install(const ParamList & params);
 
 	//开始计算
 	//	>0	这次确定了几个Point的值
 	//	=0	这次没能确定任何Point的值
-	//	=-1	发生了错误
+	//	<0	发生了错误
 	int play();
 
 
@@ -119,7 +119,7 @@ private:
 	//行的长度	
 	short									_length;
 	//输入参数
-	ParamsOfLine							_params;
+	ParamList								_params;
 	//所有可能性
 	CandidateList *							_candidates;
 

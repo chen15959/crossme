@@ -205,7 +205,7 @@ col_size = 4
 */
 
 //使用参数来初始化
-void Board::install(const ParamsOfLines & col_params, const ParamsOfLines & row_params)
+void Board::install(const ParamListCollection & col_params, const ParamListCollection & row_params)
 {
 	for (unsigned long r = 0; r < row_params.size(); ++r)
 	{
