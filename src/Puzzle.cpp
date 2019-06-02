@@ -263,26 +263,33 @@ bool Puzzle::load_puzzle_file(const char * filename)
 	while (!feof(file)) {
 		char ch = (char)fgetc(file);
 		
+		//'#' '%' '*' 开启行注释
 		if (ch == '#' || ch == '%' || ch == '*') {
 			ph.finishLine();
 			in_comment = true;
 		}
+		//换行则自动结束行注释
 		else if (ch == '\n' || ch == '\r') {
 			ph.finishLine();
 			in_comment = false;
 		}
 		else if (!in_comment) {
-			if (ch == '/' || ch == '+' || ch == '-') {
+			//非注释状态下 '/' '+'代表模式切换
+			if (ch == '/' || ch == '+') {
 				ph.finishLine();
 				ph.changeMode();
-
-				if (ch == '-') {
-					in_comment = true;
-				}
 			}
+			//非注释状态下 '-'代表模式切换加行注释 (为处理-1作为切换符)
+			else if (ch == '-') {
+				ph.finishLine();
+				ph.changeMode();
+				in_comment = true;
+			}
+			//非注释状态下 ' ' '\t' '.' 代表一个item结束
 			else if (ch == ' ' || ch == '\t' || ch == '.') {
 				ph.finishItem();
 			}
+			//其他的非EOF就是合法字符
 			else if (ch != '\xFF') {
 				ph.put(ch);
 			}
@@ -295,8 +302,6 @@ bool Puzzle::load_puzzle_file(const char * filename)
 	fclose(file);
 	
 	return true;
-
-//	return -1;
 }
 
 
