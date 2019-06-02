@@ -7,9 +7,7 @@ using namespace std;
 
 
 Puzzle::Puzzle(bool col_params_first)
-//: _first(col_params_first ? &_params_of_cols : &_params_of_rows), _second(col_params_first ? &_params_of_rows : &_params_of_cols)
 {
-//	_current = &_first;
 }
 
 
@@ -56,55 +54,11 @@ void Puzzle::free()
 
 
 /*
-´Ó×Ö·û´®ÖÐ¶ÁÈ¡Param
- ×Ö·û´®¸ñÊ½Ó¦µ±ÎªA123»ò123
- ·µ»ØµÄParamµ÷ÓÃisValidÅÐ¶ÏÊÇ·ñºÏ·¨
- 
- */
-/*
-Param create_param_from_str(const char * str)
-{
-	assert(str);
-	
-	char t = 'A';
-	const char * p;
-	
-	//ÓÐÀàÐÍ×ÖÄ¸
-	if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z'))
-	{
-		t = str[0];
-		str++;
-	}
-	
-	//¼ì²éÊÇ·ñÎªÈ«Êý×Ö
-	p = str;
-	while (*p)
-	{
-		if (*p < '0' || *p > '9')
-		{
-			p = NULL;
-			break;
-		}
-		++p;
-	}
-	
-	
-	if (p)
-	{
-		int d;
-		if (sscanf(str, "%d", &d) == 1)
-		{
-			//¸ñÊ½·ûºÏÒªÇó
-			return Param(d, t);
-		}
-	}
-
-	//¸ñÊ½²»·ûºÏÒªÇó
-	return Param(-1, VAL_EMPTY);
-}
+ä»Žå­—ç¬¦ä¸²ä¸­è¯»å–Param
+ å¹¶é™„åŠ åˆ°paramsçš„ç»“å°¾
+ å­—ç¬¦ä¸²æ ¼å¼åº”å½“ä¸ºA123æˆ–123
+ è¿”å›žå€¼ä¸ºtrueä»£è¡¨å­—ç¬¦ä¸²æ˜¯æœ‰æ•ˆçš„æ ¼å¼ï¼Œç”Ÿæˆçš„Paramå·²ç»é™„åŠ åˆ°paramsçš„ç»“å°¾
 */
-
-
 static
 bool create_param(const char * str, ParamsOfLine & params)
 {
@@ -113,14 +67,14 @@ bool create_param(const char * str, ParamsOfLine & params)
 	char t = 'A';
 	const char * p;
 	
-	//ÓÐÀàÐÍ×ÖÄ¸
+	//æœ‰ç±»åž‹å­—æ¯
 	if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z'))
 	{
 		t = str[0];
 		str++;
 	}
 	
-	//¼ì²éÊÇ·ñÎªÈ«Êý×Ö
+	//æ£€æŸ¥æ˜¯å¦ä¸ºå…¨æ•°å­—
 	p = str;
 	while (*p)
 	{
@@ -138,20 +92,21 @@ bool create_param(const char * str, ParamsOfLine & params)
 		int d;
 		if (sscanf(str, "%d", &d) == 1)
 		{
-			//¸ñÊ½·ûºÏÒªÇó
+			//æ ¼å¼ç¬¦åˆè¦æ±‚
 			params.push_back(Param(d, t));
 			return true;
 		}
 	}
 
-	//¸ñÊ½²»·ûºÏÒªÇó
+	//æ ¼å¼ä¸ç¬¦åˆè¦æ±‚
 	return false;
 }
 
 
 
 
-
+//å†…éƒ¨ç±»
+//å¤„ç†æ‰€æœ‰åˆ—çš„å‚æ•°ï¼Œæˆ–è€…æ‰€æœ‰è¡Œçš„å‚æ•°
 class _params_handler
 {
 public:
@@ -164,7 +119,7 @@ public:
 	void finishLine();
 	
 private:
-	ParamsOfLines * pol;
+	ParamsOfLines * pols;
 	char buffer[1024];
 	char * ptr;
 	ParamsOfLine line;
@@ -172,7 +127,9 @@ private:
 
 
 
-
+//å†…éƒ¨ç±»
+//ä¸€ä¸ªçŠ¶æ€æœº
+//å¤„ç†åˆ—/è¡Œåˆ‡æ¢é—®é¢˜
 class params_handler
 {
 public:
@@ -189,7 +146,10 @@ public:
 	inline void finishLine() {
 		_handler->finishLine();
 	}
+	//åˆ‡æ¢åˆ—/è¡Œæ¨¡å¼
 	inline void changeMode() {
+		//å¼ºåˆ¶æ£€æŸ¥ å¿…é¡»æ˜¯æœªåˆ‡æ¢çŠ¶æ€ å³ä¸èƒ½ä¸¤æ¬¡è°ƒç”¨
+		assert(_handler == &_first);
 		_handler = &_second;
 	}
 	
@@ -205,18 +165,21 @@ private:
 params_handler::params_handler(ParamsOfLines * col_params, ParamsOfLines * row_params)
 : _second(row_params), _first(col_params)
 {
+	//å…ˆæŒ‡å‘åˆ—
 	_handler = &_first;
 }
 
 
 params_handler::~params_handler()
 {
+	//å¼ºåˆ¶æ£€æŸ¥ å¿…é¡»å·²ç»åˆ‡æ¢è¿‡ä¸€æ¬¡
+	assert(_handler == &_second);
 }
 
 
 _params_handler::_params_handler(ParamsOfLines * param)
 {
-	pol = param;
+	pols = param;
 	ptr = buffer;
 }
 
@@ -246,7 +209,7 @@ void _params_handler::finishLine()
 	
 	if (line.size() > 0)
 	{
-		pol->push_back(line);
+		pols->push_back(line);
 		line.clear();
 	}
 }
@@ -340,15 +303,3 @@ bool Puzzle::load_installed_file(const char * filename)
 
 
 
-
-
-/*
-	int load_puzzle_file(const char *);
-	int load_installed_file(const char *);
-
-
-private:
-	ParamsOfLines		_params_of_cols;
-	ParamsOfLines		_params_of_rows;
-
-*/
