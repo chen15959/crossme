@@ -51,7 +51,7 @@ int main(int argc, const char * argv[])
 	{
 		if (strcmp(argv[i], "--log:step") == 0)
 		{
-			log_level = max(log_level, LOG_TRY);
+			log_level = max(log_level, LOG_STEP);
 			continue;
 		}
 
