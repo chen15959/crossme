@@ -110,7 +110,7 @@ bool create_param(const char * str, ParamList & param_list)
 class _params_handler
 {
 public:
-	_params_handler(ParamListCollection * params);
+	_params_handler(ParamListCollection * param_list_collection);
 	virtual ~_params_handler();
 
 public:
@@ -119,10 +119,10 @@ public:
 	void finishLine();
 	
 private:
-	ParamListCollection * pols;
-	char buffer[1024];
-	char * ptr;
-	ParamList param_list;
+	ParamListCollection *	_param_list_collection;
+	char					_buffer[1024];
+	char *					_ptr;
+	ParamList				_param_list;
 };
 
 
@@ -177,10 +177,12 @@ params_handler::~params_handler()
 }
 
 
-_params_handler::_params_handler(ParamListCollection * param)
+_params_handler::_params_handler(ParamListCollection * param_list_collection)
 {
-	pols = param;
-	ptr = buffer;
+	//初始化
+	_param_list_collection = param_list_collection;
+	//字符指针指向缓冲区头
+	_ptr = _buffer;
 }
 
 
@@ -191,26 +193,31 @@ _params_handler::~_params_handler()
 
 void _params_handler::put(char ch)
 {
-	*ptr++ = ch;
+	//普通字符写入缓冲区
+	*_ptr++ = ch;
 }
 
 
 void _params_handler::finishItem()
 {
-	*ptr = '\0';
-	create_param(buffer, param_list);
-	ptr = buffer;
+	bool ret;
+	//结束了一个item
+	*_ptr = '\0';
+	ret = create_param(_buffer, _param_list);
+	_ptr = _buffer;
+	//未处理对item的解析结果
 }
 
 
 void _params_handler::finishLine()
 {
+	//结束了一行
 	finishItem();
 	
-	if (param_list.size() > 0)
+	if (_param_list.size() > 0)
 	{
-		pols->push_back(param_list);
-		param_list.clear();
+		_param_list_collection->push_back(_param_list);
+		_param_list.clear();
 	}
 }
 
@@ -276,7 +283,7 @@ bool Puzzle::load_puzzle_file(const char * filename)
 			else if (ch == ' ' || ch == '\t' || ch == '.') {
 				ph.finishItem();
 			}
-			else if (ch != '\xFF'){
+			else if (ch != '\xFF') {
 				ph.put(ch);
 			}
 		}
