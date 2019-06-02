@@ -293,7 +293,7 @@ bool Puzzle::load_puzzle_file(const char * filename)
 	while (!feof(file)) {
 		char ch = (char)fgetc(file);
 		
-		if (ch == '#' || ch == '%') {
+		if (ch == '#' || ch == '%' || ch == '*') {
 			ph.finishLine();
 			in_comment = true;
 		}
