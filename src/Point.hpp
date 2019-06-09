@@ -1,6 +1,8 @@
 #ifndef Point_h
 #define Point_h
 
+#include "def.hpp"
+
 class Board;
 
 //啥都没有
@@ -22,7 +24,7 @@ class Point
 {
 public:
 	//构造 带自己的位置
-	Point(short row, short col, Board * board);
+	Point(LINE_SIZE row, LINE_SIZE col, Board * board);
 	
 	//拷贝构造
 	Point(const Point & other);
@@ -35,52 +37,45 @@ public:
 public:
 	//点在哪行（0开始）
 	inline
-	short getRow() const
-	{
+	LINE_SIZE getRow() const {
 		return this->_row;
 	}
 
 	inline
-	short row() const
-	{
-		return _row;
+	LINE_SIZE row() const {
+		return this->_row;
 	}
 	
 	//点在哪列（0开始）
 	inline
-	short getCol() const
-	{
+	LINE_SIZE getCol() const {
 		return this->_col;
 	}
 
 	inline
-	short col() const
-	{
-		return _col;
+	LINE_SIZE col() const {
+		return this->_col;
 	}
 	
 	//获得点的值
 	inline
-	char getValue() const 
-	{
+	VALUE_T getValue() const {
 		return this->_value;
 	}
 
 	inline
-	char value() const
-	{
-		return _value;
+	VALUE_T value() const {
+		return this->_value;
 	}
 	
 	//设置点为空
 	inline
-	bool setEmpty()
-	{
+	bool setEmpty() {
 		return setValue(VAL_EMPTY);
 	}
 	
 	//设置点的值
-	bool setValue(char value);
+	bool setValue(VALUE_T value);
 	
 	
 	//该点是否已经确定
@@ -93,11 +88,11 @@ public:
 	
 private:
 	//行（0开始）
-	short			_row;
+	LINE_SIZE		_row;
 	//列（0开始）
-	short			_col;
+	LINE_SIZE		_col;
 	//值
-	char			_value;
+	VALUE_T		_value;
 	//所属的board
 	Board *			_board;
 	
