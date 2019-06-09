@@ -6,7 +6,7 @@
 typedef unsigned long LINE_SIZE;
 
 //单个格子的值
-typedef char VALUE_TYPE;
+typedef char VALUE_T;
 
 typedef unsigned long SIZE_T;
 
