@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\def.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Game.hpp"
 				>
 			</File>
