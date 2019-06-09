@@ -2,6 +2,8 @@
 
 ~gitignore
 
+~*/*
+
 src/build/Debug/*
 src/build/Release/*
 
