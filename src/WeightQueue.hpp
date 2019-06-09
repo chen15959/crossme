@@ -1,68 +1,77 @@
 #ifndef WeightQueue_hpp
 #define WeightQueue_hpp
 
+#include "def.hpp"
+
 #include <map>
 
 
+typedef long WQ_T;
 
-//È¨ÖØ¶ÓÁĞ
-//ÒÀ´Î°´È¨ÖØ³öÁĞ
+//æƒé‡é˜Ÿåˆ—
+//ä¾æ¬¡æŒ‰æƒé‡å‡ºåˆ—
 class WeightQueue
 {
 public:
-	//¹¹Ôì
+	//æ„é€ 
 	WeightQueue();
-	//Îö¹¹
+	//ææ„
 	virtual ~WeightQueue();
 	
-	//¿½±´¹¹Ôì
+	//æ‹·è´æ„é€ 
 	WeightQueue(const WeightQueue &);
-	//¸³ÖµÔËËã·û
+	//èµ‹å€¼è¿ç®—ç¬¦
 	WeightQueue & operator=(const WeightQueue &);
 	
 private:
-	//¸´ÖÆ
+	//å¤åˆ¶
 	void copy(const WeightQueue &);
-	//ÊÍ·Å
+	//é‡Šæ”¾
 	void free();
 	
 public:
-	//»ñµÃÈ¨ÖØ×î´óÕß
-	long	top();
-	//¼ÓÈëÒ»¸öÊı½ø¶ÓÁĞ
-	//Èç¹û´ËÊıÒÑ¾­´æÔÚ£¬ÔòÈ¨ÖØ¼ÓÉÏÈ¥
-	void	push(long value, double weight = 1);
-	//È¨ÖØ×î´óÕß³öÁĞ
-	long	pop();
+	//åŠ å…¥ä¸€ä¸ªæ•°è¿›é˜Ÿåˆ—
+	//å¦‚æœæ­¤æ•°å·²ç»å­˜åœ¨ï¼Œåˆ™æƒé‡åŠ ä¸Šå»
+	void		push(WQ_T value, double weight = 1);
+	//è·å¾—æƒé‡æœ€å¤§è€…
+	WQ_T		top();
+	//æƒé‡æœ€å¤§è€…å‡ºåˆ—
+	WQ_T	pop();
 
 
-	//¶ÓÁĞ³¤¶È
+	//é˜Ÿåˆ—é•¿åº¦
 	inline	
-	unsigned long	size() const
-	{
-		return _data.size();
+	SIZE_T size() const {
+		return this->_data.size();
 	}
 	
-	//¶ÓÁĞÊÇ·ñÎª¿Õ
+
+	//é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º
 	inline
-	bool			empty() const
-	{
-		return size() == 0;
+	bool empty() const {
+		return this->size() == 0;
+	}
+
+	inline
+	bool isEmpty() const {
+		return this->empty();
 	}
 	
-	//Çå¿Õ¶ÓÁĞ
-	void			clear()
-	{
-		_data.clear();
+
+	//æ¸…ç©ºé˜Ÿåˆ—
+	inline
+	void clear() {
+		this->_data.clear();
+		this->_ready = false;
 	}
 	
 	
 	
 	
 private:
-	std::map<long, double>	_data;		//¶ÓÁĞÖĞµÄÊı¾İ
-	long					_top;		//¶ÓÁĞÖĞÈ¨ÖØ×î´óÕß
-	bool					_ready;		//ÒÑ¾­Íê³ÉÅÅĞò
+	std::map<WQ_T, double>		_data;		//é˜Ÿåˆ—ä¸­çš„æ•°æ®
+	WQ_T						_top;		//é˜Ÿåˆ—ä¸­æƒé‡æœ€å¤§è€…
+	bool						_ready;		//å·²ç»å®Œæˆæ’åº
 };
 
 
