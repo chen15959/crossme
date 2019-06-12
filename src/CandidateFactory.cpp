@@ -117,7 +117,7 @@ CandidateList * CandidateFactory::createCandidateList(unsigned long length, cons
 		}
 		else
 		{
-			char * buffer = new char[length];
+			VALUE_T * buffer = new VALUE_T[length];
 
 			//递归生成所有可能
 			placeItem(retVal, length, buffer, 0, params_of_line, 0, ref_line);
@@ -180,7 +180,7 @@ string CandidateFactory::createKeyword(unsigned long length, const ParamList & p
 //buffer_offset	从缓冲区的什么位置可以开始放item，也就是上一个item最后一个位置+1 开始时当然是从0位
 //parmas		所有需放置的item的信息
 //params_ptr	当前应当放置第几个item 开始时当然是从0位
-void CandidateFactory::placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line)
+void CandidateFactory::placeItem(CandidateList * result, unsigned long length, VALUE_T * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line)
 {
 	//剩余未放置的项的最小总长度
 	unsigned long length_of_left_items = 0;
@@ -226,7 +226,7 @@ void CandidateFactory::placeItem(CandidateList * result, unsigned long length, c
 		{
 			if (ref_line)
 			{
-				char ref_value = ref_line->getPoint(ptr)->getValue();
+				VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
 				if (ref_value != VAL_UNKNOWN && ref_value != VAL_EMPTY)
 				{
 					return;
@@ -240,7 +240,7 @@ void CandidateFactory::placeItem(CandidateList * result, unsigned long length, c
 		{
 			if (ref_line)
 			{
-				char ref_value = ref_line->getPoint(ptr)->getValue();
+				VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
 				if (ref_value != VAL_UNKNOWN && params[params_ptr].getType())
 				{
 					return;
@@ -261,7 +261,7 @@ void CandidateFactory::placeItem(CandidateList * result, unsigned long length, c
 			{
 				if (ref_line)
 				{
-					char ref_value = ref_line->getPoint(ptr)->getValue();
+					VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
 					if (ref_value != VAL_UNKNOWN && ref_value != VAL_EMPTY)
 					{
 						return;

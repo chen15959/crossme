@@ -93,7 +93,7 @@ bool create_param(const char * str, ParamList & param_list)
 		if (sscanf(str, "%d", &d) == 1)
 		{
 			//格式符合要求
-			param_list.push_back(Param(d, t));
+			param_list.push_back(Param(d, (VALUE_T)t));
 			return true;
 		}
 	}

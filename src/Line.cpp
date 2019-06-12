@@ -171,7 +171,7 @@ int Line::setByCandidates()
 
 	for (unsigned long i = 0; i < _length; ++i)
 	{
-		char value = _candidates->getValue(i);
+		VALUE_T value = _candidates->getValue(i);
 		if (value != VAL_UNKNOWN && value != VAL_NONE)
 		{
 			retVal += (_points[i]->setValue(value) ? 1 : 0);

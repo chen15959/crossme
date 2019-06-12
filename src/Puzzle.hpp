@@ -38,15 +38,13 @@ public:
 public:
 	//全部列的参数
 	inline
-	const ParamListCollection & getParamsOnCols() const
-	{
+	const ParamListCollection & getParamsOnCols() const {
 		return _params_of_cols;
 	}
 
 	//全部行的参数
 	inline
-	const ParamListCollection & getParamsOnRows() const
-	{
+	const ParamListCollection & getParamsOnRows() const {
 		return _params_of_rows;
 	}
 

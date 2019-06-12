@@ -48,16 +48,14 @@ public:
 	}
 
 
-	char getValue(short pos) const;
+	VALUE_T getValue(short pos) const;
 
 
 	inline
-	char value(short pos) const
-	{
+	VALUE_T value(short pos) const {
 		return getValue(pos);
 	}
 
-//	std::map<char, int> getCandidateValue(short pos) const;
 
 	void getValues(short pos, WeightQueue & result) const;
 

@@ -183,10 +183,10 @@ bool Board::isError() const
 
 
 
-char Board::getValue(unsigned long row, unsigned long col) const
+VALUE_T Board::getValue(unsigned long row, unsigned long col) const
 {
-	assert(row < _row_size);
-	assert(col < _col_size);
+	assert(row < this->_row_size);
+	assert(col < this->_col_size);
 	
 	return _points[getIndex(row, col)]->getValue();
 }
@@ -223,7 +223,7 @@ void Board::install(const ParamListCollection & col_params, const ParamListColle
 
 
 //强行设定某Point
-void Board::install(unsigned long row, unsigned long col, char value)
+void Board::install(unsigned long row, unsigned long col, VALUE_T value)
 {
 	assert(row < _row_size);
 	assert(col < _col_size);
@@ -237,7 +237,7 @@ void Board::install(unsigned long row, unsigned long col, char value)
 
 
 
-void Board::point_change_callback(unsigned long row, unsigned long col, char value)
+void Board::point_change_callback(unsigned long row, unsigned long col, VALUE_T value)
 {
 	//加入需计算列表
 	_todo.push(row_id(row));
@@ -341,7 +341,7 @@ std::vector<Board *> Board::createCandidates() const
 	{
 		for (short c = 0; c < _col_size; c++)
 		{
-			char v = getValue(r, c);
+			VALUE_T v = getValue(r, c);
 			if (v != VAL_UNKNOWN && v != VAL_NONE)
 			{
 /*
@@ -420,7 +420,6 @@ std::vector<Board *> Board::createCandidates() const
 std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long col) const
 {
 	vector<Board *> retVal;
-	//map<char, int> candidates;
 	WeightQueue candidates;
 
 
@@ -429,7 +428,7 @@ std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long co
 
 	while (!candidates.empty())
 	{
-		char value = (char)candidates.pop();
+		VALUE_T value = (VALUE_T)candidates.pop();
 
 		Board * board = new Board(*this);
 

@@ -34,7 +34,7 @@ public:
 
 private:
 	//放置一个item到缓冲区
-	void placeItem(CandidateList * result, unsigned long length, char * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line);
+	void placeItem(CandidateList * result, unsigned long length, VALUE_T * buffer, unsigned long buffer_offset, const ParamList & params, unsigned long params_ptr, const Line * ref_line);
 
 private:
 	//根据参数生成关键字

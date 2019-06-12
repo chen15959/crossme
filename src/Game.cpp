@@ -91,7 +91,7 @@ bool Game::install(const ParamListCollection & col_params, const ParamListCollec
 
 
 
-bool Game::install(unsigned long row, unsigned long col, char value)
+bool Game::install(unsigned long row, unsigned long col, VALUE_T value)
 {
 	for (list<Board *>::const_iterator it1 = _todo.begin(); it1 != _todo.end(); ++it1)
 	{

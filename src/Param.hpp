@@ -18,7 +18,7 @@ public:
 	//在单颜色模式下 只输入第一个参数就行
 	
 	//构造函数
-	Param(short size, char type = 'A');
+	Param(short size, VALUE_T type = 'A');
 	//拷贝构造
 	Param(const Param & other);
 	//析构函数
@@ -30,35 +30,31 @@ public:
 public:
 	//获得类型
 	inline
-	char getType() const
-	{
-		return _type;
+	VALUE_T getType() const {
+		return this->_type;
 	}
 
 	inline
-	char type() const
-	{
-		return _type;
+	VALUE_T type() const {
+		return this->_type;
 	}
 
 
 	//获得数量
 	inline
-	unsigned long getSize() const
-	{
-		return _size;
+	unsigned long getSize() const {
+		return this->_size;
 	}
 
 	inline
-	short size() const
-	{
-		return _size;
+	short size() const {
+		return this->_size;
 	}
 	
 	
 private:
 	//类型，单色模式下常为A
-	char			_type;
+	VALUE_T			_type;
 	//数量
 	short			_size;
 };

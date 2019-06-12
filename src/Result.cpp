@@ -10,7 +10,7 @@
 Result::Result(const Board & board)
 : _col_size(board.col_size()), _row_size(board.row_size()), _id(board.id())
 {
-	_data = new char[_col_size * _row_size];
+	_data = new VALUE_T[_col_size * _row_size];
 	
 	for (short c = 0; c < _col_size; ++c)
 	{
@@ -55,8 +55,8 @@ void Result::copy(const Result & other)
 	_row_size = other._row_size;
 	_col_size = other._col_size;
 	
-	_data = new char[_col_size * _row_size];
-	memcpy(_data, other._data, sizeof(char) * _col_size * _row_size);
+	_data = new VALUE_T[_col_size * _row_size];
+	memcpy(_data, other._data, sizeof(VALUE_T) * _col_size * _row_size);
 }
 
 
@@ -68,7 +68,7 @@ void Result::free()
 
 
 
-char Result::getValue(short row, short col) const
+VALUE_T Result::getValue(short row, short col) const
 {
 	assert(0 <= row && row < _row_size);
 	assert(0 <= col && col < _col_size);

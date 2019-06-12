@@ -1,6 +1,8 @@
 #ifndef Candidate_hpp
 #define Candidate_hpp
 
+#include "def.hpp"
+
 class Line;
 
 
@@ -13,10 +15,10 @@ class Candidate
 public:
 	//构造函数
 	//用数组初始化
-	Candidate(short length, const char * buffer);
+	Candidate(short length, const VALUE_T * buffer);
 
 	//初始化为全都是一个值
-	Candidate(short length, char value = '\0');
+	Candidate(short length, VALUE_T value = '\0');
 
 	//拷贝构造
 	Candidate(const Candidate &);
@@ -32,23 +34,20 @@ private:
 
 public:
 	//获得某个位置上的值
-	char getValue(short pos) const;
+	VALUE_T getValue(short pos) const;
 
 	inline
-	char value(short pos) const
-	{
+	VALUE_T value(short pos) const {
 		return getValue(pos);
 	}
 
 	inline
-	short getLength() const
-	{
+	short getLength() const {
 		return _length;
 	}
 
 	inline
-	short length() const
-	{
+	short length() const {
 		return _length;
 	}
 	
@@ -57,9 +56,9 @@ public:
 public:
 	//判断是否和已经存在的Line兼容
 	bool operator==(const Line & rhs) const;
+
 	inline
-	bool operator!=(const Line & rhs) const
-	{
+	bool operator!=(const Line & rhs) const {
 		return !(*this == rhs);
 	}
 
@@ -67,7 +66,7 @@ public:
 
 private:
 	//数据内容
-	char *			_data;
+	VALUE_T *		_data;
 	//数据长度
 	short			_length;
 };

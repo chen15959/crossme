@@ -54,7 +54,7 @@ public:
 	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//强行设定某Point
-	void install(unsigned long row, unsigned long col, char value);
+	void install(unsigned long row, unsigned long col, VALUE_T value);
 
 
 public:
@@ -81,12 +81,12 @@ private:
 
 public:
 	//获得特定位置的点的值
-	char getValue(unsigned long row, unsigned long col) const;
+	VALUE_T getValue(unsigned long row, unsigned long col) const;
 	
 	
 public:
 	//点被改变的回调
-	void point_change_callback(unsigned long row, unsigned long col, char value);
+	void point_change_callback(unsigned long row, unsigned long col, VALUE_T value);
 	
 private:
 	//列数

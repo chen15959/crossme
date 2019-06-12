@@ -23,24 +23,23 @@ public:
 	
 
 private:
-	std::string _id;
-	short _col_size;
-	short _row_size;
-	char * _data;
+	std::string	_id;
+	short		_col_size;
+	short		_row_size;
+	VALUE_T *	_data;
 	
 	
 public:
 	inline
-	std::string id() const
-	{
+	std::string id() const {
 		return _id;
 	}
-	char getValue(short row, short col) const;
+
+	VALUE_T getValue(short row, short col) const;
 	
 private:
 	inline
-	long getIndex(short row, short col) const
-	{
+	long getIndex(short row, short col) const {
 		return row * this->_col_size + col;
 	}
 	

@@ -44,7 +44,7 @@ public:
 	
 	//设定一个点为具体值
 	//影响到所有的board
-	bool install(unsigned long row, unsigned long col, char val);
+	bool install(unsigned long row, unsigned long col, VALUE_T val);
 	
 
 	//开始运行
@@ -67,14 +67,12 @@ private:
 	
 public:
 	inline
-	void setStopAfter(int value)
-	{
+	void setStopAfter(int value) {
 		_stop_after = value;
 	}
 	
 	inline
-	void setResultAsSoonAsPosslbie(FILE * value)
-	{
+	void setResultAsSoonAsPosslbie(FILE * value) {
 		_result_as_soon_as_possible = value;
 	}
 	
