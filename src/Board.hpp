@@ -30,7 +30,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level);
+	Board(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -41,7 +41,7 @@ public:
 	
 private:
 	//建立基本的Point矩阵
-	void init(unsigned long col_size, unsigned long row_size);
+	void init(LENGTH_T col_size, LENGTH_T row_size);
 	//释放资源
 	void free();
 	//复制内容
@@ -54,7 +54,7 @@ public:
 	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//强行设定某Point
-	void install(unsigned long row, unsigned long col, VALUE_T value);
+	void install(LENGTH_T row, LENGTH_T col, VALUE_T value);
 
 
 public:
@@ -76,23 +76,23 @@ public:
 
 private:
 	//基于某点生成多种可能性
-	std::vector<Board *> createCandidates(unsigned long row, unsigned long col) const;
+	std::vector<Board *> createCandidates(LENGTH_T row, LENGTH_T col) const;
 
 
 public:
 	//获得特定位置的点的值
-	VALUE_T getValue(unsigned long row, unsigned long col) const;
+	VALUE_T getValue(LENGTH_T row, LENGTH_T col) const;
 	
 	
 public:
 	//点被改变的回调
-	void point_change_callback(unsigned long row, unsigned long col, VALUE_T value);
+	void point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value);
 	
 private:
 	//列数
-	unsigned long				_col_size;
+	LENGTH_T					_col_size;
 	//行数
-	unsigned long				_row_size;
+	LENGTH_T					_row_size;
 	
 	//所有Point
 	Point **					_points;
@@ -110,54 +110,41 @@ private:
 private:
 	//从行列号获得点的实际位置
 	inline
-	unsigned long getIndex(unsigned long row, unsigned long col) const
-	{
-		return row * this->_col_size + col;
+	LENGTH2_T getIndex(LENGTH_T row, LENGTH_T col) const {
+		return row * _col_size + col;
 	}
 	
 	inline
-	long col_id(long col) const
-	{
+	long col_id(long col) const {
 		return -col - 1;
 	}
 
 	inline
-	long row_id(long row) const
-	{
+	long row_id(long row) const {
 		return row + 1;
 	}
 
 
 public:
-/*
+
 	inline
-	unsigned long id() const
-	{
-		return _id;
-	}
-*/
-	inline
-	const char * id() const
-	{
+	const char * id() const {
 		return _id.c_str();
 	}
 
 	inline
-	unsigned long row_size() const
-	{
+	LENGTH_T row_size() const {
 		return _row_size;
 	}
 
 
 	inline
-	unsigned long col_size() const
-	{
+	LENGTH_T col_size() const {
 		return _col_size;
 	}
 
 
 private:
-//	unsigned long		_id;
 	std::string			_id;
 
 
@@ -168,14 +155,12 @@ public:
 
 	//输出等级
 	inline 
-	int log_level() const
-	{
+	int log_level() const {
 		return _log_level;
 	}
 
 	inline
-	int display_level() const
-	{
+	int display_level() const {
 		return _display_level;
 	}
 
@@ -186,7 +171,7 @@ private:
 
 
 public:
-	unsigned long known() const;
+	SIZE_T known() const;
 
 
 

@@ -8,7 +8,7 @@ CandidateFactory Line::__candidateFactory;
 
 
 
-Line::Line(short length)
+Line::Line(LENGTH_T length)
 {
 	assert(length > 0);
 	
@@ -57,7 +57,7 @@ void Line::copy(const Line & other)
 	_length = other._length;
 	_points = new Point*[_length];
 
-//	for (unsigned long i = 0; i < _length; ++i)
+//	for (LENGTH_T i = 0; i < _length; ++i)
 //	{
 //		_points[i] = other._points[i];
 //	}
@@ -112,7 +112,7 @@ void Line::free()
 
 
 
-const Point * Line::getPoint(short pos) const
+const Point * Line::getPoint(LENGTH_T pos) const
 {
 	assert(0 <= pos && pos < _length);
 	
@@ -121,7 +121,7 @@ const Point * Line::getPoint(short pos) const
 
 
 
-void Line::setPoint(Point * point, short pos)
+void Line::setPoint(Point * point, LENGTH_T pos)
 {
 	assert(0 <= pos && pos < _length);
 	
@@ -169,7 +169,7 @@ int Line::setByCandidates()
 
 	int retVal = 0;
 
-	for (unsigned long i = 0; i < _length; ++i)
+	for (LENGTH_T i = 0; i < _length; ++i)
 	{
 		VALUE_T value = _candidates->getValue(i);
 		if (value != VAL_UNKNOWN && value != VAL_NONE)
@@ -182,17 +182,8 @@ int Line::setByCandidates()
 }
 
 
-/*
-WeightQueue Line::getCandidateValue(short pos) const
-{
-	assert(_candidates);
-	assert(pos < _length);
 
-	return _candidates->values(pos);
-}
-*/
-
-void Line::getValues(short pos, WeightQueue & result) const
+void Line::getValues(LENGTH_T pos, WeightQueue & result) const
 {
 	assert(_candidates);
 	assert(0 <= pos && pos < _length);

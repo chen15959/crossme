@@ -3,7 +3,10 @@
 
 
 //行/列的数量
-typedef unsigned long LINE_SIZE;
+//typedef unsigned long LINE_SIZE;
+typedef unsigned short LENGTH_T;
+
+typedef unsigned long LENGTH2_T;
 
 //单个格子的值
 typedef char VALUE_T;

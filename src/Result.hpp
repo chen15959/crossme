@@ -23,10 +23,10 @@ public:
 	
 
 private:
-	std::string	_id;
-	short		_col_size;
-	short		_row_size;
-	VALUE_T *	_data;
+	std::string		_id;
+	LENGTH_T		_col_size;
+	LENGTH_T		_row_size;
+	VALUE_T *		_data;
 	
 	
 public:
@@ -35,11 +35,11 @@ public:
 		return _id;
 	}
 
-	VALUE_T getValue(short row, short col) const;
+	VALUE_T getValue(LENGTH_T row, LENGTH_T col) const;
 	
 private:
 	inline
-	long getIndex(short row, short col) const {
+	LENGTH2_T getIndex(LENGTH_T row, LENGTH_T col) const {
 		return row * this->_col_size + col;
 	}
 	

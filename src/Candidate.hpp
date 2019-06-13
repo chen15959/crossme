@@ -15,10 +15,10 @@ class Candidate
 public:
 	//构造函数
 	//用数组初始化
-	Candidate(short length, const VALUE_T * buffer);
+	Candidate(LENGTH_T length, const VALUE_T * buffer);
 
 	//初始化为全都是一个值
-	Candidate(short length, VALUE_T value = '\0');
+	Candidate(LENGTH_T length, VALUE_T value = '\0');
 
 	//拷贝构造
 	Candidate(const Candidate &);
@@ -34,21 +34,21 @@ private:
 
 public:
 	//获得某个位置上的值
-	VALUE_T getValue(short pos) const;
+	VALUE_T getValue(LENGTH_T pos) const;
 
 	inline
-	VALUE_T value(short pos) const {
+	VALUE_T value(LENGTH_T pos) const {
 		return getValue(pos);
 	}
 
 	inline
-	short getLength() const {
+	LENGTH_T getLength() const {
 		return _length;
 	}
 
 	inline
-	short length() const {
-		return _length;
+	LENGTH_T length() const {
+		return getLength();
 	}
 	
 
@@ -68,7 +68,7 @@ private:
 	//数据内容
 	VALUE_T *		_data;
 	//数据长度
-	short			_length;
+	LENGTH_T		_length;
 };
 
 

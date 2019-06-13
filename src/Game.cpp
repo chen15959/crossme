@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-Game::Game(unsigned long col_size, unsigned long row_size, int log_level, int display_level)
+Game::Game(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level)
 {
 	assert(col_size > 0);
 	assert(row_size > 0);
@@ -91,7 +91,7 @@ bool Game::install(const ParamListCollection & col_params, const ParamListCollec
 
 
 
-bool Game::install(unsigned long row, unsigned long col, VALUE_T value)
+bool Game::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
 	for (list<Board *>::const_iterator it1 = _todo.begin(); it1 != _todo.end(); ++it1)
 	{

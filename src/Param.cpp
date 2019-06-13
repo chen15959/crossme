@@ -5,7 +5,7 @@
 
 
 
-Param::Param(short size, VALUE_T type)
+Param::Param(LENGTH_T size, VALUE_T type)
 : _type(type), _size(size)
 {
 }
@@ -30,8 +30,8 @@ Param & Param::operator=(const Param & rhs)
 {
 	if (&rhs != this)
 	{
-		this->_type = rhs._type;
-		this->_size = rhs._size;
+		_type = rhs._type;
+		_size = rhs._size;
 	}
 	
 	return *this;

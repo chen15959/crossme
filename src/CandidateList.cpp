@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-CandidateList::CandidateList(short length)
+CandidateList::CandidateList(LENGTH_T length)
 {
 	assert(length > 0);
 
@@ -105,7 +105,7 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-VALUE_T CandidateList::getValue(short pos) const
+VALUE_T CandidateList::getValue(LENGTH_T pos) const
 {
 	WeightQueue result;
 	
@@ -129,7 +129,7 @@ VALUE_T CandidateList::getValue(short pos) const
 
 
 
-void CandidateList::getValues(short pos, WeightQueue & result) const
+void CandidateList::getValues(LENGTH_T pos, WeightQueue & result) const
 {
 	assert(pos >= 0 && pos < _length);
 

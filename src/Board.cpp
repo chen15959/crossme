@@ -10,7 +10,7 @@ using namespace std;
 
 
 
-Board::Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level)
+Board::Board(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level)
 :_id("")
 {
 	init(col_size, row_size);
@@ -39,15 +39,15 @@ Board & Board::operator=(const Board & rhs)
 	if (&rhs != this)
 	{
 		//先删掉自己的，再用别人的替代
-		this->free();
-		this->copy(rhs);
+		free();
+		copy(rhs);
 	}
 	
 	return *this;
 }
 
 
-void Board::init(unsigned long col_size, unsigned long row_size)
+void Board::init(LENGTH_T col_size, LENGTH_T row_size)
 {
 	assert(col_size > 0);
 	assert(row_size > 0);
@@ -56,11 +56,11 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 	_row_size = row_size;
 	
 	//初始化行/列
-	for (unsigned long r = 0; r < row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size; ++r)
 	{
 		_lines[row_id(r)] = new Line(col_size);
 	}
-	for (unsigned long c = 0; c < col_size; ++c)
+	for (LENGTH_T c = 0; c < col_size; ++c)
 	{
 		_lines[col_id(c)] = new Line(row_size);
 	}
@@ -69,11 +69,11 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 	_points = new Point*[_col_size * _row_size];
 
 	//生成所有Point
-	for (unsigned long r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < _row_size; ++r)
 	{
-		for (unsigned long c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			Point * point = new Point((short)r, (short)c, this);
+			Point * point = new Point(r, c, this);
 			
 			_points[getIndex(r, c)] = point;
 			
@@ -95,11 +95,11 @@ void Board::copy(const Board & other)
 	_log_level = LOG_NOTHING;
 
 	//复制Point的值
-	for (unsigned long r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < _row_size; ++r)
 	{
-		for (unsigned long c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			unsigned long idx = getIndex(r, c);
+			LENGTH2_T idx = getIndex(r, c);
 			_points[idx]->setValue(other.getValue(r, c));
 		}
 	}
@@ -126,16 +126,16 @@ void Board::copy(const Board & other)
 void Board::free()
 {
 	//销毁每个Point
-	for (unsigned long r = 0; r < this->_row_size; ++r)
+	for (LENGTH_T r = 0; r < _row_size; ++r)
 	{
-		for (unsigned long c = 0; c < this->_col_size; ++c)
+		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			delete this->_points[this->getIndex(r, c)];
+			delete _points[getIndex(r, c)];
 		}
 	}
 	
 	//销毁Point空间
-	delete [] this->_points;
+	delete [] _points;
 	
 	//销毁所有Line
 	for (map<long, Line *>::const_iterator it1 = _lines.begin(); it1 != _lines.end(); ++it1)
@@ -152,11 +152,11 @@ void Board::free()
 //棋局是否已经走完
 bool Board::isDone() const
 {
-	for (unsigned long r = 0; r < this->_row_size; ++r)
+	for (LENGTH_T r = 0; r < _row_size; ++r)
 	{
-		for (unsigned long c = 0; c < this->_col_size; ++c)
+		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			if (this->_points[this->getIndex(r, c)]->getValue() == VAL_UNKNOWN)
+			if (getValue(r, c) == VAL_UNKNOWN)
 			{
 				return false;
 			}
@@ -183,10 +183,10 @@ bool Board::isError() const
 
 
 
-VALUE_T Board::getValue(unsigned long row, unsigned long col) const
+VALUE_T Board::getValue(LENGTH_T row, LENGTH_T col) const
 {
-	assert(row < this->_row_size);
-	assert(col < this->_col_size);
+	assert(0 <= row && row < _row_size);
+	assert(0 <= row && col < _col_size);
 	
 	return _points[getIndex(row, col)]->getValue();
 }
@@ -207,13 +207,13 @@ col_size = 4
 //使用参数来初始化
 void Board::install(const ParamListCollection & col_params, const ParamListCollection & row_params)
 {
-	for (unsigned long r = 0; r < row_params.size(); ++r)
+	for (LENGTH_T r = 0; r < row_params.size(); ++r)
 	{
 		double v = _lines[row_id(r)]->install(row_params[r]);
 		_todo.push(row_id(r), -v);
 	}
 
-	for (unsigned long c = 0; c < col_params.size(); ++c)
+	for (LENGTH_T c = 0; c < col_params.size(); ++c)
 	{
 		double v = _lines[col_id(c)]->install(col_params[c]);
 		_todo.push(col_id(c), -v);
@@ -223,10 +223,10 @@ void Board::install(const ParamListCollection & col_params, const ParamListColle
 
 
 //强行设定某Point
-void Board::install(unsigned long row, unsigned long col, VALUE_T value)
+void Board::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
-	assert(row < _row_size);
-	assert(col < _col_size);
+	assert(0 <= row && row < _row_size);
+	assert(0 <= col && col < _col_size);
 	
 	_points[getIndex(row, col)]->setValue(value);
 	
@@ -237,7 +237,7 @@ void Board::install(unsigned long row, unsigned long col, VALUE_T value)
 
 
 
-void Board::point_change_callback(unsigned long row, unsigned long col, VALUE_T value)
+void Board::point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
 	//加入需计算列表
 	_todo.push(row_id(row));
@@ -337,9 +337,9 @@ std::vector<Board *> Board::createCandidates() const
 
 	WeightQueue weight;
 
-	for (short r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < _row_size; r++)
 	{
-		for (short c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < _col_size; c++)
 		{
 			VALUE_T v = getValue(r, c);
 			if (v != VAL_UNKNOWN && v != VAL_NONE)
@@ -353,41 +353,41 @@ std::vector<Board *> Board::createCandidates() const
 */
 				if (v != VAL_EMPTY)
 				{
-					weight.push(zip(r-2, c), factor_cx);
+					weight.push(zip((short)(r-2), (short)(c)), factor_cx);
 
-					weight.push(zip(r-1, c-1), factor_bx);
-					weight.push(zip(r-1, c), factor_ax);
-					weight.push(zip(r-1, c+1), factor_bx);
+					weight.push(zip((short)(r-1), (short)(c-1)), factor_bx);
+					weight.push(zip((short)(r-1), (short)(c)), factor_ax);
+					weight.push(zip((short)(r-1), (short)(c+1)), factor_bx);
 
-					weight.push(zip(r, c-2), factor_cx);
-					weight.push(zip(r, c-1), factor_ax);
-					weight.push(zip(r, c+1), factor_ax);
-					weight.push(zip(r, c+2), factor_cx);
+					weight.push(zip((short)(r), (short)(c-2)), factor_cx);
+					weight.push(zip((short)(r), (short)(c-1)), factor_ax);
+					weight.push(zip((short)(r), (short)(c+1)), factor_ax);
+					weight.push(zip((short)(r), (short)(c+2)), factor_cx);
 
-					weight.push(zip(r+1, c-1), factor_bx);
-					weight.push(zip(r+1, c), factor_ax);
-					weight.push(zip(r+1, c+1), factor_bx);
+					weight.push(zip((short)(r+1), (short)(c-1)), factor_bx);
+					weight.push(zip((short)(r+1), (short)(c)), factor_ax);
+					weight.push(zip((short)(r+1), (short)(c+1)), factor_bx);
 
-					weight.push(zip(r+2, c), factor_cx);
+					weight.push(zip((short)(r+2), (short)(c)), factor_cx);
 				}
 				else
 				{
-					weight.push(zip(r-2, c), factor_cy);
+					weight.push(zip((short)(r-2), (short)(c)), factor_cy);
 
-					weight.push(zip(r-1, c-1), factor_by);
-					weight.push(zip(r-1, c), factor_ay);
-					weight.push(zip(r-1, c+1), factor_by);
+					weight.push(zip((short)(r-1), (short)(c-1)), factor_by);
+					weight.push(zip((short)(r-1), (short)(c)), factor_ay);
+					weight.push(zip((short)(r-1), (short)(c+1)), factor_by);
 
-					weight.push(zip(r, c-2), factor_cy);
-					weight.push(zip(r, c-1), factor_ay);
-					weight.push(zip(r, c+1), factor_ay);
-					weight.push(zip(r, c+2), factor_cy);
+					weight.push(zip((short)(r), (short)(c-2)), factor_cy);
+					weight.push(zip((short)(r), (short)(c-1)), factor_ay);
+					weight.push(zip((short)(r), (short)(c+1)), factor_ay);
+					weight.push(zip((short)(r), (short)(c+2)), factor_cy);
 
-					weight.push(zip(r+1, c-1), factor_by);
-					weight.push(zip(r+1, c), factor_ay);
-					weight.push(zip(r+1, c+1), factor_by);
+					weight.push(zip((short)(r+1), (short)(c-1)), factor_by);
+					weight.push(zip((short)(r+1), (short)(c)), factor_ay);
+					weight.push(zip((short)(r+1), (short)(c+1)), factor_by);
 
-					weight.push(zip(r+2, c), factor_cy);
+					weight.push(zip((short)(r+2), (short)(c)), factor_cy);
 				}
 			}
 		}
@@ -399,11 +399,11 @@ std::vector<Board *> Board::createCandidates() const
 		long pos0 = weight.top();
 		short r, c;
 		unzip(pos0, r, c);
-		if (r >= 0 && r < _row_size && c >= 0 && c < _col_size)
+		if (r >= 0 && (LENGTH_T)r < _row_size && c >= 0 && (LENGTH_T)c < _col_size)
 		{
-			if (getValue(r, c) == VAL_UNKNOWN)
+			if (getValue((LENGTH_T)r, (LENGTH_T)c) == VAL_UNKNOWN)
 			{
-				return createCandidates(r, c);
+				return createCandidates((LENGTH_T)r, (LENGTH_T)c);
 			}
 		}
 
@@ -417,7 +417,7 @@ std::vector<Board *> Board::createCandidates() const
 
 
 
-std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long col) const
+std::vector<Board *> Board::createCandidates(LENGTH_T row, LENGTH_T col) const
 {
 	vector<Board *> retVal;
 	WeightQueue candidates;
@@ -461,14 +461,14 @@ void Board::print(FILE * output, bool head) const
 		fprintf(output, "-= %s =-\n", id());
 	}
 
-	for (unsigned long row = 0; row < row_size(); ++row)
+	for (LENGTH_T row = 0; row < row_size(); ++row)
 	{
 		if (row % 5 == 0)
 		{
 			fprintf(output, "\n");
 		}
 
-		for (unsigned long col = 0; col < col_size(); ++col)
+		for (LENGTH_T col = 0; col < col_size(); ++col)
 		{
 			if (col % 5 == 0 && col > 0)
 			{
@@ -488,13 +488,13 @@ void Board::print(FILE * output, bool head) const
 
 
 
-unsigned long Board::known() const
+SIZE_T Board::known() const
 {
-	unsigned long ret = 0;
+	SIZE_T ret = 0;
 
-	for (unsigned long r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < _row_size; r++)
 	{
-		for (unsigned long c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < _col_size; c++)
 		{
 			if (getValue(r, c) != VAL_UNKNOWN)
 			{

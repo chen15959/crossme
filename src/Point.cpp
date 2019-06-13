@@ -5,7 +5,7 @@
 
 
 
-Point::Point(LINE_SIZE row, LINE_SIZE col, Board * board)
+Point::Point(LENGTH_T row, LENGTH_T col, Board * board)
 : _row(row), _col(col), _value(VAL_UNKNOWN), _board(board)
 {
 }
@@ -30,10 +30,10 @@ Point & Point::operator=(const Point & rhs)
 {
 	if (&rhs != this)
 	{
-		this->_row = rhs._row;
-		this->_col = rhs._col;
-		this->_value = rhs._value;
-		this->_board = rhs._board;
+		_row = rhs._row;
+		_col = rhs._col;
+		_value = rhs._value;
+		_board = rhs._board;
 	}
 	
 	return *this;
@@ -45,14 +45,14 @@ Point & Point::operator=(const Point & rhs)
 //和Board联动
 bool Point::setValue(VALUE_T value)
 {
-	VALUE_T old_value = this->_value;
-	this->_value = value;
+	VALUE_T old_value = _value;
+	_value = value;
 	
 	if (old_value == VAL_UNKNOWN)
 	{
-		if (this->_board != NULL)
+		if (_board != NULL)
 		{
-			this->_board->point_change_callback(this->_row, this->_col, this->_value);
+			_board->point_change_callback(_row, _col, _value);
 		}
 		return true;
 	}

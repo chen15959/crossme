@@ -12,9 +12,9 @@ Result::Result(const Board & board)
 {
 	_data = new VALUE_T[_col_size * _row_size];
 	
-	for (short c = 0; c < _col_size; ++c)
+	for (LENGTH_T c = 0; c < _col_size; ++c)
 	{
-		for (short r = 0; r < _row_size; ++r)
+		for (LENGTH_T r = 0; r < _row_size; ++r)
 		{
 			_data[getIndex(r, c)] = board.getValue(r, c);
 		}
@@ -68,7 +68,7 @@ void Result::free()
 
 
 
-VALUE_T Result::getValue(short row, short col) const
+VALUE_T Result::getValue(LENGTH_T row, LENGTH_T col) const
 {
 	assert(0 <= row && row < _row_size);
 	assert(0 <= col && col < _col_size);
@@ -85,14 +85,14 @@ void Result::print(FILE *output)
 		fprintf(output, "-= %s =-\n", _id.c_str());
 	}
 	
-	for (short row = 0; row < _row_size; ++row)
+	for (LENGTH_T row = 0; row < _row_size; ++row)
 	{
 		if (row % 5 == 0)
 		{
 			fprintf(output, "\n");
 		}
 			
-		for (short col = 0; col < _col_size; ++col)
+		for (LENGTH_T col = 0; col < _col_size; ++col)
 		{
 			if (col % 5 == 0 && col > 0)
 			{

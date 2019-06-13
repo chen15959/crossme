@@ -22,7 +22,7 @@ class Game
 {
 public:
 	//从参数构建新游戏
-	Game(unsigned long col_size, unsigned long row_size, int log_level = 0, int display_level = 0);
+	Game(LENGTH_T col_size, LENGTH_T row_size, int log_level = 0, int display_level = 0);
 	//析构
 	virtual ~Game();
 
@@ -44,7 +44,7 @@ public:
 	
 	//设定一个点为具体值
 	//影响到所有的board
-	bool install(unsigned long row, unsigned long col, VALUE_T val);
+	bool install(LENGTH_T row, LENGTH_T col, VALUE_T val);
 	
 
 	//开始运行
@@ -53,9 +53,9 @@ public:
 
 private:
 	//列数
-	unsigned long			_col_size;
+	LENGTH_T				_col_size;
 	//行数
-	unsigned long			_row_size;
+	LENGTH_T				_row_size;
 	
 	//待执行的Board
 	std::list<Board *>		_todo;

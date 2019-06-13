@@ -9,7 +9,7 @@
 
 
 
-Candidate::Candidate(short length, const VALUE_T * data)
+Candidate::Candidate(LENGTH_T length, const VALUE_T * data)
 {
 	assert(length > 0);
 	assert(data);
@@ -23,7 +23,7 @@ Candidate::Candidate(short length, const VALUE_T * data)
 
 
 
-Candidate::Candidate(short length, VALUE_T value)
+Candidate::Candidate(LENGTH_T length, VALUE_T value)
 {
 	assert(length > 0);
 
@@ -90,7 +90,7 @@ void Candidate::free()
 
 
 
-VALUE_T Candidate::getValue(short pos) const
+VALUE_T Candidate::getValue(LENGTH_T pos) const
 {
 	assert(pos >= 0 && pos < _length);
 	

@@ -21,7 +21,7 @@ class Line
 public:
 	//构造函数
 	//	行的长度
-	Line(short length);
+	Line(LENGTH_T length);
 	//拷贝构造
 	//	不应当被调用
 	Line(const Line &);
@@ -50,30 +50,29 @@ public:
 
 public:
 	//获得一个行中的点
-	const Point * getPoint(short pos) const;
+	const Point * getPoint(LENGTH_T pos) const;
 	//将点赋给行
 	//	仅在初始化Board时由Board调用
-	void setPoint(Point * point, short pos);
+	void setPoint(Point * point, LENGTH_T pos);
 
 
-//	WeightQueue getCandidateValue(short pos) const;
 
-	void getValues(short pos, WeightQueue &) const;
+	void getValues(LENGTH_T pos, WeightQueue &) const;
 
 
 
 
 	//获得行的长度
 	inline
-	unsigned long getLength() const
+	LENGTH_T getLength() const
 	{
 		return _length;
 	}
 
 	inline
-	short length() const
+	LENGTH_T length() const
 	{
-		return _length;
+		return getLength();
 	}
 	
 public:
@@ -117,7 +116,7 @@ private:
 	//所有点
 	Point **								_points;
 	//行的长度	
-	short									_length;
+	LENGTH_T								_length;
 	//输入参数
 	ParamList								_params;
 	//所有可能性
