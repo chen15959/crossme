@@ -45,15 +45,16 @@ Point & Point::operator=(const Point & rhs)
 //和Board联动
 bool Point::setValue(VALUE_T value)
 {
-	VALUE_T old_value = _value;
-	_value = value;
-	
-	if (old_value == VAL_UNKNOWN)
+	if (_value == VAL_UNKNOWN)
 	{
+		//仅当从unknown变为确定值的时候
+		_value = value;
+
 		if (_board != NULL)
 		{
 			_board->point_change_callback(_row, _col, _value);
 		}
+
 		return true;
 	}
 	else

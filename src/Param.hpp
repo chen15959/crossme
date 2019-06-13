@@ -1,7 +1,7 @@
 #ifndef Param_hpp
 #define Param_hpp
 
-#include "Point.hpp"
+#include "def.hpp"
 
 #include <vector>
 
@@ -15,7 +15,7 @@ class Param
 public:
 	//数量 即游戏中的 数字
 	//类型代码（A~Z） 对应游戏中的 颜色
-	//在单颜色模式下 只输入第一个参数就行
+	//在单颜色模式下 只输入第一个参数（size）就行
 	
 	//构造函数
 	Param(LENGTH_T size, VALUE_T type = 'A');
@@ -29,26 +29,30 @@ public:
 	
 public:
 	//获得类型
+#if 0
 	inline
 	VALUE_T getType() const {
-		return this->_type;
+		return this->type();
 	}
+#endif
 
 	inline
 	VALUE_T type() const {
-		return this->_type;
+		return _type;
 	}
 
 
 	//获得数量
+#if 0
 	inline
 	LENGTH_T getSize() const {
-		return this->_size;
+		return this->size();
 	}
+#endif
 
 	inline
 	LENGTH_T size() const {
-		return getSize();
+		return _size;
 	}
 	
 	

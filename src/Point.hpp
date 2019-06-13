@@ -36,36 +36,42 @@ public:
 	
 public:
 	//点在哪行（0开始）
+#if 0
 	inline
 	LENGTH_T getRow() const {
-		return this->_row;
+		return this->row();
 	}
+#endif
 
 	inline
 	LENGTH_T row() const {
-		return this->_row;
+		return _row;
 	}
 	
 	//点在哪列（0开始）
+#if 0
 	inline
 	LENGTH_T getCol() const {
-		return this->_col;
+		return this->col();
 	}
+#endif
 
 	inline
 	LENGTH_T col() const {
-		return this->_col;
+		return _col;
 	}
 	
 	//获得点的值
+#if 0
 	inline
 	VALUE_T getValue() const {
-		return this->_value;
+		return this->value();
 	}
+#endif
 
 	inline
 	VALUE_T value() const {
-		return this->_value;
+		return _value;
 	}
 	
 	//设置点为空

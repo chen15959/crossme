@@ -51,6 +51,7 @@ public:
 public:
 	//获得一个行中的点
 	const Point * getPoint(LENGTH_T pos) const;
+
 	//将点赋给行
 	//	仅在初始化Board时由Board调用
 	void setPoint(Point * point, LENGTH_T pos);
@@ -66,13 +67,13 @@ public:
 	inline
 	LENGTH_T getLength() const
 	{
-		return _length;
+		return this->length();
 	}
 
 	inline
 	LENGTH_T length() const
 	{
-		return getLength();
+		return _length;
 	}
 	
 public:

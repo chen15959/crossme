@@ -66,17 +66,17 @@ double CandidateFactory::evaluateCandidateSize(LENGTH_T length, const ParamList 
 {
 	assert(params_of_line.size() > 0);
 	
-	if (params_of_line.size() == 1 && params_of_line[0].getSize() == 0)
+	if (params_of_line.size() == 1 && params_of_line[0].size() == 0)
 	{
 		//全空行
 		return 1;
 	}
 	
 	//确定的Point（包括必须的间隔）
-	LENGTH_T size_of_certain = params_of_line[0].getSize();
+	LENGTH_T size_of_certain = params_of_line[0].size();
 	for (LENGTH_T i = 1; i < params_of_line.size(); ++i)
 	{
-		size_of_certain += (params_of_line[i].getSize() + (params_of_line[i-1].getType() == params_of_line[i].getType() ? 1 : 0));
+		size_of_certain += (params_of_line[i].size() + (params_of_line[i-1].type() == params_of_line[i].type() ? 1 : 0));
 	}
 	
 	//待分配的Point
@@ -110,7 +110,7 @@ CandidateList * CandidateFactory::createCandidateList(LENGTH_T length, const Par
 		CandidateList * retVal = new CandidateList(length);
 
 		//全0行的处理
-		if (params_of_line.size() == 1 && params_of_line[0].getSize() == 0)
+		if (params_of_line.size() == 1 && params_of_line[0].size() == 0)
 		{
 			retVal->addCandidate(new Candidate(length, VAL_EMPTY));
 			return retVal;
@@ -158,7 +158,7 @@ string CandidateFactory::createKeyword(LENGTH_T length, const ParamList & params
 	
 	for (ParamList::const_iterator it1 = params_of_line.begin(); it1 != params_of_line.end(); ++it1)
 	{
-		sprintf(buffer, "%c%lu,", it1->getType(), it1->getSize());
+		sprintf(buffer, "%c%lu,", it1->type(), it1->size());
 		retVal += buffer;
 	}
 
@@ -189,23 +189,23 @@ void CandidateFactory::placeItem(CandidateList * result, LENGTH_T length, VALUE_
 	LENGTH_T leading_space = 0;
 	
 	//第一个未放置项的长度
-	length_of_left_items = params[params_ptr].getSize();
+	length_of_left_items = params[params_ptr].size();
 	//其他未放置项的长度往上加
 	for (LENGTH_T i = params_ptr + 1; i < params.size(); ++i)
 	{
 		//相同类型的项之间必须隔开一个位置，不同类型的可以挨着放
-		if (params[i].getType() == params[i-1].getType())
+		if (params[i].type() == params[i-1].type())
 		{
-			length_of_left_items += (1 + params[i].getSize());
+			length_of_left_items += (1 + params[i].size());
 		}
 		else
 		{
-			length_of_left_items += params[i].getSize();
+			length_of_left_items += params[i].size();
 		}
 	}
 	
 	//当前面已经有放置的项的时候，比较第一个未放置项和最后一个已放置项的类型。如果类型相同需要在前面加一个间隔
-	if (params_ptr > 0 && (params[params_ptr-1].getType() == params[params_ptr].getType()))
+	if (params_ptr > 0 && (params[params_ptr-1].type() == params[params_ptr].type()))
 	{
 		leading_space = 1;
 	}
@@ -226,7 +226,7 @@ void CandidateFactory::placeItem(CandidateList * result, LENGTH_T length, VALUE_
 		{
 			if (ref_line)
 			{
-				VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
+				VALUE_T ref_value = ref_line->getPoint(ptr)->value();
 				if (ref_value != VAL_UNKNOWN && ref_value != VAL_EMPTY)
 				{
 					return;
@@ -236,17 +236,17 @@ void CandidateFactory::placeItem(CandidateList * result, LENGTH_T length, VALUE_
 		}
 
 		//放下这个element
-		for (LENGTH_T i = 0; i < params[params_ptr].getSize(); ++i)
+		for (LENGTH_T i = 0; i < params[params_ptr].size(); ++i)
 		{
 			if (ref_line)
 			{
-				VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
-				if (ref_value != VAL_UNKNOWN && params[params_ptr].getType())
+				VALUE_T ref_value = ref_line->getPoint(ptr)->value();
+				if (ref_value != VAL_UNKNOWN && params[params_ptr].type())
 				{
 					return;
 				}
 			}
-			buffer[ptr++] = params[params_ptr].getType();
+			buffer[ptr++] = params[params_ptr].type();
 		}
 
 		//如果后面还有其他element，则去放他们
@@ -261,7 +261,7 @@ void CandidateFactory::placeItem(CandidateList * result, LENGTH_T length, VALUE_
 			{
 				if (ref_line)
 				{
-					VALUE_T ref_value = ref_line->getPoint(ptr)->getValue();
+					VALUE_T ref_value = ref_line->getPoint(ptr)->value();
 					if (ref_value != VAL_UNKNOWN && ref_value != VAL_EMPTY)
 					{
 						return;

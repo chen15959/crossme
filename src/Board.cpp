@@ -188,7 +188,7 @@ VALUE_T Board::getValue(LENGTH_T row, LENGTH_T col) const
 	assert(0 <= row && row < _row_size);
 	assert(0 <= row && col < _col_size);
 	
-	return _points[getIndex(row, col)]->getValue();
+	return _points[getIndex(row, col)]->value();
 }
 
 

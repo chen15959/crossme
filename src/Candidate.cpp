@@ -105,7 +105,7 @@ bool Candidate::operator==(const Line & rhs) const
 
 	for (int i = 0; i < _length; ++i)
 	{
-		VALUE_T value = rhs.getPoint(i)->getValue();
+		VALUE_T value = rhs.getPoint(i)->value();
 		if (value != VAL_UNKNOWN)
 		{
 			if (_data[i] != value)
