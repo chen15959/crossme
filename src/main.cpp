@@ -8,24 +8,7 @@
 #include "util.hpp"
 
 
-/*
-unsigned long long now_ms()
-{
-#ifdef WIN32
-	return GetTickCount();
-#else
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	return t.tv_sec * 1000 + t.tv_usec / 1000;
-#endif
-}
-*/
-/*
-int max(int a, int b)
-{
-	return a > b ? a : b;
-}
-*/
+
 
 
 double factor_ax = -1;

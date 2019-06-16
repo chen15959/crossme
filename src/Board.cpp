@@ -58,11 +58,11 @@ void Board::init(LENGTH_T col_size, LENGTH_T row_size)
 	//初始化行/列
 	for (LENGTH_T r = 0; r < row_size; ++r)
 	{
-		_lines[row_id(r)] = new Line(col_size);
+		_lines[_row_id(r)] = new Line(col_size);
 	}
 	for (LENGTH_T c = 0; c < col_size; ++c)
 	{
-		_lines[col_id(c)] = new Line(row_size);
+		_lines[_col_id(c)] = new Line(row_size);
 	}
 	
 	//初始化Point空间
@@ -75,10 +75,10 @@ void Board::init(LENGTH_T col_size, LENGTH_T row_size)
 		{
 			Point * point = new Point(r, c, this);
 			
-			_points[getIndex(r, c)] = point;
+			_points[_index(r, c)] = point;
 			
-			_lines[row_id(r)]->setPoint(point, c);
-			_lines[col_id(c)]->setPoint(point, r);
+			_lines[_row_id(r)]->setPoint(point, c);
+			_lines[_col_id(c)]->setPoint(point, r);
 		}
 	}
 }
@@ -99,7 +99,7 @@ void Board::copy(const Board & other)
 	{
 		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			LENGTH2_T idx = getIndex(r, c);
+			LENGTH2_T idx = _index(r, c);
 			_points[idx]->setValue(other.getValue(r, c));
 		}
 	}
@@ -130,7 +130,7 @@ void Board::free()
 	{
 		for (LENGTH_T c = 0; c < _col_size; ++c)
 		{
-			delete _points[getIndex(r, c)];
+			delete _points[_index(r, c)];
 		}
 	}
 	
@@ -188,7 +188,7 @@ VALUE_T Board::getValue(LENGTH_T row, LENGTH_T col) const
 	assert(0 <= row && row < _row_size);
 	assert(0 <= row && col < _col_size);
 	
-	return _points[getIndex(row, col)]->value();
+	return _points[_index(row, col)]->value();
 }
 
 
@@ -209,14 +209,14 @@ void Board::install(const ParamListCollection & col_params, const ParamListColle
 {
 	for (LENGTH_T r = 0; r < row_params.size(); ++r)
 	{
-		double v = _lines[row_id(r)]->install(row_params[r]);
-		_todo.push(row_id(r), -v);
+		double v = _lines[_row_id(r)]->install(row_params[r]);
+		_todo.push(_row_id(r), -v);
 	}
 
 	for (LENGTH_T c = 0; c < col_params.size(); ++c)
 	{
-		double v = _lines[col_id(c)]->install(col_params[c]);
-		_todo.push(col_id(c), -v);
+		double v = _lines[_col_id(c)]->install(col_params[c]);
+		_todo.push(_col_id(c), -v);
 	}
 }
 
@@ -228,11 +228,11 @@ void Board::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 	assert(0 <= row && row < _row_size);
 	assert(0 <= col && col < _col_size);
 	
-	_points[getIndex(row, col)]->setValue(value);
+	_points[_index(row, col)]->setValue(value);
 	
 	//加入需计算列表
-	_todo.push(row_id(row));
-	_todo.push(col_id(col));
+	_todo.push(_row_id(row));
+	_todo.push(_col_id(col));
 }
 
 
@@ -240,8 +240,8 @@ void Board::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 void Board::point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
 	//加入需计算列表
-	_todo.push(row_id(row));
-	_todo.push(col_id(col));
+	_todo.push(_row_id(row));
+	_todo.push(_col_id(col));
 	
 	if (_log_level >= LOG_STEP)
 	{
@@ -423,8 +423,8 @@ std::vector<Board *> Board::createCandidates(LENGTH_T row, LENGTH_T col) const
 	WeightQueue candidates;
 
 
-	_lines.find(row_id(row))->second->getValues(col, candidates);
-	_lines.find(col_id(col))->second->getValues(row, candidates);
+	_lines.find(_row_id(row))->second->getValues(col, candidates);
+	_lines.find(_col_id(col))->second->getValues(row, candidates);
 
 	while (!candidates.empty())
 	{

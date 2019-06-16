@@ -71,8 +71,7 @@ public:
 	}
 
 	inline
-	LENGTH_T length() const
-	{
+	LENGTH_T length() const {
 		return _length;
 	}
 	

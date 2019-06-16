@@ -110,17 +110,17 @@ private:
 private:
 	//从行列号获得点的实际位置
 	inline
-	LENGTH2_T getIndex(LENGTH_T row, LENGTH_T col) const {
+	LENGTH2_T _index(LENGTH_T row, LENGTH_T col) const {
 		return row * _col_size + col;
 	}
 	
 	inline
-	long col_id(long col) const {
+	long _col_id(LENGTH_T col) const {
 		return -col - 1;
 	}
 
 	inline
-	long row_id(long row) const {
+	long _row_id(LENGTH_T row) const {
 		return row + 1;
 	}
 
