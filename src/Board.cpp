@@ -309,7 +309,7 @@ bool Board::play()
 			return false;
 		}
 
-		if (_display_level >= DIS_ROUND)
+		if (_display_level >= DISPLAY_ROUND && ret > 0)
 		{
 			print(stdout);
 		}

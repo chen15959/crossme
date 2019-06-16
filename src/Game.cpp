@@ -125,7 +125,7 @@ bool Game::play()
 				result->print(_result_as_soon_as_possible);
 				delete result;
 			}
-			else if (board->display_level() >= DIS_RESULT)
+			else if (board->display_level() >= DISPLAY_RESULT)
 			{
 				_done.push_back(new Result(*board));
 			}
@@ -147,7 +147,7 @@ bool Game::play()
 			{
 				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _col_size * _row_size);
 			}
-			if (board->display_level() >= DIS_TRY)
+			if (board->display_level() >= DISPLAY_TRY)
 			{
 				board->print(stdout, true);
 			}

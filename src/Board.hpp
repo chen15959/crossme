@@ -9,17 +9,17 @@
 #include <string>
 
 
-#define LOG_NOTHING			0
-#define LOG_RESULT			1		//只输出结果
-#define LOG_PROGRESS		2
-#define LOG_TRY				3		//输出每一次尝试
-#define LOG_ROUND			4		//输出每一轮的情况
-#define LOG_STEP			5		//输出每一个点的改变
+#define LOG_NOTHING				0		//什么都不输出
+#define LOG_RESULT				1		//只输出结果
+#define LOG_PROGRESS			2		//输出进度
+#define LOG_TRY					3		//输出每一次尝试
+#define LOG_ROUND				4		//输出每一轮的情况
+#define LOG_STEP				5		//输出每一个点的改变
 
-#define DIS_NOTHING			0
-#define DIS_RESULT			1
-#define DIS_TRY				2
-#define	DIS_ROUND			3
+#define DISPLAY_NOTHING			0		//从不输出结果盘面
+#define DISPLAY_RESULT			1		//只输出结果盘面
+#define DISPLAY_TRY				2		//在每次莽之前都输出盘面
+#define	DISPLAY_ROUND			3		//每行/列上运算成功之后都输出盘面
 
 
 /**

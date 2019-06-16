@@ -87,29 +87,29 @@ int main(int argc, const char * argv[])
 
 		if (strcmp(argv[i], "--display:round") == 0)
 		{
-			display_level = max(display_level, DIS_ROUND);
+			display_level = max(display_level, DISPLAY_ROUND);
 			continue;
 		}
 
 		if (strcmp(argv[i], "--display:try") == 0)
 		{
-			display_level = max(display_level, DIS_TRY);
+			display_level = max(display_level, DISPLAY_TRY);
 			continue;
 		}
 
 		if (strcmp(argv[i], "--display:result") == 0)
 		{
-			display_level = max(display_level, DIS_RESULT);
+			display_level = max(display_level, DISPLAY_RESULT);
 			continue;
 		}
 		
 		if (strcmp(argv[i], "--display:nothing") == 0)
 		{
-			display_level = max(display_level, DIS_NOTHING);
+			display_level = max(display_level, DISPLAY_NOTHING);
 			continue;
 		}
 
-
+#ifdef _DEBUG
 		if (sscanf(argv[i], "--factor-ax:%lf", &factor_ax) == 1)
 		{
 			continue;
@@ -139,7 +139,8 @@ int main(int argc, const char * argv[])
 		{
 			continue;
 		}
-		
+#endif		
+
 		if (sscanf(argv[i], "--stop-after:%d", &stop_after_n) == 1)
 		{
 			continue;
@@ -158,6 +159,8 @@ int main(int argc, const char * argv[])
 		}
 	}
 	
+
+	//ƒ¨»œ ‰≥ˆ≈‰÷√
 	if (log_level < 0)
 	{
 		log_level = LOG_PROGRESS;
@@ -165,7 +168,7 @@ int main(int argc, const char * argv[])
 	
 	if (display_level < 0)
 	{
-		display_level = DIS_RESULT;
+		display_level = DISPLAY_RESULT;
 	}
 
 
