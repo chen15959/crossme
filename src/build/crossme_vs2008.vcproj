@@ -189,10 +189,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Clock.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Game.cpp"
 				>
 			</File>
@@ -243,10 +239,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Clock.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\def.hpp"
 				>
 			</File>
@@ -284,6 +276,14 @@
 		<Filter
 			Name="help"
 			>
+			<File
+				RelativePath="..\Clock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Clock.hpp"
+				>
+			</File>
 			<File
 				RelativePath="..\util.cpp"
 				>
