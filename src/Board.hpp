@@ -30,7 +30,7 @@ class Board
 public:
 	//构造函数
 	//列数*行数
-	Board(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level);
+	Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -51,7 +51,7 @@ private:
 		
 public:
 	//使用参数来初始化
-	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
+//	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//强行设定某Point
 	void install(LENGTH_T row, LENGTH_T col, VALUE_T value);
@@ -104,7 +104,8 @@ private:
 	WeightQueue					_todo;
 
 	//运行参数
-	ParamListCollection			_params_of_lines;
+	ParamListCollection			_params_of_cols;
+	ParamListCollection			_params_of_rows;
 
 
 private:

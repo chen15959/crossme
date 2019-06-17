@@ -10,12 +10,28 @@ using namespace std;
 
 
 
-Board::Board(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level)
-:_id("")
+Board::Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
+:_id(""), _params_of_cols(col_params), _params_of_rows(row_params)
 {
-	init(col_size, row_size);
+	init(_params_of_cols.size(), _params_of_rows.size());
+
 	_log_level = log_level;
 	_display_level = display_level;
+
+
+	for (LENGTH_T r = 0; r < row_params.size(); ++r)
+	{
+		double v = _lines[_row_id(r)]->install(row_params[r]);
+		_todo.push(_row_id(r), -v);
+	}
+
+	for (LENGTH_T c = 0; c < col_params.size(); ++c)
+	{
+		double v = _lines[_col_id(c)]->install(col_params[c]);
+		_todo.push(_col_id(c), -v);
+	}
+
+
 }
 
 
@@ -203,22 +219,6 @@ col_size = 4
 * * * *
 
 */
-
-//使用参数来初始化
-void Board::install(const ParamListCollection & col_params, const ParamListCollection & row_params)
-{
-	for (LENGTH_T r = 0; r < row_params.size(); ++r)
-	{
-		double v = _lines[_row_id(r)]->install(row_params[r]);
-		_todo.push(_row_id(r), -v);
-	}
-
-	for (LENGTH_T c = 0; c < col_params.size(); ++c)
-	{
-		double v = _lines[_col_id(c)]->install(col_params[c]);
-		_todo.push(_col_id(c), -v);
-	}
-}
 
 
 

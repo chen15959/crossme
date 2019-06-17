@@ -14,8 +14,7 @@ Game::Game(const ParamListCollection & col_params, const ParamListCollection & r
 	
 	display_level = min(log_level, display_level);
 
-	Board * board = new Board(col_params.size(), row_params.size(), log_level, display_level);
-	board->install(col_params, row_params);
+	Board * board = new Board(col_params, row_params, log_level, display_level);
 	
 	_todo.push_back(board);
 
