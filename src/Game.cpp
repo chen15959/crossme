@@ -6,19 +6,18 @@ using namespace std;
 
 
 
-Game::Game(LENGTH_T col_size, LENGTH_T row_size, int log_level, int display_level)
+Game::Game(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
+: _params_of_cols(col_params), _params_of_rows(row_params)
 {
-	assert(col_size > 0);
-	assert(row_size > 0);
+	assert(col_params.size() > 0);
+	assert(row_params.size() > 0);
 	
-	_col_size = col_size;
-	_row_size = row_size;
-
 	display_level = min(log_level, display_level);
-	
-	_todo.push_back(new Board(_col_size, _row_size, log_level, display_level));
 
-	_installed = false;
+	Board * board = new Board(col_params.size(), row_params.size(), log_level, display_level);
+	board->install(col_params, row_params);
+	
+	_todo.push_back(board);
 
 	_stop_after = 0;
 	_result_as_soon_as_possible = NULL;
@@ -73,21 +72,6 @@ Game & Game::operator=(const Game & rhs)
 	return *this;
 }
 	
-
-
-bool Game::install(const ParamListCollection & col_params, const ParamListCollection & row_params)
-{
-	if (!_installed)
-	{
-		(*(_todo.begin()))->install(col_params, row_params);
-		_installed = true;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 
 
@@ -145,7 +129,7 @@ bool Game::play()
 		{
 			if (board->log_level() >= LOG_PROGRESS)
 			{
-				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _col_size * _row_size);
+				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _params_of_rows.size() * _params_of_cols.size());
 			}
 			if (board->display_level() >= DISPLAY_TRY)
 			{

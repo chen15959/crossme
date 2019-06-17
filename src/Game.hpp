@@ -16,13 +16,13 @@
 
 //游戏本体
 //所有外部功能最终都是通过调用本类完成
-//内部支持多颜色机制
+//内部支持多颜色机制(not yet)
 //
 class Game
 {
 public:
 	//从参数构建新游戏
-	Game(LENGTH_T col_size, LENGTH_T row_size, int log_level = 0, int display_level = 0);
+	Game(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level = 0, int display_level = 0);
 	//析构
 	virtual ~Game();
 
@@ -39,9 +39,6 @@ private:
 	
 	
 public:
-
-	bool install(const ParamListCollection & col_params, const ParamListCollection & row_params);
-	
 	//设定一个点为具体值
 	//影响到所有的board
 	bool install(LENGTH_T row, LENGTH_T col, VALUE_T val);
@@ -52,19 +49,16 @@ public:
 	
 
 private:
-	//列数
-	LENGTH_T				_col_size;
-	//行数
-	LENGTH_T				_row_size;
+	//各列参数
+	ParamListCollection		_params_of_cols;
+	//各行参数
+	ParamListCollection		_params_of_rows;
 	
 	//待执行的Board
 	std::list<Board *>		_todo;
 	//成功的Board
 	std::list<Result *>		_done;
 
-	bool					_installed;
-
-	
 public:
 	inline
 	void setStopAfter(int value) {

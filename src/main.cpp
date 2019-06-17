@@ -157,21 +157,18 @@ int main(int argc, const char * argv[])
 
 	puzzle.load_puzzle_file(argv[1]);
 
-	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), log_level, display_level);
+	Game game(puzzle.getParamsOnCols(), puzzle.getParamsOnRows(), log_level, display_level);
 	
 	game.setStopAfter(stop_after_n);
 	game.setResultAsSoonAsPosslbie(result_asap);
 
 	Clock clock;
 	clock.start();
-//	unsigned long long t1 = now_ms();
 
-	game.install(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
 
 	game.play();
 
 
-//	unsigned long long t2 = now_ms();
 	clock.stop();
 
 	game.write(stdout);
