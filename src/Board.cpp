@@ -13,7 +13,10 @@ using namespace std;
 Board::Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
 :_id(""), _params_of_cols(col_params), _params_of_rows(row_params)
 {
-	init(_params_of_cols.size(), _params_of_rows.size());
+	assert(!col_params.empty());
+	assert(!row_params.empty());
+
+	init();
 
 	_log_level = log_level;
 	_display_level = display_level;
@@ -63,31 +66,31 @@ Board & Board::operator=(const Board & rhs)
 }
 
 
-void Board::init(LENGTH_T col_size, LENGTH_T row_size)
+void Board::init()
 {
-	assert(col_size > 0);
-	assert(row_size > 0);
+//	assert(col_size > 0);
+//	assert(row_size > 0);
 	
-	_col_size = col_size;
-	_row_size = row_size;
+//	_col_size = col_size;
+//	_row_size = row_size;
 	
 	//初始化行/列
-	for (LENGTH_T r = 0; r < row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		_lines[_row_id(r)] = new Line(col_size);
+		_lines[_row_id(r)] = new Line(col_size());
 	}
-	for (LENGTH_T c = 0; c < col_size; ++c)
+	for (LENGTH_T c = 0; c < col_size(); ++c)
 	{
-		_lines[_col_id(c)] = new Line(row_size);
+		_lines[_col_id(c)] = new Line(row_size());
 	}
 	
 	//初始化Point空间
-	_points = new Point*[_col_size * _row_size];
+	_points = new Point*[col_size() * row_size()];
 
 	//生成所有Point
-	for (LENGTH_T r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (LENGTH_T c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
 			Point * point = new Point(r, c, this);
 			
@@ -103,17 +106,22 @@ void Board::init(LENGTH_T col_size, LENGTH_T row_size)
 
 void Board::copy(const Board & other)
 {
+	//复制参数
+	_params_of_cols = other._params_of_cols;
+	_params_of_rows = other._params_of_rows;
+
+
 	//初始化
-	init(other._col_size, other._row_size);
+	init();
 
 	//不要输出日志
 	int old_log_level = _log_level;
 	_log_level = LOG_NOTHING;
 
 	//复制Point的值
-	for (LENGTH_T r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (LENGTH_T c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
 			LENGTH2_T idx = _index(r, c);
 			_points[idx]->setValue(other.getValue(r, c));
@@ -142,9 +150,9 @@ void Board::copy(const Board & other)
 void Board::free()
 {
 	//销毁每个Point
-	for (LENGTH_T r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (LENGTH_T c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
 			delete _points[_index(r, c)];
 		}
@@ -168,9 +176,9 @@ void Board::free()
 //棋局是否已经走完
 bool Board::isDone() const
 {
-	for (LENGTH_T r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (LENGTH_T c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
 			if (getValue(r, c) == VAL_UNKNOWN)
 			{
@@ -201,8 +209,8 @@ bool Board::isError() const
 
 VALUE_T Board::getValue(LENGTH_T row, LENGTH_T col) const
 {
-	assert(0 <= row && row < _row_size);
-	assert(0 <= row && col < _col_size);
+	assert(0 <= row && row < row_size());
+	assert(0 <= row && col < col_size());
 	
 	return _points[_index(row, col)]->value();
 }
@@ -225,8 +233,8 @@ col_size = 4
 //强行设定某Point
 void Board::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
-	assert(0 <= row && row < _row_size);
-	assert(0 <= col && col < _col_size);
+	assert(0 <= row && row < row_size());
+	assert(0 <= col && col < col_size());
 	
 	_points[_index(row, col)]->setValue(value);
 	
@@ -337,9 +345,9 @@ std::vector<Board *> Board::createCandidates() const
 
 	WeightQueue weight;
 
-	for (LENGTH_T r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < row_size(); r++)
 	{
-		for (LENGTH_T c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
 			VALUE_T v = getValue(r, c);
 			if (v != VAL_UNKNOWN && v != VAL_NONE)
@@ -399,7 +407,7 @@ std::vector<Board *> Board::createCandidates() const
 		long pos0 = weight.top();
 		short r, c;
 		unzip(pos0, r, c);
-		if (r >= 0 && (LENGTH_T)r < _row_size && c >= 0 && (LENGTH_T)c < _col_size)
+		if (r >= 0 && (LENGTH_T)r < row_size() && c >= 0 && (LENGTH_T)c < col_size())
 		{
 			if (getValue((LENGTH_T)r, (LENGTH_T)c) == VAL_UNKNOWN)
 			{
@@ -492,9 +500,9 @@ SIZE_T Board::known() const
 {
 	SIZE_T ret = 0;
 
-	for (LENGTH_T r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < row_size(); r++)
 	{
-		for (LENGTH_T c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
 			if (getValue(r, c) != VAL_UNKNOWN)
 			{

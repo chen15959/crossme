@@ -90,12 +90,16 @@ bool Game::play()
 {
 	while (!_todo.empty() && ((_stop_after > 0 && _done.size() < _stop_after) || _stop_after <= 0))
 	{
+		//抓出一个棋盘
 		Board * board = *(_todo.begin());
 		_todo.pop_front();
 
+		//在棋盘层面上走一轮
 		board->play();
+
 		if (board->isDone())
 		{
+			//成功了
 			if (board->log_level() >= LOG_RESULT)
 			{
 				printf("#%s\tSUCCEEDED\n", board->id());
@@ -119,6 +123,7 @@ bool Game::play()
 		}
 		else if (board->isError())
 		{
+			//失败了
 			if (board->log_level() >= LOG_PROGRESS)
 			{
 				printf("#%s\tFAILED\n", board->id());
@@ -126,6 +131,7 @@ bool Game::play()
 		}
 		else
 		{
+			//僵局了，莽一波
 			if (board->log_level() >= LOG_PROGRESS)
 			{
 				printf("#%s\t%lu/%lu\n", board->id(), board->known(), _params_of_rows.size() * _params_of_cols.size());
@@ -142,6 +148,7 @@ bool Game::play()
 			}
 		}
 		
+		//删除旧的
 		delete board;
 	}
 

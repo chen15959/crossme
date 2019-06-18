@@ -41,7 +41,7 @@ public:
 	
 private:
 	//建立基本的Point矩阵
-	void init(LENGTH_T col_size, LENGTH_T row_size);
+	void init();
 	//释放资源
 	void free();
 	//复制内容
@@ -90,9 +90,9 @@ public:
 	
 private:
 	//列数
-	LENGTH_T					_col_size;
+//	LENGTH_T					_col_size;
 	//行数
-	LENGTH_T					_row_size;
+//	LENGTH_T					_row_size;
 	
 	//所有Point
 	Point **					_points;
@@ -112,7 +112,7 @@ private:
 	//从行列号获得点的实际位置
 	inline
 	LENGTH2_T _index(LENGTH_T row, LENGTH_T col) const {
-		return row * _col_size + col;
+		return row * col_size() + col;
 	}
 	
 	inline
@@ -135,13 +135,13 @@ public:
 
 	inline
 	LENGTH_T row_size() const {
-		return _row_size;
+		return _params_of_rows.size();
 	}
 
 
 	inline
 	LENGTH_T col_size() const {
-		return _col_size;
+		return _params_of_cols.size();
 	}
 
 
