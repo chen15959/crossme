@@ -50,9 +50,9 @@ public:
 
 private:
 	//各列参数
-	ParamListCollection		_params_of_cols;
+	const ParamListCollection &		_params_of_cols;
 	//各行参数
-	ParamListCollection		_params_of_rows;
+	const ParamListCollection &		_params_of_rows;
 	
 	//待执行的Board
 	std::list<Board *>		_todo;

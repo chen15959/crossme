@@ -14,7 +14,7 @@ Game::Game(const ParamListCollection & col_params, const ParamListCollection & r
 	
 	display_level = min(log_level, display_level);
 
-	Board * board = new Board(col_params, row_params, log_level, display_level);
+	Board * board = new Board(_params_of_cols, _params_of_rows, log_level, display_level);
 	
 	_todo.push_back(board);
 
@@ -26,6 +26,7 @@ Game::Game(const ParamListCollection & col_params, const ParamListCollection & r
 
 //拷贝构造
 Game::Game(const Game & other)
+: _params_of_cols(other._params_of_cols), _params_of_rows(other._params_of_rows)
 {
 	assert(0);
 //	copy(other);

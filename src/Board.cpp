@@ -11,7 +11,7 @@ using namespace std;
 
 
 Board::Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
-:_id(""), _params_of_cols(col_params), _params_of_rows(row_params)
+:_id(""), _params_of_cols(&col_params), _params_of_rows(&row_params)
 {
 	assert(!col_params.empty());
 	assert(!row_params.empty());
@@ -40,6 +40,7 @@ Board::Board(const ParamListCollection & col_params, const ParamListCollection &
 
 
 Board::Board(const Board & other)
+//: _params_of_cols(other._params_of_cols), _params_of_rows(other._params_of_rows)
 {
 	copy(other);
 }
