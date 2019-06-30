@@ -301,6 +301,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="technology"
+			>
+			<File
+				RelativePath="..\LogicLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\LogicLine.hpp"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

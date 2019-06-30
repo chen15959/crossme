@@ -21,7 +21,7 @@ class Line
 public:
 	//构造函数
 	//	行的长度
-	Line(LENGTH_T length, const ParamList & params, long id = 0);
+	Line(LENGTH_T length, const ParamList * params, long id = 0);
 private:
 	//拷贝构造
 	//	不应当被调用
@@ -110,14 +110,14 @@ public:
 	}
 	
 	
-private:
-public:
+protected:
 	//所有点
 	Point **								_points;
 	//行的长度	
 	LENGTH_T								_length;
 	//输入参数
 	const ParamList *						_params;
+private:
 	//所有可能性
 	CandidateList *							_candidates;
 

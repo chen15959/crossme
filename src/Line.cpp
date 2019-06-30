@@ -8,7 +8,7 @@ CandidateFactory Line::__candidateFactory;
 
 
 
-Line::Line(LENGTH_T length, const ParamList & params, long id)
+Line::Line(LENGTH_T length, const ParamList * params, long id)
 {
 	assert(length > 0);
 	
@@ -16,7 +16,7 @@ Line::Line(LENGTH_T length, const ParamList & params, long id)
 	_points = new Point*[_length];
 	_candidates = NULL;
 
-	_params = &params;
+	_params = params;
 	_id = id;
 }
 

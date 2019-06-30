@@ -2,6 +2,7 @@
 
 #include "Line.hpp"
 #include "util.hpp"
+#include "LogicLine.hpp"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -78,11 +79,11 @@ void Board::init()
 	//初始化行/列
 	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		_lines[_row_id(r)] = new Line(col_size(), (*_params_of_rows)[r], _row_id(r));
+		_lines[_row_id(r)] = new LogicLine(col_size(), &(*_params_of_rows)[r], _row_id(r));
 	}
 	for (LENGTH_T c = 0; c < col_size(); ++c)
 	{
-		_lines[_col_id(c)] = new Line(row_size(), (*_params_of_cols)[c], _col_id(c));
+		_lines[_col_id(c)] = new LogicLine(row_size(), &(*_params_of_cols)[c], _col_id(c));
 	}
 	
 	//初始化Point空间
