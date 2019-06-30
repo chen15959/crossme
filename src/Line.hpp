@@ -15,35 +15,34 @@
 
 
 //棋盘上的一行/列
+//基类 不包括算法
 //
 class Line
 {
 public:
 	//构造函数
 	//	行的长度
-	Line(LENGTH_T length, const ParamList * params, long id = 0);
+	//	参数列表
+	//	id 可选
+	//	类型 内部
+	Line(LENGTH_T length, const ParamList * params, long id = 0, long type=0);
 private:
 	//拷贝构造
-	//	不应当被调用
+	//	禁用
 	Line(const Line &);
 public:
 	//析构函数
 	virtual ~Line();
 private:
 	//赋值运算符
-	//	不应当被调用
+	//	禁用
 	Line & operator=(const Line &);
 	
-private:
-	//从另一个Line复制
-	//	不应当被调用
-	void copy(const Line &);
-	//释放资源
-	void free();
-	
 public:
-	//从另一个Line复制他的candidates
-	void copyCandidates(const Line &);
+	//从另一个Line复制他的数据
+	//	应当是同一类型的Line才行
+	virtual
+	void copyData(const Line *) = 0;
 
 
 public:
@@ -54,9 +53,9 @@ public:
 	//	仅在初始化Board时由Board调用
 	void setPoint(Point * point, LENGTH_T pos);
 
-
-
-	void getValues(LENGTH_T pos, WeightQueue &) const;
+	//获得某个点位上的所有可能值
+	virtual
+	void getValues(LENGTH_T pos, WeightQueue &) const = 0;
 
 
 
@@ -77,6 +76,7 @@ public:
 	//通过参数建立全部可能性
 	//返回可能性的数量
 	//-1代表出错了
+	virtual
 	double install(const ParamList & params);
 
 	//开始计算
@@ -86,12 +86,6 @@ public:
 	virtual int play();
 
 
-private:
-	//通过综合所有的可能性，设置实际的值
-	//	返回值是确定了几个point的值
-	int setByCandidates();
-
-
 
 protected:
 	int set(LENGTH_T pos, VALUE_T value);
@@ -99,18 +93,12 @@ protected:
 
 public:
 	//是否已经完成全部分析
-	inline
-	bool isDone() const
-	{
-		return _candidates->isDone();
-	}
+	virtual
+	bool isDone() const = 0;
 
 	//是否产生逻辑错
-	inline
-	bool isError() const
-	{
-		return _candidates->isError();
-	}
+	virtual
+	bool isError() const = 0;
 	
 	
 protected:
@@ -120,17 +108,16 @@ protected:
 	LENGTH_T								_length;
 	//输入参数
 	const ParamList *						_params;
-private:
-	//所有可能性
-	CandidateList *							_candidates;
-
-
-private:
-	static CandidateFactory					__candidateFactory;
-
 
 private:
 	long									_id;
+	long									_type;
+
+
+public:
+	inline
+		long type()const {
+			return _type;}
 
 };
 

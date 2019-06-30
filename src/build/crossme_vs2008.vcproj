@@ -177,18 +177,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Candidate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateList.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Game.cpp"
 				>
 			</File>
@@ -224,18 +212,6 @@
 			>
 			<File
 				RelativePath="..\Board.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Candidate.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateFactory.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateList.hpp"
 				>
 			</File>
 			<File
@@ -305,11 +281,35 @@
 			Name="technology"
 			>
 			<File
-				RelativePath="..\LogicLine.cpp"
+				RelativePath="..\Candidate.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\LogicLine.hpp"
+				RelativePath="..\Candidate.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\SifterLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\SifterLine.hpp"
 				>
 			</File>
 		</Filter>

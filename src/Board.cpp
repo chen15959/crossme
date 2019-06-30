@@ -3,6 +3,7 @@
 #include "Line.hpp"
 #include "util.hpp"
 #include "LogicLine.hpp"
+#include "SifterLine.hpp"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -79,11 +80,11 @@ void Board::init()
 	//初始化行/列
 	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		_lines[_row_id(r)] = new LogicLine(col_size(), &(*_params_of_rows)[r], _row_id(r));
+		_lines[_row_id(r)] = new SifterLine(col_size(), &(*_params_of_rows)[r], _row_id(r));
 	}
 	for (LENGTH_T c = 0; c < col_size(); ++c)
 	{
-		_lines[_col_id(c)] = new LogicLine(row_size(), &(*_params_of_cols)[c], _col_id(c));
+		_lines[_col_id(c)] = new SifterLine(row_size(), &(*_params_of_cols)[c], _col_id(c));
 	}
 	
 	//初始化Point空间
@@ -136,7 +137,7 @@ void Board::copy(const Board & other)
 	//复制Line的内容
 	for (map<long, Line *>::const_iterator it1 = other._lines.begin(); it1 != other._lines.end(); ++it1)
 	{
-		_lines[it1->first]->copyCandidates(*(it1->second));
+		_lines[it1->first]->copyData(it1->second);
 	}
 
 	_id = other._id;
