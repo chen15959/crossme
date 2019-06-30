@@ -179,6 +179,15 @@ int Line::setByCandidates()
 
 
 
+int Line::set(LENGTH_T pos, VALUE_T value)
+{
+	assert(0 <= pos && pos < _length);
+
+	return _points[pos]->setValue(value);
+}
+
+
+
 void Line::getValues(LENGTH_T pos, WeightQueue & result) const
 {
 	assert(_candidates);

@@ -51,5 +51,60 @@ LogicLine & LogicLine::operator=(const Line & other)
 
 int LogicLine::play()
 {
-	return Line::play();
+	//目前所有逻辑都是基于单色的
+
+
+
+
+
+
+
+
+	
+	//所有内容的最小总长度（包括中间空格）
+	LENGTH_T total = this->_params->size() - 1;
+	for (ParamList::const_iterator it1 = this->_params->begin(); it1 != this->_params->end(); ++it1)
+	{
+		total += it1->size();
+	}
+
+	if (total > length())
+	{
+		return -1;
+	}
+
+	//刚好填满
+	if (total == length())
+	{
+		LENGTH_T pos = 0;
+		for (ParamList::const_iterator it1 = this->_params->begin(); it1 != this->_params->end(); ++it1)
+		{
+			for (LENGTH_T i = 0; i < it1->size(); ++i)
+			{
+				this->set(pos++, it1->type());
+			}
+
+			if (pos < _length)
+			{
+				this->set(pos++, VAL_EMPTY);
+			}
+		}
+
+	}
+
+
+	return 1;
+
+
+
+
+
+
+
+
+
+
+
+
+	//return Line::play();
 }

@@ -93,6 +93,9 @@ private:
 
 
 
+protected:
+	int set(LENGTH_T pos, VALUE_T value);
+
 
 public:
 	//是否已经完成全部分析
