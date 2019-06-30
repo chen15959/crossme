@@ -8,13 +8,16 @@ CandidateFactory Line::__candidateFactory;
 
 
 
-Line::Line(LENGTH_T length)
+Line::Line(LENGTH_T length, const ParamList & params, long id)
 {
 	assert(length > 0);
 	
 	_length = length;
 	_points = new Point*[_length];
 	_candidates = NULL;
+
+	_params = &params;
+	_id = id;
 }
 
 
@@ -90,13 +93,6 @@ void Line::copyCandidates(const Line & other)
 
 
 
-void Line::copyParams(const Line & other)
-{
-	_params = other._params;
-}
-
-
-
 
 void Line::free()
 {
@@ -135,7 +131,7 @@ double Line::install(const ParamList & params)
 	assert(params.size() > 0);
 //	assert(_candidates == NULL);
 
-	_params = params;
+///	_params = &params;
 
 	return __candidateFactory.evaluateCandidateSize(_length, params, NULL);
 }
@@ -146,7 +142,7 @@ int Line::play()
 {
 	if (_candidates == NULL)
 	{
-		_candidates = __candidateFactory.createCandidateList(_length, _params, NULL);
+		_candidates = __candidateFactory.createCandidateList(_length, *_params, NULL);
 	}
 
 	_candidates->ruleBy(*this);

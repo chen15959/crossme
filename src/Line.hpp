@@ -21,13 +21,15 @@ class Line
 public:
 	//构造函数
 	//	行的长度
-	Line(LENGTH_T length);
+	Line(LENGTH_T length, const ParamList & params, long id = 0);
+private:
 	//拷贝构造
 	//	不应当被调用
 	Line(const Line &);
+public:
 	//析构函数
 	virtual ~Line();
-	
+private:
 	//赋值运算符
 	//	不应当被调用
 	Line & operator=(const Line &);
@@ -42,10 +44,6 @@ private:
 public:
 	//从另一个Line复制他的candidates
 	void copyCandidates(const Line &);
-
-	//从另一个Line复制他的params
-	void copyParams(const Line &);
-
 
 
 public:
@@ -85,7 +83,7 @@ public:
 	//	>0	这次确定了几个Point的值
 	//	=0	这次没能确定任何Point的值
 	//	<0	发生了错误
-	int play();
+	virtual int play();
 
 
 private:
@@ -113,18 +111,23 @@ public:
 	
 	
 private:
+public:
 	//所有点
 	Point **								_points;
 	//行的长度	
 	LENGTH_T								_length;
 	//输入参数
-	ParamList								_params;
+	const ParamList *						_params;
 	//所有可能性
 	CandidateList *							_candidates;
 
 
 private:
 	static CandidateFactory					__candidateFactory;
+
+
+private:
+	long									_id;
 
 };
 

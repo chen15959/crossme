@@ -78,11 +78,11 @@ void Board::init()
 	//初始化行/列
 	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		_lines[_row_id(r)] = new Line(col_size());
+		_lines[_row_id(r)] = new Line(col_size(), (*_params_of_rows)[r], _row_id(r));
 	}
 	for (LENGTH_T c = 0; c < col_size(); ++c)
 	{
-		_lines[_col_id(c)] = new Line(row_size());
+		_lines[_col_id(c)] = new Line(row_size(), (*_params_of_cols)[c], _col_id(c));
 	}
 	
 	//初始化Point空间
@@ -132,11 +132,10 @@ void Board::copy(const Board & other)
 	//日志恢复
 	_log_level = old_log_level;
 	
-	//复制Line的值
+	//复制Line的内容
 	for (map<long, Line *>::const_iterator it1 = other._lines.begin(); it1 != other._lines.end(); ++it1)
 	{
 		_lines[it1->first]->copyCandidates(*(it1->second));
-		_lines[it1->first]->copyParams(*(it1->second));
 	}
 
 	_id = other._id;
@@ -262,6 +261,20 @@ void Board::point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value)
 
 bool Board::play()
 {
+#ifdef _SHOW_PARAMS
+	for (map<long, Line *>::const_iterator it1 = _lines.begin(); it1 != _lines.end(); ++it1)
+	{
+		printf("%s\t%d\t", this->id(), it1->first);
+
+		for (ParamList::const_iterator it2 = it1->second->_params->begin(); it2 != it1->second->_params->end(); ++it2)
+		{
+			printf("%c%lu,", it2->type(), it2->size());
+		}
+
+		printf("\n");
+	}
+#endif
+
 	while (_todo.size() > 0)
 	{
 		long p = _todo.top();
