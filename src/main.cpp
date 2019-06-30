@@ -27,6 +27,7 @@ int main(int argc, const char * argv[])
 	int log_level = -1;
 	int display_level = -1;
 	int stop_after_n = 10;
+	int show_clock = 1;
 	FILE * result_asap = NULL;
 
 
@@ -140,6 +141,18 @@ int main(int argc, const char * argv[])
 			result_asap = stdout;
 			continue;
 		}
+
+		if (strcmp(argv[i], "--show-clock") == 0)
+		{
+			show_clock = 1;
+			continue;
+		}
+
+		if (stricmp(argv[i], "--hide-clock") == 0)
+		{
+			show_clock = 0;
+			continue;
+		}
 	}
 	
 
@@ -173,7 +186,10 @@ int main(int argc, const char * argv[])
 
 	game.write(stdout);
 
-	printf("\n\nit costs %lu ms.\n", clock.elapsed_ms());
+	if (show_clock)
+	{
+		printf("\n\nit costs %lu ms.\n", clock.elapsed_ms());
+	}
 
 	return 0;
 }
