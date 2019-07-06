@@ -38,18 +38,18 @@ public:
 
 
 public:
-	//´ÓÁíÒ»¸öLine¸´ÖÆËûµÄcandidates
+	//ä»å¦ä¸€ä¸ªLineå¤åˆ¶ä»–çš„candidates
 	virtual
 	void copyData(const Line * other);
 
 	//must defined in base class
 	virtual
-	void getValues(LENGTH_T pos, WeightQueue &) const;
+	bool getValues(LENGTH_T pos, WeightQueue &) const;
 
 	//must defined in base class
-	//Í¨¹ı²ÎÊı½¨Á¢È«²¿¿ÉÄÜĞÔ
-	//·µ»Ø¿ÉÄÜĞÔµÄÊıÁ¿
-	//-1´ú±í³ö´íÁË
+	//é€šè¿‡å‚æ•°å»ºç«‹å…¨éƒ¨å¯èƒ½æ€§
+	//è¿”å›å¯èƒ½æ€§çš„æ•°é‡
+	//-1ä»£è¡¨å‡ºé”™äº†
 	virtual
 	double install(const ParamList & params);
 
@@ -57,21 +57,21 @@ public:
 
 
 private:
-	//Í¨¹ı×ÛºÏËùÓĞµÄ¿ÉÄÜĞÔ£¬ÉèÖÃÊµ¼ÊµÄÖµ
-	//	·µ»ØÖµÊÇÈ·¶¨ÁË¼¸¸öpointµÄÖµ
+	//é€šè¿‡ç»¼åˆæ‰€æœ‰çš„å¯èƒ½æ€§ï¼Œè®¾ç½®å®é™…çš„å€¼
+	//	è¿”å›å€¼æ˜¯ç¡®å®šäº†å‡ ä¸ªpointçš„å€¼
 	int setByCandidates();
 public:
 	virtual
 	bool isDone() const;
 
-	//ÊÇ·ñ²úÉúÂß¼­´í
+	//æ˜¯å¦äº§ç”Ÿé€»è¾‘é”™
 	virtual
 	bool isError() const;
 
 
 
 private:
-	//ËùÓĞ¿ÉÄÜĞÔ
+	//æ‰€æœ‰å¯èƒ½æ€§
 	CandidateList *							_candidates;
 
 

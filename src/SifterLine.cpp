@@ -126,13 +126,19 @@ int SifterLine::setByCandidates()
 
 
 
-void SifterLine::getValues(LENGTH_T pos, WeightQueue & result) const
+bool SifterLine::getValues(LENGTH_T pos, WeightQueue & result) const
 {
-	assert(_candidates);
 	assert(0 <= pos && pos < _length);
 
-	_candidates->getValues(pos, result);
-
+	if (_candidates)
+	{
+		_candidates->getValues(pos, result);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -143,10 +149,10 @@ void SifterLine::getValues(LENGTH_T pos, WeightQueue & result) const
 		return _candidates->isDone();
 	}
 
-	//ÊÇ·ñ²úÉúÂß¼­´í
+	//æ˜¯å¦äº§ç”Ÿé€»è¾‘é”™
 	bool SifterLine::isError() const
 	{
-		return _candidates->isError();
+		return _candidates ? _candidates->isError() : false;
 	}
 
 

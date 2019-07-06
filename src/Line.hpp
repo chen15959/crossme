@@ -55,7 +55,7 @@ public:
 
 	//获得某个点位上的所有可能值
 	virtual
-	void getValues(LENGTH_T pos, WeightQueue &) const = 0;
+	bool getValues(LENGTH_T pos, WeightQueue &) const = 0;
 
 
 
