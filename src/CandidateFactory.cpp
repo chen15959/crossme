@@ -19,12 +19,14 @@ CandidateFactory::CandidateFactory()
 
 CandidateFactory::~CandidateFactory()
 {
+#ifdef _CANDIDATE_LIST_STORE
 	for (map<string, CandidateList *>::const_iterator it = _knownCandidateList.begin(); it != _knownCandidateList.end(); ++it)
 	{
 		delete it->second;
 	}
 
 	_knownCandidateList.clear();
+#endif
 }
 
 
@@ -101,12 +103,14 @@ double CandidateFactory::evaluateCandidateSize(LENGTH_T length, const ParamList 
 
 CandidateList * CandidateFactory::createCandidateList(LENGTH_T length, const ParamList & params_of_line, const Line * ref_line)
 {
+#ifdef _CANDIDATE_LIST_STORE
 	//生成略缩字
 	string keyword = createKeyword(length, params_of_line);
 	if (_knownCandidateList.find(keyword) == _knownCandidateList.end())
 	{
 		//用略缩字查不到
 		//自己建立一下
+#endif
 		CandidateList * retVal = new CandidateList(length);
 
 		//全0行的处理
@@ -125,15 +129,18 @@ CandidateList * CandidateFactory::createCandidateList(LENGTH_T length, const Par
 			delete [] buffer;
 		}
 
+#ifdef _CANDIDATE_LIST_STORE
 		if (ref_line == NULL)
 		{
 			_knownCandidateList.insert(pair<string, CandidateList *>(keyword, retVal));
 			return new CandidateList(*retVal);
 		}
 		else
+#endif
 		{
 			return retVal;
 		}
+#ifdef _CANDIDATE_LIST_STORE
 	}
 	else
 	{
@@ -144,9 +151,12 @@ CandidateList * CandidateFactory::createCandidateList(LENGTH_T length, const Par
 		}
 		return retVal;
 	}
+#endif
 }
 
 
+
+#ifdef _CANDIDATE_LIST_STORE
 
 string CandidateFactory::createKeyword(LENGTH_T length, const ParamList & params_of_line)
 {
@@ -165,6 +175,7 @@ string CandidateFactory::createKeyword(LENGTH_T length, const ParamList & params
 	return retVal;
 }
 
+#endif
 
 
 
