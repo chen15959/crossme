@@ -127,7 +127,7 @@ void Board::copy(const Board & other)
 		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
 			LENGTH2_T idx = _index(r, c);
-			_points[idx]->setValue(other.getValue(r, c));
+			_points[idx]->setValue(other.value(r, c));
 		}
 	}
 
@@ -182,7 +182,7 @@ bool Board::isDone() const
 	{
 		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
-			if (getValue(r, c) == VAL_UNKNOWN)
+			if (value(r, c) == VAL_UNKNOWN)
 			{
 				return false;
 			}
@@ -209,7 +209,7 @@ bool Board::isError() const
 
 
 
-VALUE_T Board::getValue(LENGTH_T row, LENGTH_T col) const
+VALUE_T Board::value(LENGTH_T row, LENGTH_T col) const
 {
 	assert(0 <= row && row < row_size());
 	assert(0 <= row && col < col_size());
@@ -365,7 +365,7 @@ std::vector<Board *> Board::createCandidates() const
 	{
 		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
-			VALUE_T v = getValue(r, c);
+			VALUE_T v = value(r, c);
 			if (v != VAL_UNKNOWN && v != VAL_NONE)
 			{
 /*
@@ -425,7 +425,7 @@ std::vector<Board *> Board::createCandidates() const
 		unzip(pos0, r, c);
 		if (r >= 0 && (LENGTH_T)r < row_size() && c >= 0 && (LENGTH_T)c < col_size())
 		{
-			if (getValue((LENGTH_T)r, (LENGTH_T)c) == VAL_UNKNOWN)
+			if (value((LENGTH_T)r, (LENGTH_T)c) == VAL_UNKNOWN)
 			{
 				return createCandidates((LENGTH_T)r, (LENGTH_T)c);
 			}
@@ -498,7 +498,7 @@ void Board::print(FILE * output, bool head) const
 			{
 				fprintf(output, " ");
 			}
-			fprintf(output, "%c", getValue(row, col));
+			fprintf(output, "%c", value(row, col));
 		}
 		fprintf(output, "\n");
 	}
@@ -520,7 +520,7 @@ SIZE_T Board::known() const
 	{
 		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
-			if (getValue(r, c) != VAL_UNKNOWN)
+			if (value(r, c) != VAL_UNKNOWN)
 			{
 				ret++;
 			}

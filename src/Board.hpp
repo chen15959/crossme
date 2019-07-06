@@ -46,7 +46,6 @@ private:
 	void free();
 	
 	//复制内容
-	//此时不复制line上的可能性
 	void copy(const Board &);
 	
 		
@@ -82,31 +81,29 @@ private:
 
 public:
 	//获得特定位置的点的值
-	VALUE_T getValue(LENGTH_T row, LENGTH_T col) const;
+	VALUE_T value(LENGTH_T row, LENGTH_T col) const;
+
+	//value的马甲
+	inline
+	VALUE_T getValue(LENGTH_T row, LENGTH_T col) const {
+		return value(row, col);
+	}
 	
-	
+
 public:
 	//点被改变的回调
 	void point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value);
+
 	
 private:
-	//列数
-//	LENGTH_T					_col_size;
-	//行数
-//	LENGTH_T					_row_size;
+	Point **						_points;				//所有Point
+
+	std::map<long, Line *>			_lines;					//所有行/列
 	
-	//所有Point
-	Point **					_points;
+	WeightQueue						_todo;					//待分析的行/列
 
-	//所有行/列
-	std::map<long, Line *>		_lines;
-
-	//待分析的行/列
-	WeightQueue					_todo;
-
-	//运行参数
-	const ParamListCollection *			_params_of_cols;
-	const ParamListCollection *			_params_of_rows;
+	const ParamListCollection *		_params_of_cols;		//运行列参数
+	const ParamListCollection *		_params_of_rows;		//运行行参数
 
 
 private:
@@ -116,11 +113,13 @@ private:
 		return row * col_size() + col;
 	}
 	
+	//归一化行号/列号
 	inline
 	long _col_id(LENGTH_T col) const {
 		return -col - 1;
 	}
 
+	//归一化行号/列号
 	inline
 	long _row_id(LENGTH_T row) const {
 		return row + 1;
@@ -128,51 +127,55 @@ private:
 
 
 public:
-
-	inline
-	const char * id() const {
-		return _id.c_str();
-	}
-
+	
+	//行数量
 	inline
 	LENGTH_T row_size() const {
 		return _params_of_rows->size();
 	}
 
-
+	//列数量
 	inline
 	LENGTH_T col_size() const {
 		return _params_of_cols->size();
 	}
 
 
-private:
-	std::string			_id;
-
-
 public:
+	//棋盘id
+	inline
+	const char * id() const {
+		return _id.c_str();
+	}
+
+
 	//输出结果
-	void print(FILE * output, bool head = false) const;
+	//	output		输出到哪个文件流 默认stdout
+	//	head		是否输出棋盘标题 默认不输出
+	void print(FILE * output = stdout, bool head = false) const;
 
 
-	//输出等级
+	//日志等级
 	inline 
 	int log_level() const {
 		return _log_level;
 	}
 
+
+	//显示等级
 	inline
 	int display_level() const {
 		return _display_level;
 	}
 
-
 private:
-	int		_log_level;
-	int		_display_level;
+	std::string			_id;					//棋盘id
+	int					_log_level;				//日志等级
+	int					_display_level;			//显示等级
 
 
 public:
+	//棋盘中有多少确定点
 	SIZE_T known() const;
 
 

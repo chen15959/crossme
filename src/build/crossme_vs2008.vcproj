@@ -278,7 +278,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="technology"
+			Name="algorithm"
 			>
 			<File
 				RelativePath="..\Candidate.cpp"
