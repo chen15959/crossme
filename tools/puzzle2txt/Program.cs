@@ -28,7 +28,7 @@ namespace puzzle2txt
 
 				pp.splitTitleAndBlocks(arg);
 
-				pp.analyze(arg);
+				pp.analyzeGrid(arg);
 
 //				pp.saveTo("c:\\temp\\0812\\remove-bkg-0.5-0.5.bmp");
 

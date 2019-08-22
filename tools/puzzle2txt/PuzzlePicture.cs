@@ -11,6 +11,7 @@ namespace puzzle2txt
 		Bitmap original_picture;
 
 		int argbWhite = Color.White.ToArgb();
+		int argbBlack = Color.Black.ToArgb();
 
 
         public PuzzlePicture(Bitmap image)
@@ -31,6 +32,37 @@ namespace puzzle2txt
         }
 
 
+
+		//获取图片各行/列上的某颜色像素数量
+		private static void summarize(Bitmap pict, int argb, List<int> rows, List<int> cols)
+		{
+			rows.Clear();
+			cols.Clear();
+
+			for (int x = 0; x < pict.Width; ++x)
+			{
+				cols.Add(0);
+			}
+			for (int y = 0; y < pict.Height; ++y)
+			{
+				rows.Add(0);
+			}
+
+			for (int y = 0; y < pict.Height; ++y)
+			{
+				int count = 0;
+				for (int x = 0; x < pict.Width; ++x)
+				{
+					if (pict.GetPixel(x, y).ToArgb() == argb)
+					{
+						cols[x]++;
+						rows[y]++;
+					}
+				}
+			}
+		}
+
+		//根据亮度(0~1)二值化处理图片
         public void toBlackWhite(double th)
         {
             for (int x = 0; x < picture.Width; ++x)
@@ -55,7 +87,8 @@ namespace puzzle2txt
         }
 
 
-
+		//移除外围
+		//规则是在一排像素中，取最长连续的非外圈色，若比例小于th，则认为这一排属于外圈
 		static Bitmap removeOuter(Bitmap pict, double th, int outerArgb)
 		{
 			int x0, x1, y0, y1;
@@ -135,94 +168,12 @@ namespace puzzle2txt
 		}
 
 
-
+		//通过移除外围的方法，移除背景部分
 		public void removeBackground(double th)
 		{
 			picture = removeOuter(picture, th, Color.Black.ToArgb());
 		}
 
-			/*
-        {
-			int x0, x1, y0, y1;
-
-			List<int> a = new List<int>();
-			int argbBlack = Color.Black.ToArgb();
-
-            for (int y = 0; y < picture.Height; ++y)
-            {
-//				int blackCount = 0;
-				int maxWhiteLen = 0, whiteLen = 0;
-				for (int x = 0; x < picture.Width; ++x)
-				{
-					if (picture.GetPixel(x, y).ToArgb() == argbBlack)
-					{
-						if (maxWhiteLen < whiteLen)
-						{
-							maxWhiteLen = whiteLen;
-						}
-						whiteLen = 0;
-//						blackCount++;
-					}
-					else
-					{
-						whiteLen++;
-					}
-				}
-
-				if (maxWhiteLen > picture.Width * th)
-				{
-					a.Add(y);
-				}
-            }
-
-
-			y0 = a[0];
-			y1 = a[a.Count - 1];
-
-			a.Clear();
-
-
-			for (int x = 0; x < picture.Width; ++x)
-            {
-//				int blackCount = 0;
-				int maxWhiteLen = 0, whiteLen = 0;
-				for (int y = 0; y < picture.Height; ++y)
-				{
-					if (picture.GetPixel(x, y).ToArgb() == argbBlack)
-					{
-						if (maxWhiteLen < whiteLen)
-						{
-							maxWhiteLen = whiteLen;
-						}
-						whiteLen = 0;
-//						blackCount++;
-					}
-					else
-					{
-						whiteLen++;
-					}
-				}
-
-				if (maxWhiteLen > picture.Height * th)
-				{
-					a.Add(x);
-				}
-            }
-
-
-			x0 = a[0];
-			x1 = a[a.Count - 1];
-
-
-			Bitmap bitmap = new Bitmap(x1 - x0, y1 - y0);
-			Graphics g = Graphics.FromImage(bitmap);
-			g.DrawImage(picture, -x0, -y0);
-			g.Flush();
-			g.Dispose();
-			picture = bitmap;
-
-        }
-*/
 
 		Bitmap title;
 		Bitmap blocks;
@@ -230,10 +181,11 @@ namespace puzzle2txt
 
 
 
+		//分离标题和盘面
 		public void splitTitleAndBlocks(string a)
 		{
 			List<int> row_black_count = new List<int>();
-			int argbBlack = Color.Black.ToArgb();
+			//int argbBlack = Color.Black.ToArgb();
 			double th = 0.95;
 
 			for (int y = 0; y < picture.Height; ++y)
@@ -283,82 +235,15 @@ namespace puzzle2txt
 		}
 
 
-
-		public void analyze(string a)
+		//分切盘面
+		public void analyzeGrid(string a)
 		{
 			double th = 0.7;
-/*
-			for (int y = 0; y < picture.Height; ++y)
-			{
-				int whiteCount = 0;
-				for (int x = 0; x < picture.Width; ++x)
-				{
-					if (picture.GetPixel(x, y).ToArgb() == argbWhite)
-					{
-						whiteCount++;
-					}
-				}
 
-				if (state == 0)
-				{
-					if (whiteCount < picture.Width * th)
-					{
-						state = -1;
-					}
-				}
-				else if (state == -1)
-				{
-					if (whiteCount > picture.Width * th)
-					{
-						state = y;
-						break;
-					}
-				}
-			}
-
-
-			title = new Bitmap(picture.Width, state);
-			Graphics g1 = Graphics.FromImage(title);
-			g1.DrawImage(picture, 0, 0);
-			g1.Flush();
-			g1.Dispose();
-
-			title.Save(string.Format("c:\\temp\\0812\\{0}\\title.bmp", a));
-
-
-			blocks = new Bitmap(picture.Width, picture.Height - state);
-			Graphics g2 = Graphics.FromImage(blocks);
-			g2.DrawImage(picture, 0, -state);
-			g2.Flush();
-			g2.Dispose();
-
-
-			blocks = removeOuter(blocks, 0.5, Color.White.ToArgb());
-
-			blocks.Save(string.Format("c:\\temp\\0812\\{0}\\blocks.bmp", a));
-*/
-			//title.Save("c:\\temp\\0812\\title.bmp");
-			//blocks.Save("c:\\temp\\0812\\blocks.bmp");
-
-			//Dictionary<int, int> col_black = new Dictionary<int,int>();
-			//Dictionary<int, int> row_black = new Dictionary<int,int>();
 
 			int[] col_black = new int[blocks.Width];
 			int[] row_black = new int[blocks.Height];
 
-			/*
-			List<int> col_lines = new List<int>();
-			List<int> row_lines = new List<int>();
-
-			for (int x = 0; x < blocks.Width; ++x)
-			{
-				col_black.Add(x, 0);
-			}
-			for (int y = 0; y < blocks.Height; ++y)
-			{
-				row_black.Add(y, 0);
-			}
-			*/
 
 			//找到黑色点
 			for (int x = 0; x < blocks.Width; ++x)
@@ -454,52 +339,9 @@ namespace puzzle2txt
 			//blocks.Save("c:\\temp\\0812\\grid.bmp");
 
 
-/*
-			for (int xi = 0; xi < col_black.Length - 1; ++xi)
-			{
-				if (col_black[xi] > blocks.Height * 0.95 && col_black[xi+1] < blocks.Height * 0.95)
-				{
-					for (int yi = 0; yi < row_black.Length - 1; ++yi)
-					{
-						if (row_black[yi] > blocks.Width * 0.95 && row_black[yi+1] < blocks.Width * 0.95)
-						{
-							Bitmap block = new Bitmap(col_black[xi + 1] - col_black[xi], row_black[yi + 1] - row_black[yi]);
-							Graphics g = Graphics.FromImage(block);
-							g.DrawImage(blocks, col_black[xi], row_black[yi]);
-							g.Flush();
-							g.Dispose();
-
-							blocks.Save(string.Format("c:\\temp\\0812\\block-{0}-{1}.bmp", xi, yi));
-						}
-					}
-				}
-			}
-*/
-
-/*
- * Graphics g = Graphics.FromImage(blocks);
-			for (int x = 0; x < blocks.Width; ++x)
-			{
-				if (col_black[x] > blocks.Height * 0.95)
-				{
-					g.DrawLine(new Pen(Color.Red), x, 0, x, blocks.Height);
-				}
-			}
-
-			for (int y = 0; y < blocks.Height; ++y)
-			{
-				if (row_black[y] > blocks.Width * 0.95)
-				{
-					g.DrawLine(new Pen(Color.Green), 0, y, blocks.Width, y);
-				}
-			}
-
-			g.Flush();
-			g.Dispose();
 
 
-			blocks.Save("c:\\temp\\0812\\grid.bmp");
-*/
+
 
 
 		}
