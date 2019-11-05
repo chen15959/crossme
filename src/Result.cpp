@@ -16,7 +16,7 @@ Result::Result(const Board & board)
 	{
 		for (LENGTH_T r = 0; r < _row_size; ++r)
 		{
-			_data[getIndex(r, c)] = board.getValue(r, c);
+			_data[_index(r, c)] = board.getValue(r, c);
 		}
 	}
 }
@@ -51,6 +51,8 @@ Result & Result::operator=(const Result & other)
 
 void Result::copy(const Result & other)
 {
+	assert(_data == NULL);
+
 	_id = other._id;
 	_row_size = other._row_size;
 	_col_size = other._col_size;
@@ -64,27 +66,30 @@ void Result::copy(const Result & other)
 void Result::free()
 {
 	delete [] _data;
+	_data = NULL;
 }
 
 
 
-VALUE_T Result::getValue(LENGTH_T row, LENGTH_T col) const
+VALUE_T Result::value(LENGTH_T row, LENGTH_T col) const
 {
 	assert(0 <= row && row < _row_size);
 	assert(0 <= col && col < _col_size);
 	
-	return _data[getIndex(row, col)];
+	return _data[_index(row, col)];
 }
 
 
 
 void Result::print(FILE *output)
 {
+	//输出标题（若有）
 	if (_id.length() > 0)
 	{
 		fprintf(output, "-= %s =-\n", _id.c_str());
 	}
 	
+	//5行*5列为一小组
 	for (LENGTH_T row = 0; row < _row_size; ++row)
 	{
 		if (row % 5 == 0)
@@ -98,7 +103,7 @@ void Result::print(FILE *output)
 			{
 				fprintf(output, " ");
 			}
-			fprintf(output, "%c", getValue(row, col));
+			fprintf(output, "%c", value(row, col));
 		}
 		
 		fprintf(output, "\n");
