@@ -79,6 +79,7 @@ WQ_T WeightQueue::top()
 		{
 			if (it->second > max_weight)
 			{
+				//如果找到了权重比较大的
 				max_value = it->first;
 				max_weight = it->second;
 				found = true;
@@ -91,6 +92,7 @@ WQ_T WeightQueue::top()
 		}
 		else
 		{
+			//全程未找到权重比较大的，则默认第一个就是
 			this->_top = this->_data.begin()->first;
 		}
 

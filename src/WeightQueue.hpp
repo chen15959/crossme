@@ -8,6 +8,9 @@
 
 typedef long WQ_T;
 
+
+
+
 //权重队列
 //依次按权重出列
 class WeightQueue
@@ -36,7 +39,27 @@ public:
 	//获得权重最大者
 	WQ_T		top();
 	//权重最大者出列
-	WQ_T	pop();
+	WQ_T		pop();
+
+
+	
+	//是否存在某元素
+	inline
+	bool contains(WQ_T value) const {
+		return this->_data.find(value) != this->_data.end();
+	}
+
+
+	//移除特定元素
+	inline
+	void remove(WQ_T value)
+	{
+		this->_data.erase(value);
+		if (this->_top = value && this->_ready)
+		{
+			this->_ready = false;
+		}
+	}
 
 
 	//队列长度
