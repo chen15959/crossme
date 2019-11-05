@@ -73,6 +73,7 @@ WQ_T WeightQueue::top()
 		//遍历寻找最大权重者
 		double max_weight = -DBL_MAX;
 		WQ_T max_value = 0;
+		bool found = false;
 
 		for (map<WQ_T, double>::const_iterator it = this->_data.begin(); it != this->_data.end(); ++it)
 		{
@@ -80,10 +81,19 @@ WQ_T WeightQueue::top()
 			{
 				max_value = it->first;
 				max_weight = it->second;
+				found = true;
 			}
 		}
 
-		this->_top = max_value;
+		if (found)
+		{
+			this->_top = max_value;
+		}
+		else
+		{
+			this->_top = this->_data.begin()->first;
+		}
+
 		this->_ready = true;
 	}
 
