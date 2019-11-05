@@ -6,18 +6,15 @@ using namespace std;
 
 
 
-Game::Game(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
+Game::Game(const ParamListCollection & col_params, const ParamListCollection & row_params)
 : _params_of_cols(col_params), _params_of_rows(row_params)
 {
 	assert(col_params.size() > 0);
 	assert(row_params.size() > 0);
 	
-	display_level = min(log_level, display_level);
-
-	Board * board = new Board(_params_of_cols, _params_of_rows, log_level, display_level);
-	
-	_todo.push_back(board);
-
+	//默认参数
+	_log_level = LOG_NOTHING;
+	_display_level = DISPLAY_RESULT;
 	_stop_after = 0;
 	_result_as_soon_as_possible = NULL;
 }
@@ -25,6 +22,7 @@ Game::Game(const ParamListCollection & col_params, const ParamListCollection & r
 	
 
 //拷贝构造
+//禁用
 Game::Game(const Game & other)
 : _params_of_cols(other._params_of_cols), _params_of_rows(other._params_of_rows)
 {
@@ -54,6 +52,7 @@ void Game::free()
 
 
 
+//禁用
 void Game::copy(const Game & other)
 {
 	assert(0);
@@ -61,6 +60,7 @@ void Game::copy(const Game & other)
 }
 
 
+//禁用
 Game & Game::operator=(const Game & rhs)
 {
 	if (&rhs != this)
@@ -89,6 +89,14 @@ bool Game::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 
 bool Game::play()
 {
+	//生成第一个棋盘
+	//放到待处理队列中
+	Board * board = new Board(_params_of_cols, _params_of_rows, _log_level,  min(_log_level, _display_level));
+	
+	_todo.push_back(board);
+
+
+
 	while (!_todo.empty() && ((_stop_after > 0 && _done.size() < _stop_after) || _stop_after <= 0))
 	{
 		//抓出一个棋盘

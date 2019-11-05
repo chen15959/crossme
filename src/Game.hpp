@@ -22,7 +22,7 @@ class Game
 {
 public:
 	//从参数构建新游戏
-	Game(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level = 0, int display_level = 0);
+	Game(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	//析构
 	virtual ~Game();
 
@@ -60,6 +60,17 @@ private:
 	std::list<Result *>		_done;
 
 public:
+
+	inline
+	void setLogLevel(int level) {
+		_log_level = level;
+	}
+
+	inline
+	void setDisplayLevel(int level) {
+		_display_level = level;
+	}
+
 	inline
 	void setStopAfter(int value) {
 		_stop_after = value;
@@ -72,6 +83,13 @@ public:
 	
 	
 private:
+
+	int _log_level;
+
+	int _display_level;
+
+
+
 	//在多解时，找到n个解就停止
 	//小于1代表找到所有再停止
 	int _stop_after;

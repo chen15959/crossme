@@ -218,10 +218,15 @@ int main(int argc, const char * argv[])
 	//第一个参数必须是谜题文件
 	puzzle.load_puzzle_file(argv[1]);
 
+	//todo
+	//检查puzzle的内容
+
 	//从谜题文件构建游戏
-	Game game(puzzle.getParamsOnCols(), puzzle.getParamsOnRows(), log_level, display_level);
+	Game game(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
 	
 	//游戏的设置
+	game.setLogLevel(log_level);
+	game.setDisplayLevel(display_level);
 	game.setStopAfter(find_all ? -1 : stop_after_n);
 	game.setResultAsSoonAsPosslbie(result_asap);
 
