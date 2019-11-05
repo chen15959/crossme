@@ -23,13 +23,13 @@ Clock::~Clock()
 
 Clock::Clock(const Clock &)
 {
-	//½ûÓÃ
+	//ç¦ç”¨
 	assert(0);
 }
 	
 Clock & Clock::operator=(const Clock &)
 {
-	//½ûÓÃ
+	//ç¦ç”¨
 	assert(0);
 	return *this;
 }
@@ -39,8 +39,8 @@ Clock & Clock::operator=(const Clock &)
 
 bool Clock::start()
 {
-	//ÒÑ¾­Í£Ö¹
-	//»ò´ÓÎ´¿ªÊ¼
+	//å·²ç»åœæ­¢
+	//æˆ–ä»æœªå¼€å§‹
 	if ((_start_time > 0 && _stop_time >= _start_time) || (_start_time < 0 && _stop_time < 0))
 	{
 		_start_time = now();

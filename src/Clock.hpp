@@ -2,14 +2,14 @@
 #define Clock_hpp
 
 
-//¼ÆÊ±Æ÷
-//¾«¶Èµ½
+//è®¡æ—¶å™¨
+//ç²¾åº¦åˆ°
 class Clock
 {
 public:
-	//¹¹Ôì
+	//æ„é€ 
 	Clock();
-	//Îö¹¹
+	//ææ„
 	virtual ~Clock();
 
 private:
@@ -17,26 +17,26 @@ private:
 	Clock & operator=(const Clock &);
 
 public:
-	//¿ªÊ¼¼ÆÊ±
+	//å¼€å§‹è®¡æ—¶
 	bool start();
-	//Í£Ö¹¼ÆÊ±
+	//åœæ­¢è®¡æ—¶
 	bool stop();
 
-	//ÊÇ·ñÔÚÔËĞĞ
+	//æ˜¯å¦åœ¨è¿è¡Œ
 	bool running() const;
 
-	//¼ÆÊ±Æ÷¶ÁÊı£¨ºÁÃë£©
+	//è®¡æ—¶å™¨è¯»æ•°ï¼ˆæ¯«ç§’ï¼‰
 	long elapsed_ms() const;
 
 
 private:
-	//»ñÈ¡µ±Ç°Ê±¼ä
+	//è·å–å½“å‰æ—¶é—´
 	static long long now();
 
 private:
-	//¿ªÊ¼Ê±¼ä
+	//å¼€å§‹æ—¶é—´
 	long long _start_time;
-	//½áÊøÊ±¼ä
+	//ç»“æŸæ—¶é—´
 	long long _stop_time;
 };
 
