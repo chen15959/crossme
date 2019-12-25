@@ -9,27 +9,39 @@
 
 
 
-Candidate::Candidate(short length, const char * data)
+Candidate::Candidate(LENGTH_T length, const VALUE_T * data)
 {
 	assert(length > 0);
 	assert(data);
 
 	_length = length;
-	_data = new char[_length + 1];
-	memcpy(_data, data, _length);
+	_data = new VALUE_T[_length + 1];
+	memcpy(_data, data, _length * sizeof(VALUE_T));
 	_data[_length] = '\0';
 	
 }
 
 
 
-Candidate::Candidate(short length, char value)
+Candidate::Candidate(LENGTH_T length, VALUE_T value)
 {
 	assert(length > 0);
 
 	_length = length;
-	_data = new char[_length + 1];
-	memset(_data, value, _length);
+	_data = new VALUE_T[_length + 1];
+
+	if (sizeof(VALUE_T) == 1)
+	{
+		memset(_data, value, _length * sizeof(VALUE_T));
+	}
+	else 
+	{
+		for (int i = 0; i < _length; ++i)
+		{
+			_data[i] = value;
+		}
+	}
+
 	_data[_length] = '\0';
 }
 
@@ -66,8 +78,8 @@ void Candidate::copy(const Candidate & other)
 {
 	_length = other._length;
 	
-	_data = new char[_length + 1];
-	memcpy(_data, other._data, _length + 1);
+	_data = new VALUE_T[_length + 1];
+	memcpy(_data, other._data, (_length + 1) * sizeof(VALUE_T));
 }
 
 
@@ -78,7 +90,7 @@ void Candidate::free()
 
 
 
-char Candidate::getValue(short pos) const
+VALUE_T Candidate::getValue(LENGTH_T pos) const
 {
 	assert(pos >= 0 && pos < _length);
 	
@@ -93,7 +105,7 @@ bool Candidate::operator==(const Line & rhs) const
 
 	for (int i = 0; i < _length; ++i)
 	{
-		char value = rhs.getPoint(i)->getValue();
+		VALUE_T value = rhs.getPoint(i)->value();
 		if (value != VAL_UNKNOWN)
 		{
 			if (_data[i] != value)

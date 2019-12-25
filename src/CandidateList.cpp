@@ -11,7 +11,7 @@ using namespace std;
 
 
 
-CandidateList::CandidateList(short length)
+CandidateList::CandidateList(LENGTH_T length)
 {
 	assert(length > 0);
 
@@ -105,7 +105,7 @@ bool CandidateList::ruleBy(const Line & line)
 
 
 
-char CandidateList::getValue(short pos) const
+VALUE_T CandidateList::getValue(LENGTH_T pos) const
 {
 	WeightQueue result;
 	
@@ -117,7 +117,7 @@ char CandidateList::getValue(short pos) const
 	}
 	else if (result.size() == 1)
 	{
-		return (char)result.top();
+		return (VALUE_T)result.top();
 	}
 	else
 	{
@@ -126,33 +126,10 @@ char CandidateList::getValue(short pos) const
 }
 
 
-/*
-std::map<char, int> CandidateList::getCandidateValue(short pos) const
-{
-//	assert(size() > 0);
-	assert(pos >= 0 && pos < _length);
-
-	map<char, int> retVal;
-
-	for (map<int, Candidate *>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
-	{
-		char value = it1->second->getValue(pos);
-		if (retVal.find(value) == retVal.end())
-		{
-			retVal.insert(pair<char, int>(value, 1));
-		}
-		else
-		{
-			retVal[value]++;
-		}
-	}
-
-	return retVal;
-}
-*/
 
 
-void CandidateList::getValues(short pos, WeightQueue & result) const
+
+void CandidateList::getValues(LENGTH_T pos, WeightQueue & result) const
 {
 	assert(pos >= 0 && pos < _length);
 

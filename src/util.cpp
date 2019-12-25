@@ -4,7 +4,7 @@
 
 
 #define PI	3.1416
-#define E	2.718
+#define E	2.7183
 
 
 

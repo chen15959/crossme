@@ -11,9 +11,8 @@
 
 
 Clock::Clock()
+: _start_time(-1), _stop_time(-1)
 {
-	_start_time = -1;
-	_stop_time = -1;
 }
 
 
@@ -24,11 +23,13 @@ Clock::~Clock()
 
 Clock::Clock(const Clock &)
 {
+	//禁用
 	assert(0);
 }
 	
 Clock & Clock::operator=(const Clock &)
 {
+	//禁用
 	assert(0);
 	return *this;
 }
@@ -38,7 +39,9 @@ Clock & Clock::operator=(const Clock &)
 
 bool Clock::start()
 {
-	if ((_start_time > 0 && _stop_time > 0) || (_start_time < 0 && _stop_time < 0))
+	//已经停止
+	//或从未开始
+	if ((_start_time > 0 && _stop_time >= _start_time) || (_start_time < 0 && _stop_time < 0))
 	{
 		_start_time = now();
 		return true;
@@ -67,7 +70,7 @@ bool Clock::stop()
 
 bool Clock::running() const
 {
-	return _start_time > 0 && _stop_time < 0;
+	return _start_time > 0 && _stop_time < _start_time;
 }
 
 
@@ -75,7 +78,7 @@ long Clock::elapsed_ms() const
 {
 	if (_start_time > 0)
 	{
-		long long t = _stop_time > 0 ? _stop_time : now();
+		long long t = _stop_time > _start_time ? _stop_time : now();
 		return (long)(t - _start_time);
 	}
 	else

@@ -7,9 +7,7 @@ using namespace std;
 
 
 Puzzle::Puzzle(bool col_params_first)
-//: _first(col_params_first ? &_params_of_cols : &_params_of_rows), _second(col_params_first ? &_params_of_rows : &_params_of_cols)
 {
-//	_current = &_first;
 }
 
 
@@ -56,71 +54,27 @@ void Puzzle::free()
 
 
 /*
-���ַ����ж�ȡParam
- �ַ�����ʽӦ��ΪA123��123
- ���ص�Param����isValid�ж��Ƿ�Ϸ�
- 
- */
-/*
-Param create_param_from_str(const char * str)
-{
-	assert(str);
-	
-	char t = 'A';
-	const char * p;
-	
-	//��������ĸ
-	if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z'))
-	{
-		t = str[0];
-		str++;
-	}
-	
-	//����Ƿ�Ϊȫ����
-	p = str;
-	while (*p)
-	{
-		if (*p < '0' || *p > '9')
-		{
-			p = NULL;
-			break;
-		}
-		++p;
-	}
-	
-	
-	if (p)
-	{
-		int d;
-		if (sscanf(str, "%d", &d) == 1)
-		{
-			//��ʽ����Ҫ��
-			return Param(d, t);
-		}
-	}
-
-	//��ʽ������Ҫ��
-	return Param(-1, VAL_EMPTY);
-}
+从字符串中读取Param
+ 并附加到params的结尾
+ 字符串格式应当为A123或123
+ 返回值为true代表字符串是有效的格式，生成的Param已经附加到params的结尾
 */
-
-
 static
-bool create_param(const char * str, ParamsOfLine & params)
+bool create_param(const char * str, ParamList & param_list)
 {
 	assert(str);
 	
 	char t = 'A';
 	const char * p;
 	
-	//��������ĸ
+	//有类型字母
 	if ((str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= 'a' && str[0] <= 'z'))
 	{
 		t = str[0];
 		str++;
 	}
 	
-	//����Ƿ�Ϊȫ����
+	//检查是否为全数字
 	p = str;
 	while (*p)
 	{
@@ -138,24 +92,25 @@ bool create_param(const char * str, ParamsOfLine & params)
 		int d;
 		if (sscanf(str, "%d", &d) == 1)
 		{
-			//��ʽ����Ҫ��
-			params.push_back(Param(d, t));
+			//格式符合要求
+			param_list.push_back(Param(d, (VALUE_T)t));
 			return true;
 		}
 	}
 
-	//��ʽ������Ҫ��
+	//格式不符合要求
 	return false;
 }
 
 
 
 
-
+//内部类
+//处理所有列的参数，或者所有行的参数
 class _params_handler
 {
 public:
-	_params_handler(ParamsOfLines * params);
+	_params_handler(ParamListCollection * param_list_collection);
 	virtual ~_params_handler();
 
 public:
@@ -164,19 +119,21 @@ public:
 	void finishLine();
 	
 private:
-	ParamsOfLines * pol;
-	char buffer[1024];
-	char * ptr;
-	ParamsOfLine line;
+	ParamListCollection *	_param_list_collection;
+	char					_buffer[1024];
+	char *					_ptr;
+	ParamList				_param_list;
 };
 
 
 
-
+//内部类
+//一个状态机
+//处理列/行切换问题
 class params_handler
 {
 public:
-	params_handler(ParamsOfLines * col_params, ParamsOfLines * row_params);
+	params_handler(ParamListCollection * col_params, ParamListCollection * row_params);
 	virtual ~params_handler();
 	
 public:
@@ -189,7 +146,10 @@ public:
 	inline void finishLine() {
 		_handler->finishLine();
 	}
+	//切换列/行模式
 	inline void changeMode() {
+		//强制检查 必须是未切换状态 即不能两次调用
+		assert(_handler == &_first);
 		_handler = &_second;
 	}
 	
@@ -202,22 +162,27 @@ private:
 
 
 
-params_handler::params_handler(ParamsOfLines * col_params, ParamsOfLines * row_params)
+params_handler::params_handler(ParamListCollection * col_params, ParamListCollection * row_params)
 : _second(row_params), _first(col_params)
 {
+	//先指向列
 	_handler = &_first;
 }
 
 
 params_handler::~params_handler()
 {
+	//强制检查 必须已经切换过一次
+	assert(_handler == &_second);
 }
 
 
-_params_handler::_params_handler(ParamsOfLines * param)
+_params_handler::_params_handler(ParamListCollection * param_list_collection)
 {
-	pol = param;
-	ptr = buffer;
+	//初始化
+	_param_list_collection = param_list_collection;
+	//字符指针指向缓冲区头
+	_ptr = _buffer;
 }
 
 
@@ -228,26 +193,31 @@ _params_handler::~_params_handler()
 
 void _params_handler::put(char ch)
 {
-	*ptr++ = ch;
+	//普通字符写入缓冲区
+	*_ptr++ = ch;
 }
 
 
 void _params_handler::finishItem()
 {
-	*ptr = '\0';
-	create_param(buffer, line);
-	ptr = buffer;
+	bool ret;
+	//结束了一个item
+	*_ptr = '\0';
+	ret = create_param(_buffer, _param_list);
+	_ptr = _buffer;
+	//未处理对item的解析结果
 }
 
 
 void _params_handler::finishLine()
 {
+	//结束了一行
 	finishItem();
 	
-	if (line.size() > 0)
+	if (_param_list.size() > 0)
 	{
-		pol->push_back(line);
-		line.clear();
+		_param_list_collection->push_back(_param_list);
+		_param_list.clear();
 	}
 }
 
@@ -293,27 +263,34 @@ bool Puzzle::load_puzzle_file(const char * filename)
 	while (!feof(file)) {
 		char ch = (char)fgetc(file);
 		
-		if (ch == '#' || ch == '%') {
+		//'#' '%' '*' 开启行注释
+		if (ch == '#' || ch == '%' || ch == '*') {
 			ph.finishLine();
 			in_comment = true;
 		}
+		//换行则自动结束行注释
 		else if (ch == '\n' || ch == '\r') {
 			ph.finishLine();
 			in_comment = false;
 		}
 		else if (!in_comment) {
-			if (ch == '/' || ch == '+' || ch == '-') {
+			//非注释状态下 '/' '+'代表模式切换
+			if (ch == '/' || ch == '+') {
 				ph.finishLine();
 				ph.changeMode();
-
-				if (ch == '-') {
-					in_comment = true;
-				}
 			}
-			else if (ch == ' ' || ch == '\t') {
+			//非注释状态下 '-'代表模式切换加行注释 (为处理-1作为切换符)
+			else if (ch == '-') {
+				ph.finishLine();
+				ph.changeMode();
+				in_comment = true;
+			}
+			//非注释状态下 ' ' '\t' '.' 代表一个item结束
+			else if (ch == ' ' || ch == '\t' || ch == '.') {
 				ph.finishItem();
 			}
-			else if (ch != '\xFF'){
+			//其他的非EOF就是合法字符
+			else if (ch != '\xFF') {
 				ph.put(ch);
 			}
 		}
@@ -325,8 +302,6 @@ bool Puzzle::load_puzzle_file(const char * filename)
 	fclose(file);
 	
 	return true;
-
-//	return -1;
 }
 
 
@@ -340,15 +315,3 @@ bool Puzzle::load_installed_file(const char * filename)
 
 
 
-
-
-/*
-	int load_puzzle_file(const char *);
-	int load_installed_file(const char *);
-
-
-private:
-	ParamsOfLines		_params_of_cols;
-	ParamsOfLines		_params_of_rows;
-
-*/

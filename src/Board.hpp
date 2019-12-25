@@ -9,17 +9,17 @@
 #include <string>
 
 
-#define LOG_NOTHING			0
-#define LOG_RESULT			1		//只输出结果
-#define LOG_PROGRESS		2
-#define LOG_TRY				3		//输出每一次尝试
-#define LOG_ROUND			4		//输出每一轮的情况
-#define LOG_STEP			5		//输出每一个点的改变
+#define LOG_NOTHING				0		//什么都不输出
+#define LOG_RESULT				1		//只输出结果
+#define LOG_PROGRESS			2		//输出进度
+#define LOG_TRY					3		//输出每一次尝试
+#define LOG_ROUND				4		//输出每一轮的情况
+#define LOG_STEP				5		//输出每一个点的改变
 
-#define DIS_NOTHING			0
-#define DIS_RESULT			1
-#define DIS_TRY				2
-#define	DIS_ROUND			3
+#define DISPLAY_NOTHING			0		//从不输出结果盘面
+#define DISPLAY_RESULT			1		//只输出结果盘面
+#define DISPLAY_TRY				2		//在每次莽之前都输出盘面
+#define	DISPLAY_ROUND			3		//每行/列上运算成功之后都输出盘面
 
 
 /**
@@ -29,8 +29,7 @@ class Board
 {
 public:
 	//构造函数
-	//列数*行数
-	Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level);
+	Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level);
 	//拷贝构造
 	Board(const Board &);
 	//析构
@@ -40,21 +39,22 @@ public:
 	Board & operator=(const Board &);
 	
 private:
-	//建立基本的Point矩阵
-	void init(unsigned long col_size, unsigned long row_size);
+	//建立基本的Point矩阵和Line列表，并置于初始状态
+	void init();
+
 	//释放资源
 	void free();
+	
 	//复制内容
-	//此时不复制line上的可能性
 	void copy(const Board &);
 	
 		
 public:
 	//使用参数来初始化
-	void install(const ParamsOfLines & col_params, const ParamsOfLines & row_params);
+//	void install(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	
 	//强行设定某Point
-	void install(unsigned long row, unsigned long col, char value);
+	void install(LENGTH_T row, LENGTH_T col, VALUE_T value);
 
 
 public:
@@ -76,117 +76,107 @@ public:
 
 private:
 	//基于某点生成多种可能性
-	std::vector<Board *> createCandidates(unsigned long row, unsigned long col) const;
+	std::vector<Board *> createCandidates(LENGTH_T row, LENGTH_T col) const;
 
 
 public:
 	//获得特定位置的点的值
-	char getValue(unsigned long row, unsigned long col) const;
+	VALUE_T value(LENGTH_T row, LENGTH_T col) const;
+
+	//value的马甲
+	inline
+	VALUE_T getValue(LENGTH_T row, LENGTH_T col) const {
+		return value(row, col);
+	}
 	
-	
+
 public:
 	//点被改变的回调
-	void point_change_callback(unsigned long row, unsigned long col, char value);
+	void point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value);
+
 	
 private:
-	//列数
-	unsigned long				_col_size;
-	//行数
-	unsigned long				_row_size;
+	Point **						_points;				//所有Point
+
+	std::map<long, Line *>			_lines;					//所有行/列
 	
-	//所有Point
-	Point **					_points;
+	WeightQueue						_todo;					//待分析的行/列
 
-	//所有行/列
-	std::map<long, Line *>		_lines;
-
-	//待分析的行/列
-	WeightQueue					_todo;
-
-	//运行参数
-	ParamsOfLines				_params_of_lines;
+	const ParamListCollection *		_params_of_cols;		//运行列参数
+	const ParamListCollection *		_params_of_rows;		//运行行参数
 
 
 private:
 	//从行列号获得点的实际位置
 	inline
-	unsigned long getIndex(unsigned long row, unsigned long col) const
-	{
-		return row * this->_col_size + col;
+	LENGTH2_T _index(LENGTH_T row, LENGTH_T col) const {
+		return row * col_size() + col;
 	}
 	
+	//归一化行号/列号
 	inline
-	long col_id(long col) const
-	{
+	long _col_id(LENGTH_T col) const {
 		return -col - 1;
 	}
 
+	//归一化行号/列号
 	inline
-	long row_id(long row) const
-	{
+	long _row_id(LENGTH_T row) const {
 		return row + 1;
 	}
 
 
 public:
-/*
+	
+	//行数量
 	inline
-	unsigned long id() const
-	{
-		return _id;
+	LENGTH_T row_size() const {
+		return _params_of_rows->size();
 	}
-*/
+
+	//列数量
 	inline
-	const char * id() const
-	{
+	LENGTH_T col_size() const {
+		return _params_of_cols->size();
+	}
+
+
+public:
+	//棋盘id
+	inline
+	const char * id() const {
 		return _id.c_str();
 	}
 
-	inline
-	unsigned long row_size() const
-	{
-		return _row_size;
-	}
 
-
-	inline
-	unsigned long col_size() const
-	{
-		return _col_size;
-	}
-
-
-private:
-//	unsigned long		_id;
-	std::string			_id;
-
-
-public:
 	//输出结果
-	void print(FILE * output, bool head = false) const;
+	//	output		输出到哪个文件流 默认stdout
+	//	head		是否输出棋盘标题 默认不输出
+	void print(FILE * output = stdout, bool head = false) const;
 
 
-	//输出等级
+	//日志等级
 	inline 
-	int log_level() const
-	{
+	int log_level() const {
 		return _log_level;
 	}
 
+
+	//显示等级
 	inline
-	int display_level() const
-	{
+	int display_level() const {
 		return _display_level;
 	}
 
-
 private:
-	int		_log_level;
-	int		_display_level;
+	std::string			_id;					//棋盘id
+	int					_log_level;				//日志等级
+	int					_display_level;			//显示等级
 
 
 public:
-	unsigned long known() const;
+	//棋盘中有多少确定点
+	SIZE_T known() const;
 
 
 

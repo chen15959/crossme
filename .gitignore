@@ -2,10 +2,15 @@
 
 ~gitignore
 
+~*/*
+
 src/build/Debug/*
 src/build/Release/*
+tools/puzzle2txt/bin/*
+tools/puzzle2txt/obj/*
 
 *.ncb
 *.suo
 *.vcproj.*.user
+*.csproj.*.user
 

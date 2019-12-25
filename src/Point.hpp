@@ -1,14 +1,11 @@
 #ifndef Point_h
 #define Point_h
 
+#include "def.hpp"
+
 class Board;
 
-//啥都没有
-#define VAL_NONE		'-'
-//未解谜
-#define VAL_UNKNOWN		'?'
-//已解谜，是空
-#define VAL_EMPTY		'.'
+
 
 
 //棋盘上的一个点
@@ -22,7 +19,7 @@ class Point
 {
 public:
 	//构造 带自己的位置
-	Point(short row, short col, Board * board);
+	Point(LENGTH_T row, LENGTH_T col, Board * board);
 	
 	//拷贝构造
 	Point(const Point & other);
@@ -34,53 +31,52 @@ public:
 	
 public:
 	//点在哪行（0开始）
+#if 0
 	inline
-	short getRow() const
-	{
-		return this->_row;
+	LENGTH_T getRow() const {
+		return this->row();
 	}
+#endif
 
 	inline
-	short row() const
-	{
+	LENGTH_T row() const {
 		return _row;
 	}
 	
 	//点在哪列（0开始）
+#if 0
 	inline
-	short getCol() const
-	{
-		return this->_col;
+	LENGTH_T getCol() const {
+		return this->col();
 	}
+#endif
 
 	inline
-	short col() const
-	{
+	LENGTH_T col() const {
 		return _col;
 	}
 	
 	//获得点的值
+#if 0
 	inline
-	char getValue() const 
-	{
-		return this->_value;
+	VALUE_T getValue() const {
+		return this->value();
 	}
+#endif
 
 	inline
-	char value() const
-	{
+	VALUE_T value() const {
 		return _value;
 	}
 	
 	//设置点为空
 	inline
-	bool setEmpty()
-	{
+	bool setEmpty() {
 		return setValue(VAL_EMPTY);
 	}
 	
 	//设置点的值
-	bool setValue(char value);
+	bool setValue(VALUE_T value);
 	
 	
 	//该点是否已经确定
@@ -93,11 +89,11 @@ public:
 	
 private:
 	//行（0开始）
-	short			_row;
+	LENGTH_T		_row;
 	//列（0开始）
-	short			_col;
+	LENGTH_T		_col;
 	//值
-	char			_value;
+	VALUE_T			_value;
 	//所属的board
 	Board *			_board;
 	

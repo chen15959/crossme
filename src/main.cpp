@@ -8,24 +8,7 @@
 #include "util.hpp"
 
 
-/*
-unsigned long long now_ms()
-{
-#ifdef WIN32
-	return GetTickCount();
-#else
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	return t.tv_sec * 1000 + t.tv_usec / 1000;
-#endif
-}
-*/
-/*
-int max(int a, int b)
-{
-	return a > b ? a : b;
-}
-*/
+
 
 
 double factor_ax = -1;
@@ -37,79 +20,108 @@ double factor_cy = 0;
 //0,5,1,?,?,?
 
 
+// 程序主入口点
+
 int main(int argc, const char * argv[])
 {
+	// 谜题
 	Puzzle puzzle;
 
-	int log_level = -1;
-	int display_level = -1;
-	int stop_after_n = 10;
+	//运行时参数及默认值
+	int log_level = LOG_NOTHING;
+	int display_level = DISPLAY_RESULT;
+	int stop_after_n = 10, t_stop_after_n;
+	bool find_all = false;
+	bool show_clock = true;
 	FILE * result_asap = NULL;
 
 
-	for (int i = 1; i < argc; ++i)
+	for (int i = 2; i < argc; ++i)
 	{
+
+#ifndef 日志和显示
+		//当同时有多个日志指令时，以其中最细那个为准
+		//默认不显示日志
+
+		//日志级别设为最细（每一步）
 		if (strcmp(argv[i], "--log:step") == 0)
 		{
-			log_level = max(log_level, LOG_TRY);
+			log_level = max(log_level, LOG_STEP);
 			continue;
 		}
 
+		//日志级别设为次细（每一轮）
 		if (strcmp(argv[i], "--log:round") == 0)
 		{
 			log_level = max(log_level, LOG_ROUND);
 			continue;
 		}
 
+		//日志级别设为中等（每一次尝试）
 		if (strcmp(argv[i], "--log:try") == 0)
 		{
 			log_level = max(log_level, LOG_TRY);
 			continue;
 		}
 
+		//日志级别设为次粗（只有进度）
 		if (strcmp(argv[i], "--log:progress") == 0)
 		{
 			log_level = max(log_level, LOG_PROGRESS);
 			continue;
 		}
 
+		//日志级别设为最粗（只有成功信息）
 		if (strcmp(argv[i], "--log:result") == 0)
 		{
 			log_level = max(log_level, LOG_RESULT);
 			continue;
 		}
 		
+		//禁用日志输出
 		if (strcmp(argv[i], "--log:nothing") == 0)
 		{
 			log_level = max(log_level, LOG_NOTHING);
 			continue;
 		}
 
+
+		//当同时存在多个显示配置时，以最细那个为准
+		//默认只显示结果
+		//如果存在--display:nothing的话，则以他为准
+
+		//在每一轮结束的时候都显示一下盘面（最细）
 		if (strcmp(argv[i], "--display:round") == 0)
 		{
-			display_level = max(display_level, DIS_ROUND);
+			display_level = max(display_level, DISPLAY_ROUND);
 			continue;
 		}
 
+		//在每一次尝试结束的时候都显示一下盘面（一般）
 		if (strcmp(argv[i], "--display:try") == 0)
 		{
-			display_level = max(display_level, DIS_TRY);
+			display_level = max(display_level, DISPLAY_TRY);
 			continue;
 		}
 
+		//只显示结果（最粗）
 		if (strcmp(argv[i], "--display:result") == 0)
 		{
-			display_level = max(display_level, DIS_RESULT);
+			display_level = max(display_level, DISPLAY_RESULT);
 			continue;
 		}
 		
+		//什么都不显示
 		if (strcmp(argv[i], "--display:nothing") == 0)
 		{
-			display_level = max(display_level, DIS_NOTHING);
+			display_level = DISPLAY_NOTHING;
 			continue;
 		}
+#endif
 
-
+#ifdef _DEBUG
+		//这里是莽的时候的寻优参数
+		//一般不需要调整
 		if (sscanf(argv[i], "--factor-ax:%lf", &factor_ax) == 1)
 		{
 			continue;
@@ -139,25 +151,59 @@ int main(int argc, const char * argv[])
 		{
 			continue;
 		}
-		
-		if (sscanf(argv[i], "--stop-after:%d", &stop_after_n) == 1)
+#endif		
+
+#ifndef 谜题多结果控制
+
+		//如果是多结果的谜题，找到多少个之后就停止
+		//默认10个
+		if (sscanf(argv[i], "--stop-after:%d", &t_stop_after_n) == 1)
 		{
+			if (t_stop_after_n > 0)
+			{
+				stop_after_n = max(stop_after_n, t_stop_after_n);
+			}
+			else
+			{
+				find_all = true;
+			}
 			continue;
 		}
 		
+		//出现此参数时，强制找到所有结果
+		//忽略--stop-after:n参数
 		if (strcmp(argv[i], "--find-all") == 0)
 		{
-			stop_after_n = -1;
+			find_all = true;
 			continue;
 		}
-		
+
+#endif
+
+		//是否得到一个结果就马上输出
 		if (strcmp(argv[i], "--result-asap") == 0)
 		{
 			result_asap = stdout;
 			continue;
 		}
+
+		//显示计时（默认）
+		if (strcmp(argv[i], "--show-clock") == 0)
+		{
+			show_clock = true;
+			continue;
+		}
+
+		//不显示计时
+		if (stricmp(argv[i], "--hide-clock") == 0)
+		{
+			show_clock = false;
+			continue;
+		}
 	}
 	
+
+	//默认输出配置
 	if (log_level < 0)
 	{
 		log_level = LOG_PROGRESS;
@@ -165,32 +211,43 @@ int main(int argc, const char * argv[])
 	
 	if (display_level < 0)
 	{
-		display_level = DIS_RESULT;
+		display_level = DISPLAY_RESULT;
 	}
 
 
+	//第一个参数必须是谜题文件
 	puzzle.load_puzzle_file(argv[1]);
 
-	Game game(puzzle.getParamsOnCols().size(), puzzle.getParamsOnRows().size(), log_level, display_level);
+	//todo
+	//检查puzzle的内容
+
+	//从谜题文件构建游戏
+	Game game(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
 	
-	game.setStopAfter(stop_after_n);
+	//游戏的设置
+	game.setLogLevel(log_level);
+	game.setDisplayLevel(display_level);
+	game.setStopAfter(find_all ? -1 : stop_after_n);
 	game.setResultAsSoonAsPosslbie(result_asap);
 
+	//开始计时
 	Clock clock;
 	clock.start();
-//	unsigned long long t1 = now_ms();
 
-	game.install(puzzle.getParamsOnCols(), puzzle.getParamsOnRows());
-
+	//游戏开始
 	game.play();
 
-
-//	unsigned long long t2 = now_ms();
+	//计时结束
 	clock.stop();
 
+	//一次性输出所有结果（如果没选result-asap）
 	game.write(stdout);
 
-	printf("\n\nit costs %lu ms.\n", clock.elapsed_ms());
+	//输出计时
+	if (show_clock)
+	{
+		printf("\n\nit costs %lu ms.\n", clock.elapsed_ms());
+	}
 
 	return 0;
 }

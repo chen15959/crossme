@@ -5,18 +5,16 @@
 
 
 
-Param::Param(short size, char type)
+Param::Param(LENGTH_T size, VALUE_T type)
+: _type(type), _size(size)
 {
-	_type = type;
-	_size = size;
 }
 
 
 
 Param::Param(const Param & other)
+: _type(other._type), _size(other._size)
 {
-	_type = other._type;
-	_size = other._size;
 }
 
 

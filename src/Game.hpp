@@ -16,13 +16,13 @@
 
 //游戏本体
 //所有外部功能最终都是通过调用本类完成
-//内部支持多颜色机制
+//内部支持多颜色机制(not yet)
 //
 class Game
 {
 public:
 	//从参数构建新游戏
-	Game(unsigned long col_size, unsigned long row_size, int log_level = 0, int display_level = 0);
+	Game(const ParamListCollection & col_params, const ParamListCollection & row_params);
 	//析构
 	virtual ~Game();
 
@@ -39,12 +39,9 @@ private:
 	
 	
 public:
-
-	bool install(const ParamsOfLines & col_params, const ParamsOfLines & row_params);
-	
 	//设定一个点为具体值
 	//影响到所有的board
-	bool install(unsigned long row, unsigned long col, char val);
+	bool install(LENGTH_T row, LENGTH_T col, VALUE_T val);
 	
 
 	//开始运行
@@ -52,34 +49,47 @@ public:
 	
 
 private:
-	//列数
-	unsigned long			_col_size;
-	//行数
-	unsigned long			_row_size;
+	//各列参数
+	const ParamListCollection &		_params_of_cols;
+	//各行参数
+	const ParamListCollection &		_params_of_rows;
 	
 	//待执行的Board
 	std::list<Board *>		_todo;
 	//成功的Board
 	std::list<Result *>		_done;
 
-	bool					_installed;
-
-	
 public:
+
 	inline
-	void setStopAfter(int value)
-	{
+	void setLogLevel(int level) {
+		_log_level = level;
+	}
+
+	inline
+	void setDisplayLevel(int level) {
+		_display_level = level;
+	}
+
+	inline
+	void setStopAfter(int value) {
 		_stop_after = value;
 	}
 	
 	inline
-	void setResultAsSoonAsPosslbie(FILE * value)
-	{
+	void setResultAsSoonAsPosslbie(FILE * value) {
 		_result_as_soon_as_possible = value;
 	}
 	
 	
 private:
+
+	int _log_level;
+
+	int _display_level;
+
+
+
 	//在多解时，找到n个解就停止
 	//小于1代表找到所有再停止
 	int _stop_after;

@@ -177,22 +177,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Candidate.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateFactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateList.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Clock.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Game.cpp"
 				>
 			</File>
@@ -220,14 +204,6 @@
 				RelativePath="..\Result.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\util.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\WeightQueue.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -239,19 +215,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Candidate.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateFactory.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CandidateList.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Clock.hpp"
+				RelativePath="..\def.hpp"
 				>
 			</File>
 			<File
@@ -278,8 +242,34 @@
 				RelativePath="..\Result.hpp"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+		</Filter>
+		<Filter
+			Name="help"
+			>
+			<File
+				RelativePath="..\Clock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Clock.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\util.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\util.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\WeightQueue.cpp"
 				>
 			</File>
 			<File
@@ -288,10 +278,40 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="algorithm"
 			>
+			<File
+				RelativePath="..\Candidate.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Candidate.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateFactory.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CandidateList.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\SifterLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\SifterLine.hpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

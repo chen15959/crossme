@@ -20,7 +20,7 @@ class CandidateList
 {
 public:
 	//构造函数
-	CandidateList(short length);
+	CandidateList(LENGTH_T length);
 	//拷贝构造
 	CandidateList(const CandidateList &);
 	//析构函数
@@ -48,21 +48,19 @@ public:
 	}
 
 
-	char getValue(short pos) const;
+	VALUE_T getValue(LENGTH_T pos) const;
 
 
 	inline
-	char value(short pos) const
-	{
+	VALUE_T value(LENGTH_T pos) const {
 		return getValue(pos);
 	}
 
-//	std::map<char, int> getCandidateValue(short pos) const;
 
-	void getValues(short pos, WeightQueue & result) const;
+	void getValues(LENGTH_T pos, WeightQueue & result) const;
 
 	inline
-	WeightQueue values(short pos) const
+	WeightQueue values(LENGTH_T pos) const
 	{
 		WeightQueue retVal;
 		getValues(pos, retVal);
@@ -72,23 +70,23 @@ public:
 	
 	//list中有多少条目
 	inline
-	unsigned long size() const
+	SIZE_T size() const
 	{
-		return this->_candidates.size();
+		return _candidates.size();
 	}
 
 	//是否已经成功了（没有多种可能性了）
 	inline
 	bool isDone() const
 	{
-		return this->size() == 1;
+		return size() == 1;
 	}
 
 	//是否已经失败了（没有可能性了）
 	inline
 	bool isError() const
 	{
-		return this->size() < 1;
+		return size() < 1;
 	}
 	
 	
@@ -96,7 +94,7 @@ public:
 
 private:
 	//长度
-	short							_length;
+	LENGTH_T						_length;
 	//所有候选的可能
 	std::map<int, Candidate *>		_candidates;
 };

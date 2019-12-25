@@ -2,6 +2,8 @@
 
 #include "Line.hpp"
 #include "util.hpp"
+#include "LogicLine.hpp"
+#include "SifterLine.hpp"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -10,17 +12,37 @@ using namespace std;
 
 
 
-Board::Board(unsigned long col_size, unsigned long row_size, int log_level, int display_level)
-:_id("")
+Board::Board(const ParamListCollection & col_params, const ParamListCollection & row_params, int log_level, int display_level)
+:_id(""), _params_of_cols(&col_params), _params_of_rows(&row_params)
 {
-	init(col_size, row_size);
+	assert(!col_params.empty());
+	assert(!row_params.empty());
+
+	init();
+
 	_log_level = log_level;
 	_display_level = display_level;
+
+
+	for (LENGTH_T r = 0; r < row_params.size(); ++r)
+	{
+		double v = _lines[_row_id(r)]->install(row_params[r]);
+		_todo.push(_row_id(r), -v);
+	}
+
+	for (LENGTH_T c = 0; c < col_params.size(); ++c)
+	{
+		double v = _lines[_col_id(c)]->install(col_params[c]);
+		_todo.push(_col_id(c), -v);
+	}
+
+
 }
 
 
 
 Board::Board(const Board & other)
+//: _params_of_cols(other._params_of_cols), _params_of_rows(other._params_of_rows)
 {
 	copy(other);
 }
@@ -39,46 +61,46 @@ Board & Board::operator=(const Board & rhs)
 	if (&rhs != this)
 	{
 		//先删掉自己的，再用别人的替代
-		this->free();
-		this->copy(rhs);
+		free();
+		copy(rhs);
 	}
 	
 	return *this;
 }
 
 
-void Board::init(unsigned long col_size, unsigned long row_size)
+void Board::init()
 {
-	assert(col_size > 0);
-	assert(row_size > 0);
+//	assert(col_size > 0);
+//	assert(row_size > 0);
 	
-	_col_size = col_size;
-	_row_size = row_size;
+//	_col_size = col_size;
+//	_row_size = row_size;
 	
 	//初始化行/列
-	for (unsigned long r = 0; r < row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		_lines[row_id(r)] = new Line(col_size);
+		_lines[_row_id(r)] = new SifterLine(col_size(), &(*_params_of_rows)[r], _row_id(r));
 	}
-	for (unsigned long c = 0; c < col_size; ++c)
+	for (LENGTH_T c = 0; c < col_size(); ++c)
 	{
-		_lines[col_id(c)] = new Line(row_size);
+		_lines[_col_id(c)] = new SifterLine(row_size(), &(*_params_of_cols)[c], _col_id(c));
 	}
 	
 	//初始化Point空间
-	_points = new Point*[_col_size * _row_size];
+	_points = new Point*[col_size() * row_size()];
 
 	//生成所有Point
-	for (unsigned long r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (unsigned long c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
-			Point * point = new Point((short)r, (short)c, this);
+			Point * point = new Point(r, c, this);
 			
-			_points[getIndex(r, c)] = point;
+			_points[_index(r, c)] = point;
 			
-			_lines[row_id(r)]->setPoint(point, c);
-			_lines[col_id(c)]->setPoint(point, r);
+			_lines[_row_id(r)]->setPoint(point, c);
+			_lines[_col_id(c)]->setPoint(point, r);
 		}
 	}
 }
@@ -87,31 +109,35 @@ void Board::init(unsigned long col_size, unsigned long row_size)
 
 void Board::copy(const Board & other)
 {
+	//复制参数
+	_params_of_cols = other._params_of_cols;
+	_params_of_rows = other._params_of_rows;
+
+
 	//初始化
-	init(other._col_size, other._row_size);
+	init();
 
 	//不要输出日志
 	int old_log_level = _log_level;
 	_log_level = LOG_NOTHING;
 
 	//复制Point的值
-	for (unsigned long r = 0; r < _row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (unsigned long c = 0; c < _col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
-			unsigned long idx = getIndex(r, c);
-			_points[idx]->setValue(other.getValue(r, c));
+			LENGTH2_T idx = _index(r, c);
+			_points[idx]->setValue(other.value(r, c));
 		}
 	}
 
 	//日志恢复
 	_log_level = old_log_level;
 	
-	//复制Line的值
+	//复制Line的内容
 	for (map<long, Line *>::const_iterator it1 = other._lines.begin(); it1 != other._lines.end(); ++it1)
 	{
-		_lines[it1->first]->copyCandidates(*(it1->second));
-		_lines[it1->first]->copyParams(*(it1->second));
+		_lines[it1->first]->copyData(it1->second);
 	}
 
 	_id = other._id;
@@ -126,16 +152,16 @@ void Board::copy(const Board & other)
 void Board::free()
 {
 	//销毁每个Point
-	for (unsigned long r = 0; r < this->_row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (unsigned long c = 0; c < this->_col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
-			delete this->_points[this->getIndex(r, c)];
+			delete _points[_index(r, c)];
 		}
 	}
 	
 	//销毁Point空间
-	delete [] this->_points;
+	delete [] _points;
 	
 	//销毁所有Line
 	for (map<long, Line *>::const_iterator it1 = _lines.begin(); it1 != _lines.end(); ++it1)
@@ -152,11 +178,11 @@ void Board::free()
 //棋局是否已经走完
 bool Board::isDone() const
 {
-	for (unsigned long r = 0; r < this->_row_size; ++r)
+	for (LENGTH_T r = 0; r < row_size(); ++r)
 	{
-		for (unsigned long c = 0; c < this->_col_size; ++c)
+		for (LENGTH_T c = 0; c < col_size(); ++c)
 		{
-			if (this->_points[this->getIndex(r, c)]->getValue() == VAL_UNKNOWN)
+			if (value(r, c) == VAL_UNKNOWN)
 			{
 				return false;
 			}
@@ -183,12 +209,12 @@ bool Board::isError() const
 
 
 
-char Board::getValue(unsigned long row, unsigned long col) const
+VALUE_T Board::value(LENGTH_T row, LENGTH_T col) const
 {
-	assert(row < _row_size);
-	assert(col < _col_size);
+	assert(0 <= row && row < row_size());
+	assert(0 <= row && col < col_size());
 	
-	return _points[getIndex(row, col)]->getValue();
+	return _points[_index(row, col)]->value();
 }
 
 
@@ -204,44 +230,28 @@ col_size = 4
 
 */
 
-//使用参数来初始化
-void Board::install(const ParamsOfLines & col_params, const ParamsOfLines & row_params)
-{
-	for (unsigned long r = 0; r < row_params.size(); ++r)
-	{
-		double v = _lines[row_id(r)]->install(row_params[r]);
-		_todo.push(row_id(r), -v);
-	}
-
-	for (unsigned long c = 0; c < col_params.size(); ++c)
-	{
-		double v = _lines[col_id(c)]->install(col_params[c]);
-		_todo.push(col_id(c), -v);
-	}
-}
-
 
 
 //强行设定某Point
-void Board::install(unsigned long row, unsigned long col, char value)
+void Board::install(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
-	assert(row < _row_size);
-	assert(col < _col_size);
+	assert(0 <= row && row < row_size());
+	assert(0 <= col && col < col_size());
 	
-	_points[getIndex(row, col)]->setValue(value);
+	_points[_index(row, col)]->setValue(value);
 	
 	//加入需计算列表
-	_todo.push(row_id(row));
-	_todo.push(col_id(col));
+	_todo.push(_row_id(row));
+	_todo.push(_col_id(col));
 }
 
 
 
-void Board::point_change_callback(unsigned long row, unsigned long col, char value)
+void Board::point_change_callback(LENGTH_T row, LENGTH_T col, VALUE_T value)
 {
 	//加入需计算列表
-	_todo.push(row_id(row));
-	_todo.push(col_id(col));
+	_todo.push(_row_id(row));
+	_todo.push(_col_id(col));
 	
 	if (_log_level >= LOG_STEP)
 	{
@@ -253,6 +263,20 @@ void Board::point_change_callback(unsigned long row, unsigned long col, char val
 
 bool Board::play()
 {
+#ifdef _SHOW_PARAMS
+	for (map<long, Line *>::const_iterator it1 = _lines.begin(); it1 != _lines.end(); ++it1)
+	{
+		printf("%s\t%d\t", this->id(), it1->first);
+
+		for (ParamList::const_iterator it2 = it1->second->_params->begin(); it2 != it1->second->_params->end(); ++it2)
+		{
+			printf("%c%lu,", it2->type(), it2->size());
+		}
+
+		printf("\n");
+	}
+#endif
+
 	while (_todo.size() > 0)
 	{
 		long p = _todo.top();
@@ -309,7 +333,7 @@ bool Board::play()
 			return false;
 		}
 
-		if (_display_level >= DIS_ROUND)
+		if (_display_level >= DISPLAY_ROUND && ret > 0)
 		{
 			print(stdout);
 		}
@@ -337,11 +361,11 @@ std::vector<Board *> Board::createCandidates() const
 
 	WeightQueue weight;
 
-	for (short r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < row_size(); r++)
 	{
-		for (short c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
-			char v = getValue(r, c);
+			VALUE_T v = value(r, c);
 			if (v != VAL_UNKNOWN && v != VAL_NONE)
 			{
 /*
@@ -353,41 +377,41 @@ std::vector<Board *> Board::createCandidates() const
 */
 				if (v != VAL_EMPTY)
 				{
-					weight.push(zip(r-2, c), factor_cx);
+					weight.push(zip((short)(r-2), (short)(c)), factor_cx);
 
-					weight.push(zip(r-1, c-1), factor_bx);
-					weight.push(zip(r-1, c), factor_ax);
-					weight.push(zip(r-1, c+1), factor_bx);
+					weight.push(zip((short)(r-1), (short)(c-1)), factor_bx);
+					weight.push(zip((short)(r-1), (short)(c)), factor_ax);
+					weight.push(zip((short)(r-1), (short)(c+1)), factor_bx);
 
-					weight.push(zip(r, c-2), factor_cx);
-					weight.push(zip(r, c-1), factor_ax);
-					weight.push(zip(r, c+1), factor_ax);
-					weight.push(zip(r, c+2), factor_cx);
+					weight.push(zip((short)(r), (short)(c-2)), factor_cx);
+					weight.push(zip((short)(r), (short)(c-1)), factor_ax);
+					weight.push(zip((short)(r), (short)(c+1)), factor_ax);
+					weight.push(zip((short)(r), (short)(c+2)), factor_cx);
 
-					weight.push(zip(r+1, c-1), factor_bx);
-					weight.push(zip(r+1, c), factor_ax);
-					weight.push(zip(r+1, c+1), factor_bx);
+					weight.push(zip((short)(r+1), (short)(c-1)), factor_bx);
+					weight.push(zip((short)(r+1), (short)(c)), factor_ax);
+					weight.push(zip((short)(r+1), (short)(c+1)), factor_bx);
 
-					weight.push(zip(r+2, c), factor_cx);
+					weight.push(zip((short)(r+2), (short)(c)), factor_cx);
 				}
 				else
 				{
-					weight.push(zip(r-2, c), factor_cy);
+					weight.push(zip((short)(r-2), (short)(c)), factor_cy);
 
-					weight.push(zip(r-1, c-1), factor_by);
-					weight.push(zip(r-1, c), factor_ay);
-					weight.push(zip(r-1, c+1), factor_by);
+					weight.push(zip((short)(r-1), (short)(c-1)), factor_by);
+					weight.push(zip((short)(r-1), (short)(c)), factor_ay);
+					weight.push(zip((short)(r-1), (short)(c+1)), factor_by);
 
-					weight.push(zip(r, c-2), factor_cy);
-					weight.push(zip(r, c-1), factor_ay);
-					weight.push(zip(r, c+1), factor_ay);
-					weight.push(zip(r, c+2), factor_cy);
+					weight.push(zip((short)(r), (short)(c-2)), factor_cy);
+					weight.push(zip((short)(r), (short)(c-1)), factor_ay);
+					weight.push(zip((short)(r), (short)(c+1)), factor_ay);
+					weight.push(zip((short)(r), (short)(c+2)), factor_cy);
 
-					weight.push(zip(r+1, c-1), factor_by);
-					weight.push(zip(r+1, c), factor_ay);
-					weight.push(zip(r+1, c+1), factor_by);
+					weight.push(zip((short)(r+1), (short)(c-1)), factor_by);
+					weight.push(zip((short)(r+1), (short)(c)), factor_ay);
+					weight.push(zip((short)(r+1), (short)(c+1)), factor_by);
 
-					weight.push(zip(r+2, c), factor_cy);
+					weight.push(zip((short)(r+2), (short)(c)), factor_cy);
 				}
 			}
 		}
@@ -399,11 +423,11 @@ std::vector<Board *> Board::createCandidates() const
 		long pos0 = weight.top();
 		short r, c;
 		unzip(pos0, r, c);
-		if (r >= 0 && r < _row_size && c >= 0 && c < _col_size)
+		if (r >= 0 && (LENGTH_T)r < row_size() && c >= 0 && (LENGTH_T)c < col_size())
 		{
-			if (getValue(r, c) == VAL_UNKNOWN)
+			if (value((LENGTH_T)r, (LENGTH_T)c) == VAL_UNKNOWN)
 			{
-				return createCandidates(r, c);
+				return createCandidates((LENGTH_T)r, (LENGTH_T)c);
 			}
 		}
 
@@ -417,19 +441,18 @@ std::vector<Board *> Board::createCandidates() const
 
 
 
-std::vector<Board *> Board::createCandidates(unsigned long row, unsigned long col) const
+std::vector<Board *> Board::createCandidates(LENGTH_T row, LENGTH_T col) const
 {
 	vector<Board *> retVal;
-	//map<char, int> candidates;
 	WeightQueue candidates;
 
 
-	_lines.find(row_id(row))->second->getValues(col, candidates);
-	_lines.find(col_id(col))->second->getValues(row, candidates);
+	_lines.find(_row_id(row))->second->getValues(col, candidates);
+	_lines.find(_col_id(col))->second->getValues(row, candidates);
 
 	while (!candidates.empty())
 	{
-		char value = (char)candidates.pop();
+		VALUE_T value = (VALUE_T)candidates.pop();
 
 		Board * board = new Board(*this);
 
@@ -462,20 +485,20 @@ void Board::print(FILE * output, bool head) const
 		fprintf(output, "-= %s =-\n", id());
 	}
 
-	for (unsigned long row = 0; row < row_size(); ++row)
+	for (LENGTH_T row = 0; row < row_size(); ++row)
 	{
 		if (row % 5 == 0)
 		{
 			fprintf(output, "\n");
 		}
 
-		for (unsigned long col = 0; col < col_size(); ++col)
+		for (LENGTH_T col = 0; col < col_size(); ++col)
 		{
 			if (col % 5 == 0 && col > 0)
 			{
 				fprintf(output, " ");
 			}
-			fprintf(output, "%c", getValue(row, col));
+			fprintf(output, "%c", value(row, col));
 		}
 		fprintf(output, "\n");
 	}
@@ -489,15 +512,15 @@ void Board::print(FILE * output, bool head) const
 
 
 
-unsigned long Board::known() const
+SIZE_T Board::known() const
 {
-	unsigned long ret = 0;
+	SIZE_T ret = 0;
 
-	for (unsigned long r = 0; r < _row_size; r++)
+	for (LENGTH_T r = 0; r < row_size(); r++)
 	{
-		for (unsigned long c = 0; c < _col_size; c++)
+		for (LENGTH_T c = 0; c < col_size(); c++)
 		{
-			if (getValue(r, c) != VAL_UNKNOWN)
+			if (value(r, c) != VAL_UNKNOWN)
 			{
 				ret++;
 			}

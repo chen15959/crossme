@@ -10,8 +10,9 @@ using namespace std;
 
 
 WeightQueue::WeightQueue()
+: _ready(false)
 {
-	_ready = false;
+//	_ready = false;
 }
 
 
@@ -43,82 +44,92 @@ WeightQueue & WeightQueue::operator=(const WeightQueue & rhs)
 
 void WeightQueue::copy(const WeightQueue & rhs)
 {
-	_top = rhs._top;
-	_ready = rhs._ready;
+	this->_top = rhs._top;
+	this->_ready = rhs._ready;
 
-	for (map<long, double>::const_iterator it = rhs._data.begin(); it != rhs._data.end(); ++it)
+	for (map<WQ_T, double>::const_iterator it = rhs._data.begin(); it != rhs._data.end(); ++it)
 	{
-		_data.insert(pair<long, double>(it->first, it->second));
+		this->_data.insert(pair<WQ_T, double>(it->first, it->second));
 	}
 }
 
 
 void WeightQueue::free()
 {
-	_ready = false;
-	_data.clear();
+	this->_ready = false;
+	this->_data.clear();
 }
 
 
 
 
 
-long WeightQueue::top()
+WQ_T WeightQueue::top()
 {
 	assert(size() > 0);
 
-	if (!_ready)
+	if (!this->_ready)
 	{
-		//FIND THE ONE
-//		_top = _data.begin()->first;
-
+		//遍历寻找最大权重者
 		double max_weight = -DBL_MAX;
-		long max_value = 0;
+		WQ_T max_value = 0;
+		bool found = false;
 
-		for (map<long, double>::const_iterator it = _data.begin(); it != _data.end(); ++it)
+		for (map<WQ_T, double>::const_iterator it = this->_data.begin(); it != this->_data.end(); ++it)
 		{
 			if (it->second > max_weight)
 			{
+				//如果找到了权重比较大的
 				max_value = it->first;
 				max_weight = it->second;
+				found = true;
 			}
 		}
 
-		_top = max_value;
-		_ready = true;
+		if (found)
+		{
+			this->_top = max_value;
+		}
+		else
+		{
+			//全程未找到权重比较大的，则默认第一个就是
+			this->_top = this->_data.begin()->first;
+		}
+
+		this->_ready = true;
 	}
 
-	return _top;
+	return this->_top;
 }
 	
 
 
-void WeightQueue::push(long value, double weight)
+void WeightQueue::push(WQ_T value, double weight)
 {
-	if (_data.find(value) == _data.end())
+	if (this->_data.find(value) == this->_data.end())
 	{
-		_data[value] = weight;
+		this->_data[value] = weight;
 	}
 	else
 	{
-		_data[value] += weight;
+		this->_data[value] += weight;
 	}
+	this->_ready = false;
 }
 
 
 
-long WeightQueue::pop()
+WQ_T WeightQueue::pop()
 {
 	assert(size() > 0);
 
-
-	if (!_ready)
+	if (!this->_ready)
 	{
 		top();
 	}
 
-	_data.erase(_top);
-	_ready = false;
+	this->_data.erase(this->_top);
+	this->_ready = false;
 
-	return _top;
+	return this->_top;
 }
