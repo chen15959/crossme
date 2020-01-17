@@ -3,6 +3,9 @@
 
 #include "def.hpp"
 
+#include <map>
+
+
 class Board;
 
 
@@ -89,13 +92,86 @@ public:
 	
 private:
 	//行（0开始）
-	LENGTH_T		_row;
+	LENGTH_T					_row;
 	//列（0开始）
-	LENGTH_T		_col;
+	LENGTH_T					_col;
 	//值
-	VALUE_T			_value;
+	VALUE_T						_value;
 	//所属的board
-	Board *			_board;
+	Board *						_board;
+
+
+
+public:
+	inline
+	std::map<VALUE_T, int>::const_iterator candidate_begin() {
+		return _candidates.begin();
+	}
+
+	inline
+	std::map<VALUE_T, int>::const_iterator candidate_end() {
+		return _candidates.end();
+	}
+
+	inline
+	void set_candidate(VALUE_T value) {
+		if (_candidates.find(value) == _candidates.end())
+		{
+			_candidates[value] = 1;
+		}
+		else
+		{
+			_candidates[value]++;
+		}
+	}
+
+	inline
+	void remove_candidate(VALUE_T value)
+	{
+		_candidates.erase(value);
+	}
+
+	inline
+	void confirm_candidates()
+	{
+		std::map<VALUE_T, int> t_map;
+
+		for (std::map<VALUE_T, int>::const_iterator it1 = _candidates.begin(); it1 != _candidates.end(); ++it1)
+		{
+			if (it1->second < 2)
+			{
+				t_map[it1->first] = 0;
+			}
+		}
+
+		for (std::map<VALUE_T, int>::const_iterator it2 = t_map.begin(); it2 != t_map.end(); ++it2)
+		{
+			_candidates.erase(it2->first);
+		}
+
+		_candidates[VAL_EMPTY] = 2;
+	}
+
+
+
+private:
+	std::map<VALUE_T, int>		_candidates;
+
+
+public:
+	inline
+	bool allow(VALUE_T value) const
+	{
+		if (_candidates.empty())
+		{
+			return value == _value;
+		}
+		else
+		{
+			return _candidates.find(value) != _candidates.end();
+		}
+	}
+
 	
 };
 

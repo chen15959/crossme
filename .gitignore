@@ -14,3 +14,4 @@ tools/puzzle2txt/obj/*
 *.vcproj.*.user
 *.csproj.*.user
 
+test/*

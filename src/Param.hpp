@@ -64,9 +64,24 @@ private:
 };
 
 
+
+
+class ParamList : public std::vector<Param >
+{
+public:
+	ParamList() {}
+	virtual ~ParamList() {}
+
+
+public:
+	LENGTH_T countLength(LENGTH_T start = 0) const;
+
+};
+
+
 //一个Line上的参数
 //typedef std::vector<Param > ParamsOfLine;
-typedef std::vector<Param > ParamList;
+//typedef std::vector<Param > ParamList;
 //一组Line上的参数（所有行或所有列）
 //typedef std::vector<ParamsOfLine > ParamsOfLines;
 //typedef std::vector<ParamList > ParamsOfLines;

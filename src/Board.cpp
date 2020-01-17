@@ -37,6 +37,21 @@ Board::Board(const ParamListCollection & col_params, const ParamListCollection &
 	}
 
 
+
+
+
+
+	for (LENGTH_T r = 0; r < row_size(); ++r)
+	{
+		for (LENGTH_T c = 0; c < col_size(); ++c)
+		{
+			_points[_index(r, c)]->confirm_candidates();
+		}
+	}
+
+
+
+
 }
 
 

@@ -44,7 +44,7 @@ int main(int argc, const char * argv[])
 		//默认不显示日志
 
 		//日志级别设为最细（每一步）
-		if (strcmp(argv[i], "--log:step") == 0)
+		if (strcmp(argv[i], "--log:step") == 0 || strcmp(argv[i], "--log:all") == 0)
 		{
 			log_level = max(log_level, LOG_STEP);
 			continue;

@@ -36,3 +36,18 @@ Param & Param::operator=(const Param & rhs)
 	
 	return *this;
 }
+
+
+
+LENGTH_T ParamList::countLength(LENGTH_T start) const
+{
+	LENGTH_T result = (*this)[start].size();
+	VALUE_T last = (*this)[start].type();
+
+	for (LENGTH_T i = start + 1; i < size(); ++i)
+	{
+		result += ((*this)[i].size() + (last == (*this)[i].type() ? 1 : 0));
+	}
+
+	return result;
+}

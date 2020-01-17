@@ -227,6 +227,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Matrix.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Param.hpp"
 				>
 			</File>
@@ -280,6 +284,10 @@
 		<Filter
 			Name="algorithm"
 			>
+			<File
+				RelativePath="..\Arrange.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\Candidate.cpp"
 				>

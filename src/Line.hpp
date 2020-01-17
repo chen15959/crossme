@@ -109,6 +109,12 @@ protected:
 	//输入参数
 	const ParamList *						_params;
 
+
+
+
+
+
+
 private:
 	long									_id;
 	long									_type;

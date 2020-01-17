@@ -49,6 +49,7 @@ bool Point::setValue(VALUE_T value)
 	{
 		//仅当从unknown变为确定值的时候
 		_value = value;
+		_candidates.clear();
 
 		if (_board != NULL)
 		{

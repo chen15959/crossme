@@ -110,6 +110,21 @@ double Line::install(const ParamList & params)
 //	assert(_candidates == NULL);
 
 ///	_params = &params;
+	std::map<VALUE_T, int> t_map;
+
+	for (ParamList::const_iterator it1 = params.begin(); it1 != params.end(); ++it1)
+	{
+		if (t_map.find(it1->type()) == t_map.end())
+		{
+			t_map[it1->type()] = 0;
+
+			for (LENGTH_T i = 0; i < length(); ++i)
+			{
+				_points[i]->set_candidate(it1->type());
+			}
+		}
+	}
+
 
 	return 0.0;
 ///	return __candidateFactory.evaluateCandidateSize(_length, params, NULL);
