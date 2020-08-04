@@ -49,7 +49,7 @@ Candidate::Candidate(LENGTH_T length, VALUE_T value)
 
 Candidate::Candidate(const Candidate & other)
 {
-	this->copy(other);
+	copy(other);
 }
 
 
@@ -119,3 +119,8 @@ bool Candidate::operator==(const Line & rhs) const
 }
 
 
+
+VALUE_T Candidate::operator[](LENGTH_T pos) const
+{
+	return getValue(pos);
+}

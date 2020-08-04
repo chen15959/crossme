@@ -2,6 +2,7 @@
 #define Candidate_hpp
 
 #include "def.hpp"
+#include "Sequence.hpp"
 
 class Line;
 
@@ -10,7 +11,7 @@ class Line;
 
 //行的候选可能
 //
-class Candidate
+class Candidate : public Sequence
 {
 public:
 	//构造函数
@@ -46,10 +47,15 @@ public:
 		return _length;
 	}
 
+
+
 	inline
 	LENGTH_T length() const {
 		return getLength();
 	}
+
+
+	VALUE_T operator[](LENGTH_T pos) const;
 	
 
 

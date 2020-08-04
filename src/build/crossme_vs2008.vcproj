@@ -246,6 +246,10 @@
 				RelativePath="..\Result.hpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Sequence.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
