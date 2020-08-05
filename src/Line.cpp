@@ -192,4 +192,16 @@ int Line::set(LENGTH_T pos, VALUE_T value)
 ///
 ///}
 
+LENGTH_T Line::length() const
+{
+	return _length;
+}
 
+
+
+VALUE_T Line::value(LENGTH_T pos) const
+{
+	assert(pos < _length);
+
+	return _points[pos]->value();
+}

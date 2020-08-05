@@ -1,10 +1,7 @@
 #ifndef Candidate_hpp
 #define Candidate_hpp
 
-#include "def.hpp"
 #include "Array.hpp"
-
-class Line;
 
 
 
@@ -33,41 +30,15 @@ private:
 	void copy(const Candidate &);
 	void free();
 
+
 public:
 	//获得某个位置上的值
-	VALUE_T getValue(LENGTH_T pos) const;
+	virtual
+	VALUE_T value(LENGTH_T pos) const;
 
-	inline
-	VALUE_T value(LENGTH_T pos) const {
-		return getValue(pos);
-	}
-
-	inline
-	LENGTH_T getLength() const {
-		return _length;
-	}
-
-
-
-	inline
-	LENGTH_T length() const {
-		return getLength();
-	}
-
-
-	VALUE_T operator[](LENGTH_T pos) const;
-	
-
-
-public:
-	//判断是否和已经存在的Line兼容
-	bool operator==(const Line & rhs) const;
-
-	inline
-	bool operator!=(const Line & rhs) const {
-		return !(*this == rhs);
-	}
-
+	//获得长度
+	virtual
+	LENGTH_T length() const;
 
 
 private:

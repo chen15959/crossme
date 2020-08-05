@@ -1,4 +1,4 @@
-#include "Candidate.hpp"
+﻿#include "Candidate.hpp"
 
 #include "Line.hpp"
 
@@ -90,7 +90,7 @@ void Candidate::free()
 
 
 
-VALUE_T Candidate::getValue(LENGTH_T pos) const
+VALUE_T Candidate::value(LENGTH_T pos) const
 {
 	assert(pos >= 0 && pos < _length);
 	
@@ -98,7 +98,16 @@ VALUE_T Candidate::getValue(LENGTH_T pos) const
 }
 
 
+LENGTH_T Candidate::length() const
+{
+	return _length;
+}
 
+
+
+
+
+/*
 bool Candidate::operator==(const Line & rhs) const
 {
 	assert(_length == rhs.length());
@@ -117,10 +126,5 @@ bool Candidate::operator==(const Line & rhs) const
 
 	return true;
 }
+*/
 
-
-
-VALUE_T Candidate::operator[](LENGTH_T pos) const
-{
-	return getValue(pos);
-}

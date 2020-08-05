@@ -1,6 +1,7 @@
 #ifndef Line_hpp
 #define Line_hpp
 
+#include "Array.hpp"
 #include "Point.hpp"
 #include "Param.hpp"
 #include "Candidate.hpp"
@@ -17,7 +18,7 @@
 //棋盘上的一行/列
 //基类 不包括算法
 //
-class Line
+class Line : public Array
 {
 public:
 	//构造函数
@@ -60,17 +61,18 @@ public:
 
 
 
-	//获得行的长度
-	inline
-	LENGTH_T getLength() const
-	{
-		return this->length();
-	}
+//	//获得行的长度
+//	inline
+//	LENGTH_T getLength() const
+//	{
+//		return this->length();
+//	}
 
-	inline
-	LENGTH_T length() const {
-		return _length;
-	}
+
+	virtual VALUE_T value(LENGTH_T pos) const;
+
+	
+	virtual LENGTH_T length() const;
 	
 public:
 	//通过参数建立全部可能性
