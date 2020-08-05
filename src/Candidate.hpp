@@ -2,7 +2,7 @@
 #define Candidate_hpp
 
 #include "def.hpp"
-#include "Sequence.hpp"
+#include "Array.hpp"
 
 class Line;
 
@@ -11,7 +11,7 @@ class Line;
 
 //行的候选可能
 //
-class Candidate : public Sequence
+class Candidate : public Array
 {
 public:
 	//构造函数
