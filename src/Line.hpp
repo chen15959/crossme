@@ -68,10 +68,10 @@ public:
 //		return this->length();
 //	}
 
-
+	//继承自Array
 	virtual VALUE_T value(LENGTH_T pos) const;
 
-	
+	//继承自Array
 	virtual LENGTH_T length() const;
 	
 public:
