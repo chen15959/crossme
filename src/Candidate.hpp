@@ -13,7 +13,7 @@ class Candidate : public Array
 public:
 	//构造函数
 	//用数组初始化
-	Candidate(LENGTH_T length, const VALUE_T * buffer);
+	Candidate(const VALUE_T * buffer, LENGTH_T length);
 
 	//初始化为全都是一个值
 	Candidate(LENGTH_T length, VALUE_T value = '\0');

@@ -9,7 +9,7 @@
 
 
 
-Candidate::Candidate(LENGTH_T length, const VALUE_T * data)
+Candidate::Candidate(const VALUE_T * data, LENGTH_T length)
 {
 	assert(length > 0);
 	assert(data);

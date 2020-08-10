@@ -283,7 +283,7 @@ void CandidateFactory::placeItem(CandidateList * result, LENGTH_T length, VALUE_
 			}
 
 			//加入候选集合
-			result->addCandidate(new Candidate(length, buffer));
+			result->addCandidate(new Candidate(buffer, length));
 		}
 	}
 }
